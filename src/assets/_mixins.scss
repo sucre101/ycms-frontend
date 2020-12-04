@@ -1,0 +1,36 @@
+@mixin flex-center-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin full-screen {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+@mixin settings-panel-style {
+  width: 362px;
+  background-color: #ffffff;
+  padding: 30px;
+  margin-top: 32.5px;
+
+  h6 {
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #aaaeb3;
+    margin-bottom: 39px;
+  }
+
+  &.full-width {
+    width: calc(100% - 45px);
+  }
+}
+
+@mixin flex-column-align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
