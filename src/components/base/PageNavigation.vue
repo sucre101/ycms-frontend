@@ -91,5 +91,8 @@ export default {
     }
   }
 }
+.small-rounded-btn {
+  text-transform: capitalize;
+}
 
 </style>

@@ -19,8 +19,7 @@ export function initialize(store, router) {
 
   axios.interceptors.response.use(null, (error) => {
     if (error.resposne.status === 401) {
-      store.commit('logout');
-      router.push('/login');
+      store.commit('logout');      router.push('/login');
     }
 
     return Promise.reject(error);
@@ -33,4 +32,18 @@ export function initialize(store, router) {
 
 export function setAuthorization(token) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+}
+
+
+export const switcher = (res = null) => {
+
+
+  if (res === null) {
+    return localStorage.getItem('drawerOpen')
+  } else {
+    localStorage.setItem('drawerOpen', res)
+
+    return  res
+  }
+
 }

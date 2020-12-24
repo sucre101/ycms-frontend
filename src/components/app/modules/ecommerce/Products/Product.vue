@@ -1,0 +1,497 @@
+<template>
+  <div class="edit-product-form" v-if="product">
+
+    <InnerTab :items="[
+        { name: 'General' },
+        { name: 'Data' },
+        { name: 'Options' },
+        { name: 'Labels' },
+        { name: 'Unions' },
+        { name: 'Images' },
+    ]"
+      @change="selectTab"
+    />
+
+    <div class="product-tabs">
+      <div class="tab-general" v-if="selectedTab === 0">
+
+        <div class="input-group">
+          <label>
+            <input type="text" class="input-field" v-model.trim="product.name" placeholder="Title">
+          </label>
+        </div>
+
+        <div class="input-group">
+          <label>
+            <input type="text" class="input-field" v-model.trim="product.sku" placeholder="Sku">
+          </label>
+        </div>
+
+        <div class="input-group">
+          <label>
+            <textarea type="text" class="text-field" v-model.trim="product.desc" placeholder="Description" />
+          </label>
+        </div>
+
+      </div>
+
+      <div class="tab-data" v-if="selectedTab === 1">
+
+        <div class="product-to-store-table">
+
+          <div class="thead-table">
+            <div>
+              Store name
+            </div>
+            <div>
+              Price
+            </div>
+            <div>
+              Old price
+            </div>
+            <div>
+              Discount
+            </div>
+            <div>
+              Quantity
+            </div>
+          </div>
+
+          <div class="item__" v-for="store in product.to_product">
+            <div class="store-name">
+              {{ store.name }}
+            </div>
+
+            <div class="product-store-data">
+              <div class="input-group">
+                <label>
+                  <input type="text" class="input-field" v-model.trim="store.pivot.price" placeholder="Price">
+                </label>
+              </div>
+              <div class="input-group">
+                <label>
+                  <input type="text" class="input-field" v-model.trim="store.pivot.old_price" placeholder="Old price">
+                </label>
+              </div>
+              <div class="input-group">
+                <label>
+                  <input type="text" class="input-field" v-model.trim="store.pivot.discount" placeholder="Discount">
+                </label>
+              </div>
+              <div class="input-group">
+                <label>
+                  <input type="text" class="input-field" v-model.trim="store.pivot.quantity" placeholder="Quantity">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <ycms-action-buttons
+              :buttons-list="[
+                {
+                  title: 'Add price to store',
+                  handler: 'eval:this.$parent.$refs.addPrice.open()',
+                  class: 'bg-green-gradient'
+                },
+              ]"
+              align="right"
+          />
+        </div>
+
+        <sweet-modal
+            class="modal"
+            ref="addPrice"
+            width="600"
+            overlay-theme="dark"
+        >
+          <div class="select-box">
+
+            <h4>Choose store</h4>
+
+            <ul>
+              <li v-for="store in stores" @click="tapStorePrice(store)">
+                {{ store.name }}
+              </li>
+            </ul>
+
+          </div>
+        </sweet-modal>
+
+      </div>
+
+      <div class="tab-options" v-if="selectedTab === 2">
+
+        Tab options
+
+      </div>
+
+      <div class="tab-labels" v-if="selectedTab === 3">
+
+        <ul>
+          <li v-for="(label, index) in product.label_to_stores">
+            {{ getStoreName(label.store_id) }} - {{ label.label.title }}
+            <span @click="removeLabel(index)">
+              X
+            </span>
+          </li>
+        </ul>
+
+        <button class="add-label-to-store" @click.prevent="addLabel">
+          +
+        </button>
+
+        <sweet-modal
+            class="modal"
+            ref="addLabel"
+            width="600"
+            overlay-theme="dark"
+        >
+
+          <div class="select-box">
+
+            <h4>{{ !selectLabel ? 'Choose label' : 'Choose store' }}</h4>
+
+            <ul v-if="!selectLabel">
+              <li
+                  v-for="label in labels"
+                  @click="tapLabel(label)"
+              >
+                {{ label.title }}
+              </li>
+            </ul>
+
+            <ul v-else>
+              <li v-for="store in stores" @click="tapStoreLabel(store)">
+                {{ store.name }}
+              </li>
+            </ul>
+
+          </div>
+
+        </sweet-modal>
+
+      </div>
+
+      <div class="tab-unions" v-if="selectedTab === 4">
+
+        Tab Unions
+
+      </div>
+
+      <div class="tab-images" v-if="selectedTab === 5">
+
+        <YcmsProductImageUploader
+            :url="`${$route.params.folder.toLowerCase()}/${$parent.$parent.moduleId}/product/${productId}`"
+            :p_images="product.images"
+            :entity_id="product.id"
+            name="product"
+        />
+
+      </div>
+
+    </div>
+
+    <div class="save-button" @click="saveAllData" v-if="activeForSave">
+      <img src="/img/ycms/exit_icon.svg" title="save product">
+    </div>
+
+  </div>
+</template>
+
+<script>
+import InnerTab from "@/components/base/ui/InnerTab";
+import YcmsProductImageUploader from "@/components/YcmsProductImageUploader";
+import YcmsActionButtons from "@/components/YcmsActionButtons";
+
+export default {
+  name: "product",
+
+  components: {
+    InnerTab, YcmsProductImageUploader, YcmsActionButtons
+  },
+
+  data() {
+    return {
+      productId: null,
+      product: {},
+      labels: [],
+      stores: [],
+      selectedTab: 0,
+      selectLabel: false,
+      newLabel: {},
+      cloneProd: {},
+      activeForSave: false,
+      priceTemplate: {
+        pivot: {
+          price: 0,
+          old_price: 0,
+          quantity: 0,
+          discount: 0,
+        }
+      }
+    }
+  },
+
+  created() {
+    this.productId = this.$route.query.product
+
+    this.loadData()
+
+  },
+
+  watch: {
+
+    $route(to, from) {
+
+      if (!to.query.hasOwnProperty('product')) {
+        this.$parent.editProduct = false
+      }
+    },
+
+    product: {
+      handler(val) {
+        this.activeForSave = true
+      },
+      deep: true
+    }
+
+  },
+
+  methods: {
+
+    loadData() {
+
+      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/product/${this.productId}`)
+        .then((res) => {
+          if (res.data.success) {
+
+            this.product = this._.cloneDeep(res.data.product)
+            this.labels = this._.cloneDeep(res.data.labels)
+            this.stores = this._.cloneDeep(res.data.stores)
+
+          } else {
+            this.notifier.warning(res.data.error)
+            this.$router.replace({ query: { tab: 'products' } })
+            this.$parent.editProduct = false
+          }
+        }).then( res => this.activeForSave = false)
+    },
+
+    getStoreName(id) {
+      return this.stores[this._.findIndex(this.stores, { id: id })].name
+    },
+
+    addLabel() {
+
+      this.$refs.addLabel.open();
+
+    },
+
+    removeLabel(index) {
+
+      this.product.label_to_stores = this.product.label_to_stores.filter( (k, v) => {
+        return v !== index
+      })
+    },
+
+    tapLabel(label) {
+
+      this.newLabel = {
+        product_id: this.productId,
+        label_list_id: label.id,
+        name: label.name,
+        label: { id: label.id, title: label.title }
+      }
+
+      this.selectLabel = true
+    },
+
+    tapStoreLabel(store) {
+      this.newLabel.store_id = store.id
+      let index = this._.findIndex( this.product.label_to_stores,
+          {
+            product_id: this.newLabel.product_id,
+            store_id: store.id,
+            label_list_id: this.newLabel.label_list_id
+          })
+
+      if (index !== -1) {
+        this.notifier.warning('Error')
+        return false
+      }
+
+      this.product.label_to_stores.push(this.newLabel)
+      this.$refs.addLabel.close();
+      this.selectLabel = false
+    },
+
+    tapStorePrice(store) {
+
+      let index = this._.findIndex(this.product.to_product, { id: store.id });
+
+      if (index !== -1) {
+        this.notifier.warning('This store will be added')
+        return false
+      }
+
+      this.priceTemplate.name = store.name
+      this.priceTemplate.id = store.id
+
+      this.product.to_product.push(this.priceTemplate)
+
+      this.$refs.addPrice.close();
+    },
+
+    selectTab(index) {
+      this.selectedTab = index
+    },
+
+    saveAllData() {
+
+      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/product/${this.productId}/update-product`, this.product)
+          .then((res) => {
+            this.notifier.success('Save data')
+            this.$nextTick(() => {
+              this.activeForSave = false
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+
+    }
+
+  }
+
+}
+</script>
+
+<style scoped lang="scss">
+.edit-product-form {
+  width: 70%;
+  background-color: white;
+  padding: 15px 50px;
+  position: relative;
+  .product-tabs {
+    margin-top: 50px;
+
+    .input-group {
+      margin: 15px 0;
+      .input-field {
+        padding: 12px 16px 12px 22px;
+        border-radius: 22px;
+        border: solid 1px #868686 !important;
+      }
+      .text-field {
+        padding: 12px 16px 12px 22px;
+        border-radius: 22px;
+        border: solid 1px #868686 !important;
+        resize: none;
+        width: 50%;
+      }
+      label {
+        width: 100%;
+        margin: 0;
+      }
+    }
+    .product-to-store-table {
+      display: flex;
+      flex-direction: column;
+      .thead-table {
+        display: flex;
+        justify-content: space-around;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #868686;
+      }
+      .item__ {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        .product-store-data {
+          display: flex;
+          align-content: center;
+          justify-content: center;
+          .input-group {
+            min-width: 25%;
+            text-align: center;
+            input {
+              width: 70%;
+            }
+          }
+
+        }
+        .store-name {
+          width: 30%;
+          padding-left: 15px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .save-button {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    cursor: pointer;
+  }
+  .select-box {
+    ul {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        display: flex;
+        border: 1px solid;
+        padding: 10px 15px;
+        border-radius: 22px;
+        cursor: pointer;
+        margin-right: 10px;
+        background-image: linear-gradient(252deg, #0997b1, #2ccae6);
+        color: #ffffff;
+      }
+    }
+  }
+  .save-button.active{
+    background-color: red;
+  }
+  .tab-labels {
+    ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 0;
+      li {
+        display: flex;
+        padding: 10px 15px;
+        border-radius: 22px;
+        margin-right: 10px;
+        cursor: pointer;
+        padding-right: 40px;
+        position: relative;
+        background-image: linear-gradient(252deg, #0997b1, #2ccae6);
+        color: #ffffff;
+        span {
+          position: absolute;
+          right: 15px;
+        }
+      }
+    }
+  }
+  .add-label-to-store {
+    background: #00C121;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 25px;
+    color: white;
+    border: none;
+  }
+}
+</style>

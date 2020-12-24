@@ -85,8 +85,7 @@ export default new VueRouter({
             {
               path: ':moduleId/:folder',
               name: 'module-edit',
-              component: () => import('./components/app/modules/Edit'),
-              props: (route) => ({ query: route.query.store })
+              component: () => import('./components/app/modules/Edit')
             },
           ]
         },

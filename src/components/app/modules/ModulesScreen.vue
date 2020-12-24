@@ -14,7 +14,7 @@
               params: {
                 slug: $root.$children[0].app.slug,
                 moduleId: module.id,
-                folder: module.module.front_folder
+                folder: module.module.front_folder.toLowerCase()
               }
           })"
         >
@@ -97,7 +97,6 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.userModules = this._.cloneDeep(res.data.modules)
-            console.log(this.userModules)
           }
         })
         .then(res => this.$refs.addModule.close())

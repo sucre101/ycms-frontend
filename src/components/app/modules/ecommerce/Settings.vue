@@ -1,6 +1,9 @@
 <template>
   <div>
-    Settings for - {{ module.id }}
+    <div v-if="settings">
+      Settings for - {{ settings.user_module_id }}
+      Structure - {{ settings.store_structure }}
+    </div>
   </div>
 </template>
 
@@ -10,6 +13,7 @@ export default {
 
   data() {
     return {
+      settings: {},
       module: {}
     }
   },
@@ -23,9 +27,10 @@ export default {
 
     loadModule() {
 
-      axios.post('/' + this.$route.params.folder.toLowerCase() + '/module-settings', { id: this.module.id })
+      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`)
         .then((res) => {
-          console.log(res)
+          this.settings = this._.cloneDeep(res.data.settings)
+          console.log(this.settings)
         })
 
     }

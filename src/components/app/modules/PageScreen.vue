@@ -214,7 +214,6 @@ export default {
     loadPages() {
       axios.post('/page/list')
         .then((res) => {
-          console.log(res)
           if (res.data.pages.length) {
             this.pages = this._.cloneDeep(res.data.pages);
 

@@ -100,7 +100,8 @@ export default {
 
     editStore(id) {
       this.$parent.loading = true;
-      this.$router.replace({ query: { store: id } })
+
+      this.$router.replace({ query: { tab: 'stores', store: id } })
     },
 
     addStore(data) {

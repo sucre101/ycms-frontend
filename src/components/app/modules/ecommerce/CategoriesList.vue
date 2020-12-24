@@ -14,11 +14,13 @@ export default {
 
   data() {
     return {
-      categories: []
+      categories: [],
+      module: {}
     }
   },
 
   created() {
+    this.module.id = this.$parent.moduleId
     this.loadData()
   },
 
@@ -30,11 +32,10 @@ export default {
 
     loadData() {
 
-      for (let i = 1; i <= 10; i++) {
-
-        this.categories.push({ id: i, title: 'Category' })
-
-      }
+      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/categories`)
+        .then((res) => {
+          console.log(res)
+        })
 
     }
 

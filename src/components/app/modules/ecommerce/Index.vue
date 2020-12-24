@@ -1,8 +1,10 @@
 <template>
   <div>
-    <page-navigation ref="pNavigator"
-      :list="list"
-      @change="changeScreen"
+    <page-navigation
+        ref="pNavigator"
+        :list="list"
+        @change="changeScreen"
+        :selected="currentScreen"
     />
 
     <div v-for="(tab, index) in tabScreens">
@@ -15,8 +17,8 @@
 <script>
 import PageNavigation from "../../../base/PageNavigation"
 import StoreList from "./Stores/Index"
-import CategoriesList from "./CategoriesList";
-import ProductList from "./ProductList";
+import CategoriesList from "./Categories/Index";
+import ProductList from "./Products/Index";
 import Settings from "./Settings";
 
 export default {
@@ -56,11 +58,26 @@ export default {
       }
     })
 
+    if (this.$route.query.hasOwnProperty('tab')) {
+      let currentTab = this.$route.query.tab;
+
+      let currentTabIndex = this._.findIndex(this.list, (v) => {
+        return v.title.toLocaleLowerCase() === currentTab;
+      })
+
+      if (currentTabIndex >= 0) {
+        this.currentScreen = currentTabIndex
+      }
+    }
+
   },
 
   methods: {
-    changeScreen(index) {
-      this.currentScreen = index
+    changeScreen(currentTabIndex) {
+      this.currentScreen = currentTabIndex
+      this.$router.replace(
+          { query: { tab: this.list[currentTabIndex].title.toLocaleLowerCase() }}
+          )
     }
   }
 

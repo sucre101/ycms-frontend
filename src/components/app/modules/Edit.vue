@@ -10,10 +10,10 @@ export default {
 
   computed: {
     editModule() {
-      return () => import('./' + this.$route.params.folder + '/Index')
+      return () => import('./' + this.$route.params.folder.toLocaleLowerCase() + '/Index')
         .then(m => m.default)
     }
-   }
+   },
 }
 </script>
 
