@@ -242,6 +242,7 @@ header {
   .settings-block {
     padding: 45px 45px 110px 45px;
     flex: 1;
+    overflow-y: scroll;
 
     h5 {
       font-size: 16px;
