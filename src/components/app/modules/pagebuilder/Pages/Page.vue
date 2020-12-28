@@ -107,7 +107,6 @@
   import {DraggableTree} from 'vue-draggable-nested-tree'
   import * as th from 'tree-helper'
   import { getIdFromURL } from 'vue-youtube-embed'
-  import VueCarousel from '@chenfengyuan/vue-carousel';
   import TemplateList from './../Template/List'
   import ElementModal from './../Element/Modal'
   import TemplateModal from './../Template/Modal'
@@ -122,7 +121,6 @@
     components:{
       ckeditor: CKEditor.component,
       Tree: DraggableTree,
-      VueCarousel,
       'templates-list': TemplateList,
       'template-modal': TemplateModal,
       'element-modal': ElementModal,
@@ -327,7 +325,7 @@
         }).indexOf(this.element_.block_id)
 
         let element = element_;
-
+        element.block_id = 209
         if(element.type === 'video'){
           element.content = getIdFromURL(element.content)
         }
@@ -548,7 +546,7 @@
 
           this.element_.id = null;
           this.element_.type = 'html';
-          this.element_.block_id = null;
+          this.element_.block_id = 209;
           this.element_.template_id = null;
           this.element_.content = null;
 

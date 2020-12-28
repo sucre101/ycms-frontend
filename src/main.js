@@ -10,6 +10,7 @@ import { ToggleButton } from 'vue-js-toggle-button'
 import vueDebounce from 'vue-debounce'
 import InputTag from 'vue-input-tag'
 import App from './components/App'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import { initialize } from './helpers/general';
 import _ from 'lodash'
 import axios from 'axios'
@@ -25,7 +26,13 @@ Vue.prototype.notifier = new AWN
 // window.io = require('socket.io-client')
 
 Vue.prototype.locStor = new YcmsLocalStorage
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'API KEY',
+    libraries: 'places',
+  },
+  installComponents: true
+});
 Vue.use(SweetModal)
 Vue.use(vueDebounce, {listenTo: ['input', 'keyup']})
 Vue.prototype._ = _

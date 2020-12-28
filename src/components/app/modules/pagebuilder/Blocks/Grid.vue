@@ -37,7 +37,7 @@
            <img
                v-else-if="elem.type === 'image'"
                :style="elem.template?elem.template.style+'width:100%':''"
-               :src="elem.images[0]?elem.images[0].url_original:''" width="100%"
+               :src="elem.images[0]?elem.images[0].image_url:''" width="100%"
            />
           <video-player
               v-else-if="elem.type === 'video'"
@@ -57,19 +57,28 @@
               :src="elem.content"
           >
           </iframe>
-              <carousel
+              <VueCarousel
                   v-else-if="elem.type === 'slider'"
                   :autoplay="false"
                   :data="getArray(elem)"
               >
-              </carousel>
+              </VueCarousel>
 
           <div :style="elem.template?elem.template.style+'width:'+elem.template.width:'height:100%;width:100%'" v-else-if="elem.type === 'map'" >
-<!--              <google-map-->
-              <!--                  :lat="JSON.parse(elem.content).lat+''"-->
-              <!--                  :lng="JSON.parse(elem.content).lng+''"-->
-              <!--                  :style_="elem.template?'width:'+elem.template.width+'; height:'+elem.template.height:'width:100%; height: 100%'"-->
-              <!--              ></google-map>-->
+              <GmapMap
+                  :center="{lat:JSON.parse(elem.content).lat, lng:JSON.parse(elem.content).lng}"
+                  :zoom="13"
+                  map-type-id="terrain"
+                  :style="elem.template?elem.template.style+'width:'+elem.template.width:'height:300px;width:100%'"
+              >
+                  <GmapMarker
+                      :key="index"
+                      :position="{
+                          lat: JSON.parse(elem.content).lat,
+                          lng: JSON.parse(elem.content).lng
+                        }"
+                  />
+              </GmapMap>
           </div>
         </div>
             <span v-if="block.elements.length === 0">
@@ -82,12 +91,14 @@
 <script>
   // import Map from "../Element/Map";
   import VideoPlayer from "../Element/VideoPlayer";
+  import VueCarousel from '@chenfengyuan/vue-carousel';
   export default {
     name: "blocks-grid",
 
     components:{
       // 'google-map': Map,
-      'video-player': VideoPlayer
+      'video-player': VideoPlayer,
+      VueCarousel,
     },
     props: {
       blocks: Array,
@@ -109,7 +120,7 @@
 
         for(let i=0;i<obj.images.length;i++){
           style = obj.template?obj.template.style+'width:'+obj.template.width:'';
-          arr.push('<img  style="'+style+'"  src="'+obj.images[i].url_original+'" />')
+          arr.push('<img  style="'+style+'"  src="'+obj.images[i].image_url+'" />')
         }
 
         return arr;

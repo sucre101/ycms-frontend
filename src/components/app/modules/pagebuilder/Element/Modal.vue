@@ -88,8 +88,9 @@
         <input type="text" :value="element_.content?JSON.parse(element_.content).button_title:''" ref="button_title" @change="setButton" placeholder="title" class="rounded-input">
         <input type="text" :value="element_.content?JSON.parse(element_.content).button_link:''"  ref="button_link" @change="setButton" placeholder="link" class="rounded-input">
       </div>
-      <div v-else-if="element_.type === 'map'">
-        <ycms-address-searcher @pick="getCoordinates"/>
+      <div v-else-if="element_.type === 'map'" class="element-map">
+        <gmap-place-input @place_changed="updatePlace" >
+        </gmap-place-input>
       </div>
       <div v-else-if="element_.type === 'iframe'">
         <input type="text" v-model="element_.content" class="rounded-input">
@@ -124,6 +125,7 @@
     },
     data() {
       return {
+        place: null,
         editor: ClassicEditor,
         element_: this._.cloneDeep(this.element),
         step: 1,
@@ -135,6 +137,14 @@
       }
     },
     methods: {
+      updatePlace(what) {
+        this.element_.content = {
+          address: what.name,
+          lat: what.geometry.location.lat(),
+          lng: what.geometry.location.lng()
+        };
+        this.element_.content = JSON.stringify(this.element_.content)
+      },
       goToStep(st){
         this.step = st;
       },
@@ -205,6 +215,14 @@
 </script>
 
 <style>
+  .element-map *{
+    width: 100%;
+  }
+  .element-map input{
+    height: 43px;
+    border-radius: 22px;
+    padding-left: 22px;
+  }
   .element-types{
     width: 100%;
     margin: 0 auto;
