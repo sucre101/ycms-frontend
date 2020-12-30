@@ -36,6 +36,7 @@
       type="password"
       v-model="data.password"
       placeholder="Password"
+      @keyup.enter="submit"
       v-gref:password
       v-if="['Sign In', 'Sign Up', 'reset'].includes(context)"
     >
@@ -189,8 +190,6 @@ export default {
     if (this.email) {
       grefs.email.value = this.email
     }
-
-    s('input').onEnter(e => this.submit())
   },
 
   methods: {
