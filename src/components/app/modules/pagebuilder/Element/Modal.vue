@@ -80,9 +80,9 @@
       <div v-else-if="element_.type === 'video'">
         <input type="text" v-model="element_.content" class="rounded-input">
         <br>
-        <ycms-video-player
+        <VideoPlayer
           v-if="element_.content"
-          :src="element_.content"></ycms-video-player>
+          :src="element_.content"></VideoPlayer>
       </div>
       <div v-else-if="element_.type === 'button'">
         <input type="text" :value="element_.content?JSON.parse(element_.content).button_title:''" ref="button_title" @change="setButton" placeholder="title" class="rounded-input">
@@ -113,6 +113,7 @@
 <script>
   import CKEditor from '@ckeditor/ckeditor5-vue';
   import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+  import VideoPlayer from "./VideoPlayer";
 
   export default {
     name: 'element-modal',
@@ -121,6 +122,7 @@
       templates: Array,
     },
     components:{
+      VideoPlayer,
       ckeditor: CKEditor.component
     },
     data() {

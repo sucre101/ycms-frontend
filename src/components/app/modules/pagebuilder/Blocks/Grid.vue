@@ -2,32 +2,35 @@
     <div class="blocks-grid">
         <div  v-for="(block, index) in blocks"
               :style="block.template?block.template.style:''"
-              :key="block.id" :class="'block-item block-'+block.layout"  >
-        <span  class="block-items" >
-          <a v-if="!deleted && block.s_order !== 1" @click="changeBlockOrder(false, block.id)">l</a>
+              :key="block.id" :class="'bl-tooltip-box block-'+block.layout"
+              @mouseenter="showElement('block-'+block.id)"
+              @mouseleave="hideBlock('block-'+block.id)" >
+        <span  class="bl-tooltip" :ref="'block-'+block.id" >
+          <span v-if="!deleted && block.s_order !== 1" @click="changeBlockOrder(false, block.id)">l</span>
           {{block.order}}-{{block.layout}}-layout
-          <a v-if="!deleted" @click="openNewBlockModal(block)" >up</a>
-          <a v-if="!deleted"  @click="removeBlockConfirm(block.id)" >rem</a>
-          <a v-if="!deleted"  @click="openNewElementModal(null, block.id)" >+</a>
-          <a v-if="deleted"  @click="restoreBlockConfirm(block.id)" >res</a>
-          <a v-if="deleted"  @click="deleteBlockConfirm(block.id)" >d</a>
+          <span v-if="!deleted" @click="openNewBlockModal(block)" >up</span>
+          <span v-if="!deleted"  @click="removeBlockConfirm(block.id)" >rem</span>
+          <span v-if="!deleted"  @click="openNewElementModal(null, block.id)" >+</span>
+          <span v-if="deleted"  @click="restoreBlockConfirm(block.id)" >res</span>
+          <span v-if="deleted"  @click="deleteBlockConfirm(block.id)" >d</span>
           <a
               v-if="!deleted && blocks[index+1] && blocks[index+1].s_order > block.s_order"
               @click="changeBlockOrder(true, block.id)"
               style="float: right"
           >r</a>
         </span>
-            <div
-                class="element-items"
+            <span
+                class="el-tooltip-box"
                 :style="elem.template?'width:'+ elem.template.width:'width:100%'"
                 v-for="elem in block.elements"
                 :key="elem.id"
             >
-            <span v-if="!deleted" class="element-icons" >
+            <span v-if="!deleted" class="el-tooltip"  :ref="'element-'+elem.id" >
               element - {{elem.type}}
               <a  @click="openNewElementModal(elem, block.id)" >e</a>
               <a  @click="deleteElementConfirm(elem.id, block.id)" >d</a>
             </span>
+
           <div
               v-if="elem.type === 'html'"
               v-html="elem.content"
@@ -80,7 +83,7 @@
                   />
               </GmapMap>
           </div>
-        </div>
+        </span>
             <span v-if="block.elements.length === 0">
           No elements found! <a v-if="!deleted" @click="openNewElementModal(null, block.id)">Create element</a>
       </span>
@@ -114,6 +117,12 @@
       }
     },
     methods: {
+      showElement(id){
+        // this.$refs[id][0].style.display = 'inline-block';
+      },
+      hideBlock(id){
+        // this.$refs[id][0].style.display = 'none';
+      },
       getArray(obj){
         let arr = [];
         let style;
@@ -159,17 +168,67 @@
 </script>
 
 <style>
+    .bl-tooltip-box {
+        position: relative;
+        display: inline-block;
+    }
+
+    .bl-tooltip-box:hover .bl-tooltip{
+        opacity: 1;
+    }
+
+    .bl-tooltip {
+        color: #ffffff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 2px;
+
+        width: 180px;
+        bottom: 100%;
+
+        opacity: 0;
+        transition: opacity 0.5s;
+
+        position: absolute;
+        z-index: 1;
+
+        background: #1dc4e9;
+    }
+    .el-tooltip-box {
+        position: relative;
+        display: inline-block;
+    }
+
+    .el-tooltip-box:hover .el-tooltip{
+        opacity: 1;
+    }
+
+    .el-tooltip {
+        color: #ffffff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 2px;
+
+        width: 180px;
+        bottom: 100%;
+        left: 50%;
+
+        opacity: 0;
+        transition: opacity 0.5s;
+
+        position: absolute;
+        z-index: 1;
+
+        background: #2a6495;
+    }
+
     .blocks-grid{
         width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .block-item{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .block-item:hover{
+    .bl-tooltip-box:hover{
         border: 1px solid black;
         border-radius: 5px;
         margin: 0.4%;
@@ -229,49 +288,5 @@
     }
     .block-item>div::-webkit-scrollbar {
         display: none;
-    }
-    .element-items>div{
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-    .element-items>div::-webkit-scrollbar {
-        display: none;
-    }
-    .he-tree{
-        margin: 0 auto;
-        width: 50%;
-    }
-    div.block-item>.block-items{
-        display: none;
-        padding: 2px 3px;
-        width: 180px;
-        background: lightblue;
-        border: 1px solid #cccccc;
-        color: #6c6c6c;
-    }
-    div.block-item:hover span.block-items {
-        display: inline-block;
-        position: absolute;
-        margin-top: -30px;
-    }
-    div.element-items{
-        display: inline-block;
-    }
-    div.element-items:hover span.element-icons {
-        display: inline;
-        position: absolute;
-        z-index: 999;
-        margin-top: -5px;
-    }
-    .element-icons{
-        display: none;
-        padding: 2px 3px;
-        width: 180px;
-        background: lightgreen;
-        border: 1px solid #cccccc;
-        color: #6c6c6c;
-    }
-    .element-icons>*{
-        width: 20px !important;
     }
 </style>

@@ -548,81 +548,8 @@
 </script>
 
 <style>
-  .blocks-list{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-  .element-icons{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .element-icons>*{
-    width: 20px !important;
-  }
-  .block-item{
-    border: 1px solid black;
-    border-radius: 5px;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0.4%;
-    padding  : 5px;
-    box-shadow: 1px 1px 7px black;
-  }
-  .block-1{
-    width: 100%;
-  }
-  .block-2{
-    width: 49.2%;
-  }
-  .block-3{
-    width: 32.53%;
-  }
-  .block-4{
-    width: 24.2%;
-  }
-  .block-item>div{
-    width: 100%;
-    overflow: scroll;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  .block-item>div::-webkit-scrollbar {
-    display: none;
-  }
   .he-tree{
     margin: 0 auto;
     width: 50%;
-  }
-  div.block-item>.block-items{
-    display: none;
-    padding: 2px 3px;
-    width: 250px;
-  }
-  div.block-item:hover span.block-items {
-    display: inline-block;
-    position		: absolute;
-    background		: lightblue;
-    border			: 1px solid #cccccc;
-    color			: #6c6c6c;
-    margin-top: -35px;
-  }
-  span.element-items{
-    display: inline-block;
-  }
-  span.element-items>.element-icons{
-    display: none;
-    padding: 2px 3px;
-    width: 250px;
-  }
-  span.element-items:hover span.element-icons {
-    display: inline;
-    position: absolute;
-    background: lightgreen;
-    border: 1px solid #cccccc;
-    color: #6c6c6c;
-    margin-top: -30px;
   }
 </style>
