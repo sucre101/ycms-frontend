@@ -2,9 +2,7 @@
     <div class="blocks-grid">
         <div  v-for="(block, index) in blocks"
               :style="block.template?block.template.style:''"
-              :key="block.id" :class="'bl-tooltip-box block-'+block.layout"
-              @mouseenter="showElement('block-'+block.id)"
-              @mouseleave="hideBlock('block-'+block.id)" >
+              :key="block.id" :class="'bl-tooltip-box block-'+block.layout" >
         <span  class="bl-tooltip" :ref="'block-'+block.id" >
           <span v-if="!deleted && block.s_order !== 1" @click="changeBlockOrder(false, block.id)">l</span>
           {{block.order}}-{{block.layout}}-layout
@@ -92,14 +90,12 @@
 </template>
 
 <script>
-  // import Map from "../Element/Map";
   import VideoPlayer from "../Element/VideoPlayer";
   import VueCarousel from '@chenfengyuan/vue-carousel';
   export default {
     name: "blocks-grid",
 
     components:{
-      // 'google-map': Map,
       'video-player': VideoPlayer,
       VueCarousel,
     },
@@ -117,12 +113,6 @@
       }
     },
     methods: {
-      showElement(id){
-        // this.$refs[id][0].style.display = 'inline-block';
-      },
-      hideBlock(id){
-        // this.$refs[id][0].style.display = 'none';
-      },
       getArray(obj){
         let arr = [];
         let style;
@@ -208,10 +198,12 @@
         text-align: center;
         padding: 5px 0;
         border-radius: 2px;
+        height: 30px;
 
         width: 180px;
         bottom: 100%;
-        left: 50%;
+        left: 100%;
+        top: 1px;
 
         opacity: 0;
         transition: opacity 0.5s;

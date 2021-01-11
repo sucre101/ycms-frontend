@@ -78,7 +78,7 @@
     },
     data() {
       return {
-        template_: this.template,
+        template_: this._.cloneDeep(this.template),
       }
     },
     methods: {

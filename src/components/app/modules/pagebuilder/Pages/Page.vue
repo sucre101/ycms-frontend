@@ -9,7 +9,7 @@
     />
 
     <div  v-if="selectedTab === 0">
-      <div>
+      <div class="page-buttons">
         <a  class="small-rounded-btn blue-bg " @click="openNewBlockModal(null)">Add Block</a>
         <a v-if="toggle" class="small-rounded-btn blue-bg " @click="toggleBlocks(false)">Collapse Blocks</a>
         <a v-else class="small-rounded-btn blue-bg " @click="toggleBlocks(true)">Expand Blocks</a>
@@ -47,10 +47,11 @@
       ></templates-list>
     </div>
 
-    <div  class="blocks-list" style="margin-top: 40px"  v-if="selectedTab === 2">
-      <h3 class="block-1">Deleted blocks</h3>
+    <div  class="blocks-list"  v-if="selectedTab === 2">
+      <h4 v-if="blocks_trash.length < 1">There is no deleted blocks</h4>
 
       <blocks-grid
+          v-else
           :blocks="blocks_trash"
           :deleted="true"
           v-on:restore-block="restoreBlockConfirm"
@@ -143,9 +144,8 @@
         restoreIdBlock: null,
         deleteIdElement: null,
         deleteIdTemplate: null,
-        step: 1,
-        p_step: 1,
         toggle: true,
+        showElementModal: false,
         block_: {},
         element_: {},
         template_: {}
@@ -184,19 +184,6 @@
         }
 
         return arr;
-      },
-      getCoordinates(addr) {
-        new gMaps.Geocoder().geocode(
-            {'address': addr.description},
-            res => {
-              this.element_.content = {
-                address: addr.description,
-                lat: res[0].geometry.location.lat(),
-                lng: res[0].geometry.location.lng()
-              };
-              this.element_.content = JSON.stringify(this.element_.content)
-            }
-        );
       },
       setUndroppable(){
         th.depthFirstSearch(this.blocks_tree, (childNode) => {
@@ -239,18 +226,18 @@
         })
       },
       openNewBlockModal(block){
+        this.setNull()
         if(block){
           this.block_ = block;
-        }else{
-          this.setNull()
         }
+
         this.$refs.blockModal.open()
       },
       openTemplateModal(template){
         this.setNull('style')
 
         if(template){
-          this.template_ = template;
+          this.template_ = this._.cloneDeep(template);
         }
 
         this.$refs.templateModal.open()
@@ -262,7 +249,12 @@
         if(element){
           this.element_ = this._.cloneDeep(element);
         }
+        this.showElementModal = true;
         this.$refs.elementModal.open()
+      },
+      closeElementModal(){
+        this.showElementModal = false;
+        this.setNull()
       },
       deleteBlockConfirm(id){
         this.deleteIdBlock = id;
@@ -325,7 +317,7 @@
         }).indexOf(this.element_.block_id)
 
         let element = element_;
-        element.block_id = 209
+
         if(element.type === 'video'){
           element.content = getIdFromURL(element.content)
         }
@@ -359,6 +351,7 @@
         }).then(() => {
           this.notifier.success('Element created successfully')
           this.$refs.elementModal.close()
+          this.showElementModal = false;
           this.setNull();
         });
       },
@@ -404,6 +397,7 @@
         }).then(() => {
           this.notifier.success('Element created successfully')
           this.$refs.elementModal.close()
+          this.showElementModal = false;
           this.setNull();
         });
       },
@@ -422,12 +416,15 @@
             this.notifier.warning('Error')
           }
         });
+
+        this.$refs.templateModal.close()
       },
-      updateTemplate(style){
-        delete style.style;
+      updateTemplate(template){
+        console.log(template)
+        delete template.style;
 
         axios.post(`/${this.$route.params.folder.toLowerCase()}/template/update`,{
-          id: this.deleteIdBlock,
+          style: template,
         })
         .then(res => {
           if(res.data.success === true){
@@ -437,6 +434,8 @@
             this.notifier.warning('Error')
           }
         });
+
+        this.$refs.templateModal.close()
       },
       deleteBlock(){
         axios.post(`/${this.$route.params.folder.toLowerCase()}/block/delete`,{
@@ -546,45 +545,43 @@
 
           this.element_.id = null;
           this.element_.type = 'html';
-          this.element_.block_id = 209;
+          this.element_.block_id = null;
           this.element_.template_id = null;
           this.element_.content = null;
 
           delete this.element_.template;
           delete this.element_.images;
 
-          this.step = 1;
-          this.p_step = 1;
         }
 
         this.template_.id = null;
-        this.template_.app_id = this.module.id;
+        this.template_.user_module_id = this.module.id;
         this.template_.width = null;
         this.template_.height = null;
         this.template_.border_width = null;
-        this.template_.border_color = null;
+        this.template_.border_color = '#000000';
         this.template_.border_type = null;
         this.template_.border_radius = null;
         this.template_.margin = null;
         this.template_.padding = null;
-        this.template_.color = 'black';
+        this.template_.color = '#000000';
         this.template_.text_shadow = null;
         this.template_.box_shadow = null;
         this.template_.text_align = null;
         this.template_.overflow = null;
-        this.template_.bg_color = 'white';
+        this.template_.bg_color = '#FFFFFF';
         this.template_.name = null;
       },
     },
   }
 </script>
 
-<style>
+<style scoped lang="scss">
   .blocks-list{
     width: 500px;
     border: 1px solid black;
     border-radius: 5px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 5px;
     box-shadow: 1px 1px 7px black;
   }
@@ -592,13 +589,21 @@
     width: 500px;
     border: 1px solid black;
     box-shadow: 1px 1px 7px black;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 15px;
     border-radius: 5px;
   }
   .he-tree{
     margin: 0 auto;
     width: 50%;
+  }
+  .page-buttons{
+    margin-top: 20px;
+
+    a{
+      display: inline-block;
+      padding: 6px 10px;
+    }
   }
 
 </style>

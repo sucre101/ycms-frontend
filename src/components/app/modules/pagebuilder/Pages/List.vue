@@ -1,6 +1,6 @@
 <template>
   <div class="pages-list-table">
-
+    <h4>Your pages</h4>
     <div v-if="pages.length">
       <div v-for="page in pages" class="item">
 
@@ -91,6 +91,18 @@ export default {
         padding: 0;
       }
     }
+  }
+
+  h4 {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: 2px;
+    color: #aaaeb3;
+    margin: 15px 0;
   }
 }
 </style>

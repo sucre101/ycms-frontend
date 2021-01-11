@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-  import Map from "../Element/Map";
 
   export default {
     name: 'templates-list',

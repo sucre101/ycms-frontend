@@ -60,7 +60,6 @@
       </span>
       <span  class="element-types">
         <h4>{{element_.type}}</h4>
-        <h4>{{element_.block_id}}</h4>
       </span>
       <div v-if="element_.type === 'image' || element_.type === 'slider' ">
         <div v-if="element_.type === 'slider' && element_.images" >
@@ -157,22 +156,9 @@
         };
         this.element_.content = JSON.stringify(elem)
       },
-      getCoordinates(addr) {
-        new gMaps.Geocoder().geocode(
-            {'address': addr.description},
-            res => {
-              this.element_.content = {
-                address: addr.description,
-                lat: res[0].geometry.location.lat(),
-                lng: res[0].geometry.location.lng()
-              };
-              this.element_.content = JSON.stringify(this.element_.content)
-            }
-        );
-      },
       deleteSliderImageConfirm(id){
         this.deleteIdElement = id;
-        notifier.confirm('Are you sure?', this.deleteSliderImage())
+        this.notifier.confirm('Are you sure?', this.deleteSliderImage())
       },
       deleteSliderImage(){
         axios.post('/app/'+ this.slug +'/page-builder/element/delete_image', {
@@ -183,7 +169,7 @@
             notifier.success('Slider image deleted successfully')
             this.element_.images = res.data.images
           }else{
-            notifier.success('Error')
+            this.notifier.success('Error')
           }
           this.deleteIdElement = null
         });

@@ -92,7 +92,7 @@
     data() {
       return {
         p_step: 1,
-        block_: this.block,
+        block_: this._.cloneDeep(this.block),
       }
     },
     watch: {
@@ -168,7 +168,7 @@
     text-align: center;
   }
   .radio-custom + span > .radio-label-2{
-    width: 46.2%;
+    width: 46.7%;
     content: '1-2';
     background: #0997b1;
     border: 2px solid #ddd;
@@ -180,7 +180,7 @@
     text-align: center;
   }
   .radio-custom + span > .radio-label-3{
-    width: 29.53%;
+    width: 30.3%;
     content: '1-3';
     background: #0997b1;
     border: 2px solid #ddd;
@@ -192,7 +192,7 @@
     text-align: center;
   }
   .radio-custom + span > .radio-label-2-3{
-    width: 62.474%;
+    width: 63%;
     content: '2-3';
     background: #0997b1;
     border: 2px solid #ddd;
@@ -204,7 +204,7 @@
     text-align: center;
   }
   .radio-custom + span > .radio-label-4{
-    width: 21.2%;
+    width: 22.1%;
     content: '1-4';
     background: #0997b1;
     border: 2px solid #ddd;
