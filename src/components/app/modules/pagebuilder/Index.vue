@@ -16,19 +16,19 @@
 
 <script>
 import PageNavigation from "../../../base/PageNavigation"
-import PageList from "./Pages/Index"
+import Page from "./Pages/Page"
 
 export default {
   name: "index",
 
   components: {
-    PageNavigation, PageList
+    PageNavigation, Page
   },
 
   data() {
     return {
       tabScreens: [
-        PageList
+        Page
       ],
       currentScreen: 0,
       list: [
