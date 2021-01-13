@@ -1,11 +1,5 @@
 <template>
   <div>
-    <page-navigation
-        ref="pNavigator"
-        :list="list"
-        @change="changeScreen"
-        :selected="currentScreen"
-    />
 
     <div v-for="(tab, index) in tabScreens">
       <component :is="tab" v-if="index === currentScreen"/>
@@ -15,14 +9,13 @@
 </template>
 
 <script>
-import PageNavigation from "../../../base/PageNavigation"
 import Page from "./Pages/Page"
 
 export default {
   name: "index",
 
   components: {
-    PageNavigation, Page
+    Page
   },
 
   data() {
