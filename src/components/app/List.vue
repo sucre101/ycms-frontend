@@ -68,13 +68,14 @@
               size="43px"
               icon="app-image"
               min-dimensions="1024"
-              v-gref:appicon
             ></ycms-image-uploader>
           </div>
         </div>
         <div class="icon-content">
           <div class="left-image">
-            <p class="text-info">Startup image <span class="required-text">*</span></p>
+            <p class="text-info">Startup image
+              <span class="required-text">*</span>
+            </p>
             <p class="required-text pt-2">* Please download the startup image for your mobile app. This image is loaded
               when the app starts for the first time. You should consider special fields for cropping the image so that
               your image looks good in portrait and landscape mode</p>
@@ -88,12 +89,13 @@
               size="43px"
               icon="image"
               min-dimensions="1024"
-              v-gref:appicon
             ></ycms-image-uploader>
           </div>
         </div>
-        <a @click="goToStep(2)" class="small-rounded-btn green-bg text-white pr-2">Next <i
-          class="fa fa-chevron-right"></i></a>
+        <a @click="goToStep(2)" class="small-rounded-btn green-bg text-white pr-2">
+          Next
+          <i class="fa fa-chevron-right"></i>
+        </a>
       </div>
 
       <div id="4-step" v-if="step === 2">

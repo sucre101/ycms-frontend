@@ -1,5 +1,5 @@
 <template>
-  <div class="products-list-table">
+  <div class="table-list-items">
 
     <div v-if="products.length">
       <div v-for="product in products" class="item">
@@ -8,11 +8,9 @@
 
         <div class="item-actions">
 
-          <div class="btn btn-edit" @click.prevent="editProduct(product.id)">Edit</div>
-          <div class="btn btn-copy" @click.prevent="editProduct(product.id)">Duplicate</div>
-          <div class="btn btn-remove" @click.prevent="editProduct(product.id)">
-            <img src="/img/garbage.png" alt="">
-          </div>
+          <div class="btn-action blue" @click.prevent="editProduct(product.id)">Edit</div>
+          <div class="btn-action green" @click.prevent="editProduct(product.id)">Duplicate</div>
+          <div class="btn-action delete" @click.prevent="editProduct(product.id)"></div>
 
         </div>
 
@@ -38,6 +36,10 @@ export default {
     this.loadData()
   },
 
+  mounted() {
+    window.setTitle('Product list')
+  },
+
   methods: {
 
     loadData() {
@@ -61,10 +63,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.products-list-table {
-  width: 70%;
-  background-color: white;
-  padding: 15px 50px;
+.table-list-items {
   .item {
     display: flex;
     flex-direction: row;
@@ -74,22 +73,8 @@ export default {
     .item-actions {
       display: flex;
       align-items: center;
-      .btn {
-        padding: 5px 34px 7px 35px;
-        border-radius: 16px;
-        color: white;
-        margin: 0 10px;
-        cursor: pointer;
-      }
-      .btn-edit {
-        background-color: #0997b1;
-      }
-      .btn-copy {
-        background-color: #50b109;
-      }
-      .btn-remove {
-        padding: 0;
-      }
+      width: 33%;
+      justify-content: space-between;
     }
   }
 }

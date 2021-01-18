@@ -30,7 +30,6 @@ export default {
       axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`)
         .then((res) => {
           this.settings = this._.cloneDeep(res.data.settings)
-          console.log(this.settings)
         })
 
     }

@@ -31,7 +31,7 @@
 
     </div>
 
-    <div v-else class="auth">
+    <div id="auth" v-else>
       <router-view></router-view>
     </div>
 

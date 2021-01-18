@@ -1,17 +1,20 @@
 <template>
-  <div class="vue_component__upload--image" v-bind:class="{ 'dragover': onDragover }">
-    <form v-bind:id="name" enctype="multipart/form-data">
+  <div class="vue_component__upload--image" :class="{ 'dragover': onDragover }">
+    <form :id="name" enctype="multipart/form-data">
       <div class="upload_image_form__thumbnails">
 
         <Tree v-if="url" :data="images_" draggable="draggable" :ref="name" cross-tree="cross-tree" @drop="dropImageTree">
           <div slot-scope="{data, store}">
             <template v-if="!data.isDragPlaceHolder">
               <div >
-                                    <span v-on:click="fileDeleteP($event, data.id)">
-                                      &#x2716;
-                                    </span>
-                <img v-bind:src="data.url_original" width="100px"
-                     v-bind:class="{ 'show': data.url_original}"  v-on:click="fileClick(data.url_original, null)">
+                <span @click="fileDeleteP($event, data.id)">
+                  &#x2716;
+                </span>
+                <img :src="data.url_original"
+                     width="100px"
+                     :class="{ 'show': data.url_original }"
+                     @click="fileClick(data.url_original, null)"
+                >
               </div>
             </template>
           </div>
@@ -32,7 +35,7 @@
                                     <span v-on:click="fileDelete(null, data)">
                                     &#x2716;
                                     </span>
-                <img v-bind:src="data.url_original" width="100px" v-on:click="fileClick(data.url_original, null)">
+                <img :src="data.url_original" width="100px" @click="fileClick(data.url_original, null)">
                 <!--                    <span v-on:click="fileDelete($event, key)">-->
                 <!--                    &#x2716;-->
                 <!--                    </span>-->
@@ -49,7 +52,7 @@
         <!--          <img v-bind:src="image[key]" v-bind:class="{ 'show': image[key]}"   v-on:click="fileClick(null,key)" >-->
         <!--        </div>-->
       </div>
-      <input type="file" v-bind:id="name+'__input'" multiple/>
+      <input type="file" :id="name+'__input'" multiple/>
       <!--            <div>-->
       <!--                <button type="submit"-->
       <!--                        v-on:click="submit"-->
@@ -121,7 +124,7 @@ export default {
   },
 
   watch: {
-    p_images: function (newv, oldv) {
+    p_images(newv, oldv) {
       this.images_ = newv
       th.depthFirstSearch(this.images_, (childNode) => {
         childNode.droppable = false;
@@ -140,7 +143,7 @@ export default {
       create_images: [],
       batch: {},
       onDragover: false,
-      images_: this.p_images,
+      images_: this._.cloneDeep(this.p_images),
       onUploading: false
     }
   },
@@ -258,7 +261,7 @@ export default {
       });
     },
 
-    upload: function () {
+    upload() {
       console.log('upload')
       if (!this._can_xhr()) return false;
 

@@ -1,19 +1,19 @@
 <template>
   <div class="edit-product-form" v-if="product">
 
-    <InnerTab :items="[
-        { name: 'General' },
-        { name: 'Data' },
-        { name: 'Options' },
-        { name: 'Labels' },
-        { name: 'Unions' },
-        { name: 'Images' },
-    ]"
+    <InnerTab :items="tabs"
       @change="selectTab"
     />
 
     <div class="product-tabs">
       <div class="tab-general" v-if="selectedTab === 0">
+
+        <div v-if="itsUnion" class="union-group-name">
+          Group: {{ product.union.name }}
+        </div>
+        <div v-else class="union-group-name">
+          Make union
+        </div>
 
         <div class="input-group">
           <label>
@@ -121,9 +121,45 @@
 
       </div>
 
-      <div class="tab-options" v-if="selectedTab === 2">
+      <div class="tab-specs" v-if="selectedTab === 2">
 
-        Tab options
+        <div class="spec-group-list-table">
+
+          <div v-for="(specGroup, sgIndex) in product.category.spec_groups" class="spec-group">
+            {{ specGroup.name }}
+
+            <div class="spec" v-for="(spec, sIndex) in specGroup.specs" @mouseenter="specId = spec.id" @mouseleave="specInputId = 0">
+
+              <div class="spec-name">{{ spec.name }}</div>
+
+              <div class="spec-data">
+                <template v-for="(specData, spIndex) in product.specs" class="spec-data" v-if="specData.spec_id === spec.id">
+
+                <span v-for="(sdata, sdIndex) in specData.data" v-if="sdata.id === spec.spec_id">
+                  {{ sdata }}
+                  <span class="rm" @click="deleteSpecData(spIndex, sdIndex)">x</span>
+                </span>
+
+                </template>
+                <div class="add-spec" @click="showSpecInput(sgIndex, sIndex)" v-if="specId === spec.id">
+                  +
+                </div>
+                <input
+                    type="text"
+                    v-if="specInput.sp === sIndex && specInput.gr === sgIndex && specInput.active"
+                    v-model="specInputData"
+                    @keyup.enter="addSpecData(spec)"
+                    ref="specInput"
+                />
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -174,22 +210,38 @@
 
       </div>
 
-      <div class="tab-unions" v-if="selectedTab === 4">
-
-        Tab Unions
-
-      </div>
-
-      <div class="tab-images" v-if="selectedTab === 5">
+      <div class="tab-images" v-if="selectedTab === 4">
 
         <YcmsProductImageUploader
-            :url="`${$route.params.folder.toLowerCase()}/${$parent.$parent.moduleId}/product/${productId}`"
+            :url="`${$route.params.folder.toLowerCase()}/${$parent.$parent.moduleId}/product/${productId}/save-image`"
             :p_images="product.images"
             :entity_id="product.id"
             name="product"
         />
 
       </div>
+
+      <div class="tab-unions" v-if="selectedTab === 5">
+
+        <div v-if="itsUnion" class="unions-list">
+          <div v-for="union in product.union.products">
+            <a href="#" :class="{ active: productId === union.id }" @click.prevent="changeProductUnion(union.id)">
+              {{ union.name }}
+            </a>
+          </div>
+        </div>
+
+        <div class="union-description">
+          <label>
+            <textarea v-model="product.union.desc" placeholder="Union description"></textarea>
+          </label>
+        </div>
+
+
+
+      </div>
+
+
 
     </div>
 
@@ -221,7 +273,6 @@ export default {
       selectedTab: 0,
       selectLabel: false,
       newLabel: {},
-      cloneProd: {},
       activeForSave: false,
       priceTemplate: {
         pivot: {
@@ -230,22 +281,40 @@ export default {
           quantity: 0,
           discount: 0,
         }
-      }
+      },
+      specId: 0,
+      specInputData: '',
+      specInput: {
+        active: false,
+        gr: 0,
+        sp: 0,
+      },
+      itsUnion: false,
+      tabs: [
+        { name: 'General' },
+        { name: 'Data' },
+        { name: 'Specs' },
+        { name: 'Labels' },
+        { name: 'Images' },
+      ]
     }
   },
 
   created() {
-    this.productId = this.$route.query.product
+    this.productId = Number(this.$route.query.product)
 
     this.loadData()
+  },
 
+  mounted() {
+    window.setTitle('Product edit')
   },
 
   watch: {
 
     $route(to, from) {
 
-      if (!to.query.hasOwnProperty('product')) {
+      if (!to.query.hasOwnProperty(this.$options.name)) {
         this.$parent.editProduct = false
       }
     },
@@ -270,6 +339,13 @@ export default {
             this.product = this._.cloneDeep(res.data.product)
             this.labels = this._.cloneDeep(res.data.labels)
             this.stores = this._.cloneDeep(res.data.stores)
+
+            if (this.product.union !== null) {
+              if (this.itsUnion === false) {
+                this.itsUnion = true
+                this.tabs.push({ name: 'Unions' })
+              }
+            }
 
           } else {
             this.notifier.warning(res.data.error)
@@ -346,6 +422,57 @@ export default {
 
     selectTab(index) {
       this.selectedTab = index
+    },
+
+    deleteSpecData(spIndex, sdIndex) {
+      this.product.specs[spIndex].data.splice(sdIndex, 1);
+    },
+
+    addSpecData(spec) {
+
+      let index = this._.findIndex(this.product.specs, { spec_id: spec.id })
+      let newSpec = {}
+
+      if (index !== -1) {
+
+        this.product.specs[index].data.push(this.specInputData)
+
+      } else {
+
+        newSpec.spec_id = spec.id
+        newSpec.data = [this.specInputData]
+        newSpec.product_id = this.productId
+
+        this.$nextTick(() => {
+          this.product.specs.push(newSpec)
+        })
+
+      }
+
+      this.specInput.gr = 0
+      this.specInput.sp = 0
+      this.specInput.active = false
+      this.specInputData = ''
+    },
+
+    showSpecInput(gsIndex, sIndex) {
+
+      this.specInput.gr = gsIndex
+      this.specInput.sp = sIndex
+      this.specInput.active = true
+
+
+      this.$nextTick(() => {
+        this.$refs.specInput[0].focus()
+      })
+    },
+
+    changeProductUnion(id) {
+
+      this.$router.replace( { query: { tab: 'products', product: id }} )
+      this.productId = id
+      this.loadData();
+
     },
 
     saveAllData() {
@@ -457,6 +584,17 @@ export default {
   .save-button.active{
     background-color: red;
   }
+  .tab-general {
+    .union-group-name {
+      display: inline-block;
+      background: blueviolet;
+      color: white;
+      font-size: 14px;
+      padding: 2px 15px;
+      border-radius: 22px;
+      cursor: pointer;
+    }
+  }
   .tab-labels {
     ul {
       display: flex;
@@ -480,6 +618,29 @@ export default {
       }
     }
   }
+  .tab-unions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .unions-list {
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+    }
+    .union-description {
+      display: flex;
+      width: 55%;
+      textarea {
+        resize: none;
+        width: 90%;
+        padding: 10px 15px;
+        min-height: 200px;
+      }
+    }
+    a.active {
+      font-weight: 600;
+    }
+  }
   .add-label-to-store {
     background: #00C121;
     width: 60px;
@@ -492,6 +653,75 @@ export default {
     font-size: 25px;
     color: white;
     border: none;
+  }
+  .spec-group-list-table {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: baseline;
+    .spec-group {
+      width: 48%;
+      border: 1px solid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .spec {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        border-top: 1px solid;
+        align-items: center;
+        padding-left: 5px;
+        div:last-child {
+          border-left: 1px solid;
+        }
+        .spec-data {
+          display: flex;
+          width: 50%;
+          padding: 5px;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          flex-wrap: wrap;
+          span {
+            background: #e4e5e4;
+            padding: 5px 20px;
+            position: relative;
+            margin-right: 5px;
+            margin-bottom: 5px;
+          }
+          span.rm {
+            padding: 0;
+            position: absolute;
+            top: -7px;
+            right: 2px;
+            background: none;
+            cursor: pointer;
+          }
+          .add-spec {
+            border: none;
+            background-color: #e5e5;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            text-align: center;
+            align-content: center;
+            justify-content: center;
+            height: 30px;
+            cursor: pointer;
+          }
+          input {
+            padding: 2px 5px 2px 10px;
+            border-radius: 22px;
+            border: solid 1px #868686 !important;
+          }
+        }
+      }
+    }
   }
 }
 </style>

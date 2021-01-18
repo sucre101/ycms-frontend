@@ -13,7 +13,7 @@ import App from './components/App'
 import { initialize } from './helpers/general';
 import _ from 'lodash'
 import axios from 'axios'
-import './assets/app.scss'
+import '@/assets/app.scss'
 
 window.axios = axios
 axios.defaults.baseURL = 'http://api.ycms/ycms'
@@ -29,13 +29,6 @@ Vue.prototype.locStor = new YcmsLocalStorage
 Vue.use(SweetModal)
 Vue.use(vueDebounce, {listenTo: ['input', 'keyup']})
 Vue.prototype._ = _
-
-
-// let token = document.head.querySelector('meta[name="csrf-token"]');
-//
-// if (token) {
-//   axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-// }
 
 Vue.component('preloader', require('./components/base/ui/Preloader.vue').default)
 
@@ -55,13 +48,6 @@ Vue.directive('active', (el, binding) => {
 
 })
 
-Vue.directive('indev', el => {
-  el.addEventListener('click', e => {
-    e.preventDefault()
-    alert('This feature is currently in development')
-  })
-})
-
 Vue.directive('click-outside', {
   bind(el, binding) {
     el.addEventListener('click', e => e.stopPropagation());
@@ -71,12 +57,6 @@ Vue.directive('click-outside', {
     document.body.removeEventListener('click', binding.value);
   }
 });
-
-Vue.directive('gref', (el, binding, vnode) => {
-  let component = vnode.componentInstance
-  window.grefs[binding.arg] = component || el
-  if (component) component.$data.gref = binding.arg
-})
 
 String.prototype.capitalize = () => {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -97,10 +77,6 @@ new Vue({
   },
   computed: {
     ...mapGetters(['reference'])
-  },
-  beforeCreate() {
-    // Global refs
-    window.grefs = {}
   },
   render: h => h(App),
 }).$mount('#app')

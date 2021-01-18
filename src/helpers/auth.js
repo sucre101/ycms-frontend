@@ -13,6 +13,19 @@ export function login(credentials) {
   })
 }
 
+export function refreshToken(credentials) {
+  return new Promise((res, rej) => {
+    axios.post('/auth/refresh', credentials)
+      .then((response) => {
+        setAuthorization(response.data.access_token);
+        res(response.data);
+      })
+      .catch((err) => {
+        rej(err)
+      })
+  })
+}
+
 export function getLocalUser() {
   const userStr = localStorage.getItem("user");
 

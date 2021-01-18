@@ -16,7 +16,7 @@ export default new VueRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('./components/YcmsLogin')
+      component: () => import('./components/auth/Login')
     },
     {
       path: '/dashboard',

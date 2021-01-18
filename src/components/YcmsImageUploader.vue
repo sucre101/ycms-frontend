@@ -25,7 +25,7 @@
       <span v-if="!type">{{ fileName }}</span>
 
       <div
-        v-if="type == 'icon'"
+        v-if="type === 'icon'"
         @click="onClick"
         class="icon-container"
         :style="{height: size, width: size, fontSize: `calc(${size}/2)`}"
@@ -34,13 +34,13 @@
         <img v-else :src="base64">
       </div>
 
-      <div v-if="type == 'square-preview'" class="square-preview" @click="onClick">
+      <div v-if="type === 'square-preview'" class="square-preview" @click="onClick">
         <img v-bind="{src}">
         <div class="button-container">
           <div class="button">BROWSE</div>
         </div>
       </div>
-      <div v-if="type == 'app-icon'" class="app-icon" >
+      <div v-if="type === 'app-icon'" class="app-icon" >
         <div class="button-container">
           <div class="button" @click="onClick">BROWSE</div>
         </div>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div v-if="type == 'startup-image'" class="startup-image" >
+      <div v-if="type === 'startup-image'" class="startup-image" >
         <div class="button-container">
           <div class="button" @click="onClick">BROWSE</div>
         </div>
@@ -125,10 +125,37 @@
       imageUrl: String,
     },
 
+    computed: {
+
+      fileName() {
+        let label = this.label !== 'null' ? this.label : false
+        return this.originalName || label || 'please select a file'
+      },
+
+      src() {
+        return this.base64 || this.previewImg || this.imageUrl || '/img/no-image.png'
+      }
+    },
+
+    mounted() {
+      if (this.minDimensions) {
+        if (this.minDimensions.includes('x')) {
+          let match = this.minDimensions.match(/(\d+)x(\d+)/)
+          this.minWidth = generic(match[1])
+          this.minHeight = generic(match[2])
+        } else {
+          this.minWidth = generic(this.minDimensions)
+          this.minHeight = generic(this.minDimensions)
+        }
+      }
+    },
+
     methods: {
+
       onClick() {
         this.$refs.imageInput.click();
       },
+
       fileSelected($event) {
         let file = this.$refs.imageInput.files[0]
         this.originalName = file.name
@@ -148,16 +175,13 @@
                 }
             px'
             `
-            // waitDefined('grefs.appicon.dimesionsFine').then(fine => {
-            //   if (fine) this.openCropper(event, reader)
-            //   else this.notifier.warning(warningMessage)
-            // })
             this.openCropper(event, reader)
           } else {
             this.openCropper(event, reader)
           }
         }
       },
+
       crop() {
         // TODO: fix big image uploads
         this.cropper.getCroppedCanvas().toBlob(blob => {
@@ -196,6 +220,7 @@
           this.$refs.innerCropper.hidden = true
         }
       },
+
       checkDimensions(e) {
         let img = new Image
         img.src = e.target.result
@@ -206,13 +231,14 @@
               this.width >= comp.minWidth && this.height >= comp.minHeight
         }
       },
+
       openCropper(event, reader) {
         let img
         console.log("openCropper")
-        if (this.type == "app-icon" && !this.cropInModal) {
+        if (this.type === "app-icon" && !this.cropInModal) {
           img = this.$refs.innerCropperAppImg
           this.$refs.innerCropperApp.hidden = false
-        } else if (this.type == "startup-image") {
+        } else if (this.type === "startup-image") {
           img = this.$refs.innerCropperStartupImg
           this.$refs.innerCropperStartup.hidden = false
         } else {
@@ -226,7 +252,7 @@
         }
 
         img.src = event.target.result
-        if (typeof this.cropper.destroy == 'function') {
+        if (typeof this.cropper.destroy === 'function') {
           this.cropper.destroy()
         }
         this.cropper = new Cropper(img, {aspectRatio: this.ratio})
@@ -234,29 +260,6 @@
         // this.cropper.getCroppedCanvas({width: this.minWidth})
       }
     },
-
-    computed: {
-      fileName() {
-        let label = this.label != 'null' ? this.label : false
-        return this.originalName || label || 'please select a file'
-      },
-      src() {
-        return this.base64 || this.previewImg || this.imageUrl || '/img/no-image.png'
-      }
-    },
-
-    mounted() {
-      if (this.minDimensions) {
-        if (this.minDimensions.includes('x')) {
-          let match = this.minDimensions.match(/(\d+)x(\d+)/)
-          this.minWidth = generic(match[1])
-          this.minHeight = generic(match[2])
-        } else {
-          this.minWidth = generic(this.minDimensions)
-          this.minHeight = generic(this.minDimensions)
-        }
-      }
-    }
   }
 </script>
 
