@@ -1,4 +1,5 @@
-import {getLocalUser} from "../../helpers/auth";
+import {getLocalUser} from "@/helpers/auth";
+import router from "@/router";
 
 const user = getLocalUser();
 

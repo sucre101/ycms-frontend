@@ -23,19 +23,53 @@
           >
             <div class="btn-action">
               <span @click="addNewSpec(index)">Add</span>
-              <span>Remove</span>
+              <span @click="deleteSpecGroup(index)">Remove</span>
             </div>
             {{ specGroup.name }}
-            <span class="spec" v-for="spec in specGroup.specs">
+            <div class="spec" v-for="(spec, specIndex) in specGroup.specs">
               {{ spec.name }}
-            </span>
+              <span @click="removeSpec(index, specIndex)">remove</span>
+            </div>
+            <div class="inputSpec" v-if="newSpec && index === showSpecIndex">
+              <input
+                  type="text"
+                  v-model.trim="newSpecName"
+                  @keyup.enter="addNewSpec(index)"
+                  @keyup.esc="newSpec = false"
+                  ref="inputSpec"
+              >
+              <span @click="newSpec = false">Cancel</span>
+              <span @click="addNewSpec(index)">save</span>
+            </div>
           </div>
         </div>
-        <div @click="newSpecGroup = true" v-if="!newSpecGroup">
-          Add Group
+        <ycms-action-buttons
+            v-if="!newSpecGroup"
+            :buttons-list="[
+                {
+                  title: 'Add group',
+                  handler: 'eval:this.$parent.addSpecGroupInput()',
+                  class: 'bg-green-gradient'
+                },
+              ]"
+            align="left"
+        />
+        <div v-if="newSpecGroup" class="new-spec-input">
+          <input
+              type="text"
+              v-model.trim="newSpecGroupName"
+              @keyup.enter="setSpecDataName"
+              @keyup.esc="newSpecGroup = false"
+              ref="inputSpecGroup"
+          />
+          <span @click="newSpecGroup = false">X</span>
+          <span @click="setSpecDataName">Enter</span>
         </div>
-        <input type="text" v-model.trim="newSpecGroupName" v-if="newSpecGroup"  @keyup.enter="setSpecDataName">
       </div>
+    </div>
+
+    <div class="save-button" @click="saveAllData" v-if="activeForSave">
+      <img src="/img/ycms/exit_icon.svg" title="save product">
     </div>
 
   </div>
@@ -43,12 +77,13 @@
 
 <script>
 import InnerTab from "@/components/base/ui/InnerTab";
+import YcmsActionButtons from "@/components/YcmsActionButtons";
 
 export default {
   name: "category",
 
   components: {
-    InnerTab
+    InnerTab, YcmsActionButtons
   },
 
   data() {
@@ -58,16 +93,12 @@ export default {
       categoryId: null,
       currentActive: 0,
       newSpecGroupName: '',
-      newSpecGroup: false
+      newSpecName: '',
+      newSpec: false,
+      newSpecGroup: false,
+      showSpecIndex: 0,
+      activeForSave: false,
     }
-  },
-
-  computed: {
-
-    // category() {
-    //   return this.$route.query.category
-    // }
-
   },
 
   watch: {
@@ -77,6 +108,13 @@ export default {
         this.$parent.editCategory = false
       }
     },
+
+    category: {
+      handler(val) {
+        this.activeForSave = true
+      },
+      deep: true
+    },
   },
 
   created() {
@@ -85,10 +123,22 @@ export default {
     this.loadData()
   },
 
+  mounted() {
+    window.setTitle('Category edit')
+  },
+
+
   methods: {
 
     selectTab(tab) {
       this.currentTab = tab
+    },
+
+    addSpecGroupInput() {
+      this.newSpecGroup = true
+      this.$nextTick(() => {
+        this.$refs.inputSpecGroup.focus()
+      })
     },
 
     setSpecDataName() {
@@ -97,9 +147,36 @@ export default {
       this.newSpecGroup = false;
     },
 
+    deleteSpecGroup(index) {
+      this.category.spec_groups.splice(index, 1)
+    },
+
     addNewSpec(index) {
-      console.log()
-      this.category.spec_groups[index].specs.push({ name: 'example' })
+
+      this.newSpec = true
+      this.showSpecIndex = index
+
+      this.$nextTick(() => {
+        this.$refs.inputSpec[0].focus()
+      })
+
+      if (this.newSpecName.length > 0) {
+        this.category.spec_groups[index].specs.push({ name: this.newSpecName })
+        this.newSpec = false
+        this.newSpecName = ''
+      }
+
+    },
+
+    removeSpec(spIndex, sIndex) {
+      this.category.spec_groups[spIndex].specs.splice(sIndex, 1)
+    },
+
+    saveAllData() {
+      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/category/update-category`, this.category)
+        .then((res) => {
+          console.log(res)
+        })
     },
 
     loadData() {
@@ -107,8 +184,8 @@ export default {
       axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/category/${this.categoryId}`)
         .then((res) => {
           this.category = this._.cloneDeep(res.data.category)
-          console.log(this.category)
         })
+          .then( res => this.activeForSave = false)
 
     }
 
@@ -122,6 +199,7 @@ export default {
   width: 70%;
   background-color: white;
   padding: 15px 50px;
+  position: relative;
   .category-tabs {
     margin-top: 50px;
 
@@ -129,23 +207,31 @@ export default {
       .spec-group.active {
         .spec {
           display: flex;
+          justify-content: space-between;
+        }
+        .spec:hover {
+          background-color: #f0f3f6;
         }
       }
       .spec-group {
         display: flex;
         flex-direction: column;
-        border: 1px solid red;
+        border: 4px solid #f0f3f6;
         width: 48%;
         padding: 15px;
         font-size: 18px;
         font-weight: bold;
         position: relative;
+        margin-bottom: 20px;
         .spec {
           font-weight: normal;
           font-size: 16px;
           padding-left: 15px;
           cursor: pointer;
           display: none;
+          span {
+            padding-right: 40px;
+          }
         }
         .btn-action {
           position: absolute;
@@ -158,6 +244,35 @@ export default {
         }
       }
     }
+  }
+  .new-spec-input {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    width: 35%;
+    justify-content: space-between;
+    input {
+      padding: 8px 16px 9.5px 25px;
+      border-radius: 22px;
+      border: solid 1px #868686 !important;
+    }
+    span {
+      border: 1px solid;
+      cursor: pointer;
+    }
+  }
+  .inputSpec {
+    input {
+      border-radius: 22px;
+      border: solid 1px #868686 !important;
+      font-size: 14px;
+      padding: 3px 10px 3.5px 13px;
+    }
+  }
+  .save-button {
+    position: absolute;
+    top: 25px;
+    right: 20px;
   }
 }
 </style>

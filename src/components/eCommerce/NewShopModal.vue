@@ -163,10 +163,8 @@ export default {
       ])
     },
     createShop() {
-      if (this.verify()) {
-        this.$emit('submitted', this.shop)
-        this.$refs.newShopModal.close()
-      }
+      this.$emit('submitted', this.shop)
+      this.$refs.newShopModal.close()
     },
   },
 }
