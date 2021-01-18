@@ -1,5 +1,5 @@
 <template>
-  <div  v-if="page">
+  <div >
     <InnerTab :items="[
         { name: 'Blocks' },
         { name: 'Templates' },
@@ -66,6 +66,7 @@
         overlay-theme="dark"
     >
       <block-modal
+          v-if="showBlockModal"
           :block="block_"
           :templates="templates"
           v-on:store-block="storeBlock"
@@ -94,10 +95,12 @@
         overlay-theme="dark"
     >
       <element-modal
+          v-if="showElementModal"
           :element="element_"
           :templates="templates"
           v-on:store-element="storeElement"
           v-on:update-element="updateElement"
+          @close="closeElementModal"
       ></element-modal>
     </sweet-modal>
   </div>
@@ -133,7 +136,6 @@
       return {
         module: {},
         selectedTab: 0,
-        page: {},
         editor: ClassicEditor,
         blocks: [],
         blocks_trash: [],
@@ -146,13 +148,14 @@
         deleteIdTemplate: null,
         toggle: true,
         showElementModal: false,
+        showBlockModal: false,
         block_: {},
         element_: {},
         template_: {}
       }
     },
     created() {
-      this.module.id = this.$parent.$parent.moduleId
+      this.module.id = this.$parent.moduleId
       this.loadPage()
       this.loadTemplates()
     },
@@ -161,10 +164,9 @@
         this.selectedTab = index
       },
       loadPage() {
-        axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$route.query.page}/edit`)
+        axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/edit`)
         .then((res) => {
-          this.page = this._.cloneDeep(res.data.page)
-          this.setBlocks(this.page.blocks)
+          this.setBlocks(res.data.blocks)
           this.setNull();
         })
       },
@@ -231,6 +233,7 @@
           this.block_ = block;
         }
 
+        this.showBlockModal = true;
         this.$refs.blockModal.open()
       },
       openTemplateModal(template){
@@ -254,6 +257,10 @@
       },
       closeElementModal(){
         this.showElementModal = false;
+        this.setNull()
+      },
+      closeBlockModal(){
+        this.showBlockModal = false;
         this.setNull()
       },
       deleteBlockConfirm(id){
@@ -294,6 +301,7 @@
           }
           this.$refs.blockModal.close()
           this.setNull();
+          this.showBlockModal = false;
         });
       },
       updateBlock(block){
@@ -310,6 +318,7 @@
           this.$refs.blockModal.close()
           this.setNull();
         });
+        this.showBlockModal = false;
       },
       storeElement(element_, images){
         let index = this.blocks.map(x => {
@@ -395,7 +404,7 @@
             return false;
           }
         }).then(() => {
-          this.notifier.success('Element created successfully')
+          this.notifier.success('Element updated successfully')
           this.$refs.elementModal.close()
           this.showElementModal = false;
           this.setNull();
@@ -537,7 +546,7 @@
       setNull(style){
         if(style !== 'style'){
           this.block_.id = null;
-          this.block_.page_id = this.page.id;
+          this.block_.user_module_id = this.module.id;
           this.block_.layout = 1;
           this.block_.is_active = true;
           this.block_.template_id = null;
