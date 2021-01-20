@@ -7,50 +7,55 @@
       </span>
 
     <div class="newTag">
-<!--      <vue-bootstrap-typeahead-->
-<!--          ref="tagName"-->
-<!--          v-model="tag.name"-->
-<!--          :data="tags"-->
-<!--          placeholder="Enter a tag"-->
-<!--      />-->
-      <input v-model="tag.name" />
+      <vue-bootstrap-typeahead
+          ref="tagName"
+          v-model="tag.name"
+          :data="tags"
+          placeholder="Enter a tag"
+      />
       <a class="small-rounded-btn blue-bg" @click="storeTag">Add tag</a>
     </div>
   </div>
 </template>
 
 <script>
-  // import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+  import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 
   export default {
     name: "tag-list",
     components: {
-      // VueBootstrapTypeahead
+      VueBootstrapTypeahead
     },
 
     data() {
       return {
         tagList: [],
+        tags: [],
         module: {},
+        post: {},
         markedForDelete: 0,
         tag: {
           name: '',
-          user_module_id: null
+          user_module_id: null,
+          post_id: null
         }
       }
     },
 
     created() {
-      this.module.id = this.$parent.moduleId
-      this.tag.user_module_id = this.$parent.moduleId
+      this.module.id = this.$parent.$parent.$parent.moduleId
+      this.post.id = this.$route.query.post
+      this.tag.user_module_id = this.module.id
+      this.tag.post_id = this.post.id
       this.loadData()
     },
 
     methods: {
       loadData() {
-        axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/tags`)
+        axios.get(`/${this.$route.params.folder.toLowerCase()}/post/${this.post.id}/getTags`)
         .then((res) => {
-          this.tagList = this._.cloneDeep(res.data.tags)
+          this.tagList = this._.cloneDeep(res.data.tagList)
+          this.tags = this._.cloneDeep(res.data.tags)
         })
       },
       storeTag(){
@@ -58,11 +63,12 @@
           this.notifier.warning('Tag name is empty');
           return false;
         }
-        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/tag/store`, {
+        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/post/addTag`, {
           tag: this.tag
         })
         .then(res => {
-          this.tagList = this._.cloneDeep(res.data.tags);
+          this.tagList = this._.cloneDeep(res.data.tagList)
+          this.tags = this._.cloneDeep(res.data.tags)
           this.tag.name = '';
           this.notifier.success('Tag added successfully');
         })
@@ -72,11 +78,13 @@
         this.notifier.confirm('Are you sure?', this.deleteTag())
       },
       deleteTag(){
-        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/tag/delete`, {
+        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/post/deleteTag`, {
           id: this.markedForDelete,
+          post_id: this.post.id
         })
         .then(res => {
-          this.tagList = this._.cloneDeep(res.data.tags);
+          this.tagList = this._.cloneDeep(res.data.tagList)
+          this.tags = this._.cloneDeep(res.data.tags)
           this.notifier.success('Tag deleted successfully')
         })
       },

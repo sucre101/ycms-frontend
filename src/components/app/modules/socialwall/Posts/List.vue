@@ -2,15 +2,14 @@
   <div class="categories-list-table">
     <h4>Posts</h4>
 
-    <a class="small-rounded-btn blue-bg "  @click="openPostModal">Create Post</a>
+    <a class="small-rounded-btn blue-bg "  @click="openPostModal(null)">Create Post</a>
     <div class="action" v-for="post in postList" :key="post.id">
       {{post.title}} <small v-if="post.published_at" >published at {{post.published_at}}</small>
 
       <a @click="openPostModal(post)" >edit</a>
       <a @click="deletePostConfirm(post.id)" >delete</a>
-      <a class="small-rounded-btn blue-bg "  :href="'/app/' + app.slug + '/feed/' + post.id + '/blocks/'">Blocks</a>
-      <a class="small-rounded-btn blue-bg "  :href="'/app/' + app.slug + '/feed/' + post.id + '/tags/'">Tags</a>
-      <a  class="small-rounded-btn blue-bg"  @click="publishPost(post.id)">Publish Post</a>
+      <a @click="openBlocks(post.id)" >Open</a>
+      <a @click="publishPost(post.id)">Publish Post</a>
     </div>
 
     <sweet-modal
@@ -20,6 +19,7 @@
         overlay-theme="dark"
     >
       <post-modal
+          v-if="showModal"
           :post="post"
           v-on:store-post="storePost"
       />
@@ -43,12 +43,13 @@
         postList: [],
         post: {},
         module: {},
-        markedForDelete: 0
+        markedForDelete: 0,
+        showModal: false
       }
     },
 
     created() {
-      this.module.id = this.$parent.moduleId
+      this.module.id = this.$parent.$parent.moduleId
       this.loadData()
     },
 
@@ -59,25 +60,31 @@
           this.postList = this._.cloneDeep(res.data.posts)
         })
       },
+      openBlocks(id){
+        this.$router.replace({ query: { tab: 'posts', post: id } })
+        this.$parent.showBlocks = true
+      },
       openPostModal(post){
         if (post){
           this.post = post;
         }else {
           this.setNull()
         }
+        this.showModal = true
         this.$refs.createPost.open()
       },
-      storePost(){
-        axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/post/store`, {
-          post: this.post,
+      storePost(post){
+        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/post/store`, {
+          post: post,
         })
         .then(res => {
           if (res.data.message === "created"){
             this.notifier.success('Post created successfully')
           }else{
-            this.post.success('Post updated successfully')
+            this.notifier.success('Post updated successfully')
           }
-          this.posts = this._.cloneDeep(res.data.posts)
+          this.postList = this._.cloneDeep(res.data.posts)
+          this.showModal = false
           this.setNull()
 
           this.$refs.createPost.close()
@@ -104,7 +111,7 @@
           id: this.markedForDelete,
         })
         .then(res => {
-          this.posts = this._.cloneDeep(res.data.posts)
+          this.postList = this._.cloneDeep(res.data.posts)
           this.notifier.success('Post deleted successfully')
         })
       },
@@ -114,7 +121,7 @@
         this.post.rating_type = ""
         this.post.comment_state = true
         this.post.comment_rating_type = ""
-        this.post.module_id = this.module.id
+        this.post.user_module_id = this.module.id
       }
     }
   }

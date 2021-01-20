@@ -17,7 +17,7 @@
 <script>
 import PageNavigation from "../../../base/PageNavigation"
 import Tags from "./Tags/List";
-import Posts from "./Posts/List";
+import Posts from "./Posts/Index";
 
 export default {
   name: "index",

@@ -65,7 +65,7 @@
 
 export default {
 
-  name: "category-list",
+  name: "blocks",
 
   components: {
     ckeditor: CKEditor.component,
@@ -79,8 +79,9 @@ export default {
       markedForDelete: null,
       markedForBefore: null,
       toggle: true,
+      post: {},
       newBlock: {
-        post_id: this.post.id,
+        post_id: null,
         type: null,
         content: null,
         order: 1,
@@ -90,11 +91,19 @@ export default {
   },
 
   created() {
-    this.module.id = this.$parent.$parent.moduleId
+    this.module.id = this.$parent.$parent.$parent.moduleId
+    this.post.id = this.$route.query.post
+    this.newBlock.post_id = this.post.id
     this.loadData()
   },
 
   methods: {
+    loadData() {
+      axios.get(`/${this.$route.params.folder.toLowerCase()}/post/${this.post.id}/blocks`)
+      .then((res) => {
+        this.blocks = this._.cloneDeep(res.data.blocks)
+      })
+    },
     publishPost(){
       axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/post/publish`, {
         id: this.post.id,
@@ -111,7 +120,7 @@ export default {
       }).indexOf(node.id)
 
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/block/change_block`,{
+      axios.post(`/${this.$route.params.folder.toLowerCase()}/post/${this.post.id}/block/change_block`,{
         "order": index+1,
         "id": node.id,
       })
@@ -152,7 +161,7 @@ export default {
       }
       formData.append('id', block.id);
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/block/update`,
+      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.post.id}/block/update`,
           formData,
           {
             headers: {
