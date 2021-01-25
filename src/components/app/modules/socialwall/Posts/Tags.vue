@@ -1,10 +1,9 @@
 <template>
-  <div class="categories-list-table">
-    <h4>Tags</h4>
-    <span v-for="tag in tagList">
+  <div class="content">
+    <span v-for="tag in tagList" class="tag">
           {{tag.name}}
-          <a @click="deleteTagConfirm(tag.id)"  >delete</a>
-      </span>
+          <i @click="deleteTagConfirm(tag.id)"  class="fa fa-trash" ></i>
+    </span>
 
     <div class="newTag">
       <vue-bootstrap-typeahead
@@ -95,25 +94,31 @@
 
 <style scoped lang="scss">
 
-  .categories-list-table {
-    width: 70%;
+  .content {
+    margin-top: 25px;
+    width: 100%;
     background-color: white;
-    padding: 15px 50px;
+    padding: 25px 50px;
+    display: flex;
 
-    h4 {
-      text-align: center;
-      font-size: 10px;
-      font-weight: 600;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.4;
-      letter-spacing: 2px;
-      color: #aaaeb3;
-      margin: 15px 0;
-    }
-    .list-group-item {
-      display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+  .tag{
+    border: 1px solid;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px;
+    padding: 5px;
+    margin: 5px;
+  }
+  .newTag{
+    width: 100%;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+
+    a{
+      margin-left: 20px;
     }
   }
-
 </style>

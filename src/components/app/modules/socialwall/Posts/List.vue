@@ -1,30 +1,30 @@
-<template>
-  <div class="categories-list-table">
-    <h4>Posts</h4>
+    <template>
+    <div class="posts">
+        <h4>Posts</h4>
 
-    <a class="small-rounded-btn blue-bg "  @click="openPostModal(null)">Create Post</a>
-    <div class="action" v-for="post in postList" :key="post.id">
-      {{post.title}} <small v-if="post.published_at" >published at {{post.published_at}}</small>
+        <a class="small-rounded-btn blue-bg "  @click="openPostModal(null)">Create Post</a>
+        <div class="action" v-for="post in postList" :key="post.id">
+            {{post.title}} <small v-if="post.published_at" >published at {{post.published_at}}</small>
 
-      <a @click="openPostModal(post)" >edit</a>
-      <a @click="deletePostConfirm(post.id)" >delete</a>
-      <a @click="openBlocks(post.id)" >Open</a>
-      <a @click="publishPost(post.id)">Publish Post</a>
+            <i @click="openPostModal(post)" class="fa fa-edit"></i>
+            <i @click="deletePostConfirm(post.id)" class="fa fa-trash"></i>
+            <i @click="openBlocks(post.id)" class="fa fa-arrow-circle-right"></i>
+            <i @click="publishPost(post.id)" class="fa fa-newspaper"></i>
+        </div>
+
+        <sweet-modal
+            class="modal"
+            ref="createPost"
+            width="550"
+            overlay-theme="dark"
+        >
+            <post-modal
+                v-if="showModal"
+                :post="post"
+                v-on:store-post="storePost"
+            />
+        </sweet-modal>
     </div>
-
-    <sweet-modal
-        class="modal"
-        ref="createPost"
-        width="550"
-        overlay-theme="dark"
-    >
-      <post-modal
-          v-if="showModal"
-          :post="post"
-          v-on:store-post="storePost"
-      />
-    </sweet-modal>
-  </div>
 </template>
 
 <script>
@@ -129,5 +129,29 @@
 
 <style scoped lang="scss">
 
+    .posts {
+        width: 100%;
+        background-color: white;
+        padding: 15px 50px;
+
+        h4 {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.4;
+            letter-spacing: 2px;
+            color: #aaaeb3;
+            margin: 15px 0;
+        }
+        .action{
+            padding-left: 5px;
+
+            i{
+                padding-left: 5px;
+            }
+        }
+    }
 
 </style>
