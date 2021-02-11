@@ -2,16 +2,19 @@
   <div >
     <InnerTab :items="[
         { name: 'Blocks' },
+        { name: 'Preview' },
         { name: 'Tags' },
     ]"
               @change="selectTab"
     />
       <blocks v-if="selectedTab === 0" />
-      <tags v-if="selectedTab === 1" />
+      <preview v-if="selectedTab === 1" />
+      <tags v-if="selectedTab === 2" />
 
   </div>
 </template>
 <script>
+  import Preview from './Preview'
   import Tags from './Tags'
   import Blocks from './../Blocks/List'
   import InnerTab from "@/components/base/ui/InnerTab";
@@ -23,6 +26,7 @@
     components:{
       'tags': Tags,
       'blocks': Blocks,
+      'preview': Preview,
       InnerTab
     },
     data() {

@@ -1,4 +1,4 @@
-    <template>
+<template>
     <div class="posts">
         <h4>Posts</h4>
 
@@ -146,7 +146,7 @@
             margin: 15px 0;
         }
         .action{
-            padding-left: 5px;
+            padding-top: 15px;
 
             i{
                 padding-left: 5px;
