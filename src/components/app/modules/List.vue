@@ -8,6 +8,7 @@
         { title: 'Pages' }
       ]"
       @change="changeScreen"
+      :selected="currentScreen"
     />
 
     <div v-for="(tab, index) in tabScreens">

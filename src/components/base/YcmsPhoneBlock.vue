@@ -234,10 +234,10 @@ input[type=range][orient=vertical] {
       cursor: pointer;
     }
 
-    .small-rounded-btn.active {
-      background-image: linear-gradient(252deg, #0997b1, #2ccae6);
-      color: #ffffff;
-    }
+    //.small-rounded-btn.active {
+    //  background-image: linear-gradient(252deg, #0997b1, #2ccae6);
+    //  color: #ffffff;
+    //}
 
     .small-rounded-btn {
       display: flex;

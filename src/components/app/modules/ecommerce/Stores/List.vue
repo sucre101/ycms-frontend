@@ -1,5 +1,5 @@
 <template>
-  <div class="store-list-table">
+  <div class="table-list-items">
     <h4>Your stores</h4>
 
     <div class="shops-without-structure" v-if="storeList.length">
@@ -24,6 +24,9 @@
 
           <div class="item-actions">
             <div class="btn-action-edit" @click="editStore(store.id)">Edit</div>
+            <div @click="deleteStore(store.id)">
+              <img src="/img/garbage.png" alt="">
+            </div>
           </div>
 
         </div>
@@ -33,16 +36,16 @@
 
     <div class="action-group" style="width: auto">
       <div class="actions" style="width: auto">
-<!--        <ycms-action-buttons-->
-<!--          :buttons-list="[-->
-<!--            {-->
-<!--              title: 'Add store',-->
-<!--              handler: 'eval:this.$parent.$refs.newShopModal.open()',-->
-<!--              class: 'bg-green-gradient',-->
-<!--            },-->
-<!--          ]"-->
-<!--          align="right"-->
-<!--        />-->
+        <ycms-action-buttons
+          :buttons-list="[
+            {
+              title: 'Add store',
+              handler: 'eval:this.$parent.$refs.newShopModal.open()',
+              class: 'bg-green-gradient',
+            },
+          ]"
+          align="right"
+        />
       </div>
     </div>
 
@@ -56,7 +59,8 @@
 <script>
 import NewShopModal from "../../../../eCommerce/NewShopModal";
 import draggable from 'vuedraggable'
-// import YcmsActionButtons from "../../../../YcmsActionButtons";
+import YcmsActionButtons from "../../../../YcmsActionButtons";
+import {moduleUrl} from "@/helpers/general";
 
 export default {
   name: "stores-list",
@@ -64,6 +68,7 @@ export default {
   components: {
     NewShopModal,
     draggable,
+    YcmsActionButtons
   },
 
   data() {
@@ -79,7 +84,7 @@ export default {
   },
 
   created() {
-    this.loadData();
+    this._loadData();
   },
 
   mounted() {
@@ -88,9 +93,9 @@ export default {
 
   methods: {
 
-    loadData() {
+    _loadData() {
 
-      axios.post('/ecommerce/store-list', {uModuleId: this.userModuleId})
+      axios.get(`${moduleUrl(this.$route)}/store`)
         .then((res) => {
           this.storeList = this._.cloneDeep(res.data.stores)
         })
@@ -105,26 +110,30 @@ export default {
     },
 
     addStore(data) {
-      let store = this._.cloneDeep(data)
 
-      store.uModuleId = this.userModuleId;
-
-      axios.post('/ecommerce/create-store', store)
+      axios.post(`/${moduleUrl(this.$route)}/create-store`, data)
         .then((res) => {
           this.storeList = this._.cloneDeep(res.data.stores)
         })
 
+    },
+
+    deleteStore(id) {
+
+      axios.post(`/${moduleUrl(this.$route)}/delete-store`, { store_id: id})
+          .then((res) => {
+            this.storeList = this._.cloneDeep(res.data.stores)
+          })
+
     }
+
   }
 
 }
 </script>
 
 <style scoped lang="scss">
-.store-list-table {
-  width: 70%;
-  background-color: white;
-  padding: 15px 50px;
+.table-list-items {
 
   .list-group {
     display: flex;
@@ -135,6 +144,7 @@ export default {
       flex-direction: row;
       padding: 10px 15px;
       align-items: center;
+      justify-content: space-between;
 
       .item-title {
         width: 40%;
@@ -151,6 +161,8 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
+        width: 15%;
 
         .btn-action-edit {
           width: 100px;
@@ -165,18 +177,6 @@ export default {
         }
       }
     }
-  }
-
-  h4 {
-    text-align: center;
-    font-size: 10px;
-    font-weight: 600;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.4;
-    letter-spacing: 2px;
-    color: #aaaeb3;
-    margin: 15px 0;
   }
 }
 </style>

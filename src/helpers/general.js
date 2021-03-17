@@ -1,4 +1,7 @@
+import { refreshToken } from "@/helpers/auth";
+
 export function initialize(store, router) {
+
 
   router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
@@ -12,14 +15,11 @@ export function initialize(store, router) {
       next();
     }
   });
-  //
-  // axios.interceptors.request.use((res) => {
-  //   console.log(res)
-  // })
 
   axios.interceptors.response.use(null, (error) => {
     if (error.resposne.status === 401) {
-      store.commit('logout');      router.push('/login');
+      store.commit('logout')
+      router.push('/login')
     }
 
     return Promise.reject(error);
@@ -37,13 +37,15 @@ export function setAuthorization(token) {
 
 export const switcher = (res = null) => {
 
-
   if (res === null) {
     return localStorage.getItem('drawerOpen')
   } else {
     localStorage.setItem('drawerOpen', res)
-
-    return  res
+    return res
   }
 
+}
+
+export const moduleUrl = (route) => {
+  return `/${route.params.folder.toLowerCase()}/${route.params.moduleId}`
 }

@@ -102,25 +102,8 @@
             </div>
           </div>
         </div>
-        <div class="action-group" style="width: auto">
-          <div class="actions" style="width: auto">
-<!--            <ycms-action-buttons-->
-<!--              :buttons-list="[-->
-<!--                {-->
-<!--                  title: 'Back',-->
-<!--                  handler: 'eval:this.$parent.$parent.step&#45;&#45;',-->
-<!--                  class: 'bg-black',-->
-<!--                },-->
-<!--                {-->
-<!--                  title: 'Save',-->
-<!--                  handler: 'eval:this.$parent.$parent.save()',-->
-<!--                  class: 'bg-green-gradient',-->
-<!--                },-->
-
-<!--          ]"-->
-<!--              align="right"-->
-<!--            />-->
-          </div>
+        <div class="action-group" style="display: flex; flex-direction: row; justify-content: flex-end">
+          <div class="btn-action green" @click="save">Save</div>
         </div>
       </div>
 
@@ -157,7 +140,7 @@ export default {
   methods: {
 
     save() {
-      axios.post('/page/create', delete this.page.user_module)
+      axios.put('/page/create', this.page)
         .then((res) => {
           if (res.data.pages.length) {
             this.pages = this._.cloneDeep(res.data.pages);

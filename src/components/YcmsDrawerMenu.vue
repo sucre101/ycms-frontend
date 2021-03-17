@@ -78,14 +78,16 @@
 <!--      </div>-->
 <!--    </a>-->
 
-    <a :href="'/app/' + app.slug + '/publication'">
+
+    <router-link :to="{ name: 'publication', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/cloud-icon.svg" alt="cloud">
+          <img src="/img/cloud-icon.svg" alt="document">
         </div>
         <span>Publication & Sources</span>
       </div>
-    </a>
+    </router-link>
+
     <a :href="'/app/' + app.slug + '/orders'">
       <div class="menu-entry">
         <div class="icon-container">
@@ -111,6 +113,15 @@
         <span>Email Templates</span>
       </div>
     </a>
+
+    <router-link :to="{ name: 'app-settings', params: { slug: app.slug } }" tag="a">
+      <div class="menu-entry">
+        <div class="icon-container">
+          <img src="/img/document-icon.svg" alt="document">
+        </div>
+        <span>Settings</span>
+      </div>
+    </router-link>
 
   </div>
 </template>

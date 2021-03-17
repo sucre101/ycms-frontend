@@ -16,7 +16,7 @@ export default new VueRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('./components/YcmsLogin')
+      component: () => import('./components/auth/Login')
     },
     {
       path: '/dashboard',
@@ -65,8 +65,8 @@ export default new VueRouter({
         },
         {
           path: 'settings',
-          name: 'shop-settings',
-          component: () => import('./components/app/shop/settings/Index')
+          name: 'app-settings',
+          component: () => import('./components/app/settings/Index')
         },
         {
           path: 'module',
@@ -95,6 +95,14 @@ export default new VueRouter({
           component: () => import('./components/app/page/List'),
           meta: {
             title: 'List of page'
+          }
+        },
+        {
+          path: 'publication',
+          name: 'publication',
+          component: () => import('./components/app/publication/List'),
+          meta: {
+            title: 'Publications'
           }
         }
       ]

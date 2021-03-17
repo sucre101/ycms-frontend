@@ -1,25 +1,42 @@
 <template>
-  <div class="categories-list-table">
+  <div class="table-list-items">
     <h4>Store categories</h4>
 
     <Tree :data="categoryList" draggable="draggable" class="list-group" cross-tree="cross-tree" @change="rebuildTree">
       <div slot-scope="{data, store, vm}">
         <template v-if="!data.isDragPlaceHolder">
-          <div class="node-group list-group-item">
+          <div class="node-group item">
 
             <div class="item-title">
               <img src="/img/drag-drop.svg" alt="" class="handle">
               {{ data.name }}
             </div>
 
-            <button @click.prevent="editCategory(data)">
-              Edit
-            </button>
+            <div class="item-actions">
+              <div class="btn-action blue" @click="editCategory(data)">Edit</div>
+              <div class="btn-action delete" @click=""></div>
+            </div>
 
           </div>
         </template>
       </div>
     </Tree>
+
+    <div class="input-group" v-if="inputField">
+      <input type="text" class="input-field" v-model.trim="newCategory" @keypress.enter="_createCategory">
+      <div>
+        <i class="fas fa-times" @click="newCategory = null"></i>
+        <i class="fas fa-plus" @click="_createCategory"></i>
+      </div>
+    </div>
+
+    <div class="rounded-circle green-bg-gradient" @click="inputField = !inputField">
+      <i class="fas fa-plus"></i>
+    </div>
+
+    <div class="btn-action blue save" @click="_saveChange" v-if="activeForSave">
+      Save
+    </div>
 
   </div>
 </template>
@@ -27,6 +44,7 @@
 <script>
 import draggable from "vuedraggable";
 import {DraggableTree} from 'vue-draggable-nested-tree'
+import {moduleUrl} from "@/helpers/general";
 
 export default {
 
@@ -39,41 +57,71 @@ export default {
   data() {
     return {
       categoryList: [],
-      module: {}
+      module: {},
+      activeForSave: false,
+      changed: null,
+      newCategory: null,
+      inputField: false,
     }
   },
 
   created() {
     this.module.id = this.$parent.$parent.moduleId
-    this.loadData()
+    this._loadData()
   },
+
+  mounted() {
+    window.setTitle('Category list')
+  },
+
 
   methods: {
 
     rebuildTree(element, target) {
 
-      let cat = {
+      this.changed = {}
+
+      this.changed = {
         id: element.id,
         parent_id: element.parent.id,
         target: target.getPureData(),
       }
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/categories/rebuild`, cat)
+      this.activeForSave = true
+    },
+
+    _createCategory() {
+
+      axios.post(`${moduleUrl(this.$route)}/category`, { name: this.newCategory })
         .then((res) => {
-          // console.log(res)
+          if (res.data.success) {
+            this.categoryList = this._.cloneDeep(res.data.categories)
+            this.inputField = false
+            this.newCategory = null
+            this.activeForSave = false
+          }
         })
 
     },
 
-    loadData() {
+    _saveChange() {
+      axios.patch(`${moduleUrl(this.$route)}/category`, this.changed)
+        .then((res) => {
+          if (res.data.success) {
+            this.notifier.success('Categories save')
+          }
+        })
+        .then( res => this.activeForSave = false )
+    },
 
-      // console.log(this.$parent)
+    _loadData() {
 
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/categories`)
-          .then((res) => {
-            this.categoryList = this._.cloneDeep(res.data.categories)
-            // console.log(this.categoryList)
-          })
+      axios.get(`${moduleUrl(this.$route)}/category`)
+        .then((res) => {
+          this.categoryList = this._.cloneDeep(res.data.categories)
+        })
+        .then(res => this.activeForSave = false)
+
     },
 
     editCategory(element) {
@@ -88,24 +136,35 @@ export default {
 
 <style scoped lang="scss">
 
-.categories-list-table {
-  width: 70%;
-  background-color: white;
-  padding: 15px 50px;
-
-  h4 {
-    text-align: center;
-    font-size: 10px;
-    font-weight: 600;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.4;
-    letter-spacing: 2px;
-    color: #aaaeb3;
-    margin: 15px 0;
-  }
+.table-list-items {
   .list-group-item {
     display: flex;
+  }
+  .btn-action.save {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+  }
+  .input-group {
+    width: 30%;
+    position: relative;
+    input {
+      width: auto;
+      padding: 7px 50px 7px 22px;
+    }
+    div {
+      position: absolute;
+      top: 13px;
+      right: 0;
+      width: 60px;
+      display: flex;
+      justify-content: space-evenly;
+      color: #0997b1;
+      font-size: 12px;
+      i {
+        cursor: pointer;
+      }
+    }
   }
 }
 

@@ -17,9 +17,12 @@
 <script>
 import PageNavigation from "../../../base/PageNavigation"
 import StoreList from "./Stores/Index"
-import CategoriesList from "./Categories/Index";
-import ProductList from "./Products/Index";
-import Settings from "./Settings";
+import CategoriesList from "./Categories/Index"
+import ProductList from "./Products/Index"
+import Settings from "./Settings/Index"
+import Orders from "./Orders/Index"
+import Unions from "./Unions/Index"
+
 
 export default {
   name: "index",
@@ -31,17 +34,19 @@ export default {
   data() {
     return {
       tabScreens: [
-        StoreList, CategoriesList, ProductList, Settings
+        StoreList, CategoriesList, ProductList, Unions, Orders, Settings
       ],
       currentScreen: 0,
       list: [
         { title: 'Stores' },
         { title: 'Categories' },
         { title: 'Products' },
+        { title: 'Unions' },
+        { title: 'Orders' },
         { title: 'Settings' },
       ],
       memory: {},
-      moduleId: null
+      moduleId: null,
     }
   },
 
@@ -49,14 +54,7 @@ export default {
 
     this.moduleId = Number(this.$route.params.moduleId)
 
-    this.$root.$on('navigator::setBack', res => {
-      if (res) {
-        this.memory = this._.cloneDeep(this.list)
-        this.list = [ { title: 'Back' } ]
-      } else {
-        this.list = this._.cloneDeep(this.memory)
-      }
-    })
+    this.$root.$on('navigator::setBack', this.setBack)
 
     if (this.$route.query.hasOwnProperty('tab')) {
       let currentTab = this.$route.query.tab;
@@ -70,15 +68,40 @@ export default {
       }
     }
 
+    this.$on('go::product', (id) => {
+
+      let index = this._.findIndex(this.memory, { title: 'Products' })
+
+      this.setBack(false)
+
+      this.changeScreen(index)
+      this.$router.replace({ query: { tab: 'products', product: id } })
+    })
+
   },
 
   methods: {
+
     changeScreen(currentTabIndex) {
       this.currentScreen = currentTabIndex
       this.$router.replace(
           { query: { tab: this.list[currentTabIndex].title.toLocaleLowerCase() }}
           )
+    },
+
+    setBack(res) {
+      if (res) {
+        this.memory = this._.cloneDeep(this.list)
+        this.list = [ { title: 'Back' } ]
+      } else {
+        this.list = this._.cloneDeep(this.memory)
+      }
     }
+
+  },
+
+  destroyed() {
+    this.$off('go::product')
   }
 
 }

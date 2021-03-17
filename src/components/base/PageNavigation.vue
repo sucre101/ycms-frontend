@@ -55,6 +55,10 @@ export default {
     }
   },
 
+  updated() {
+    this.selectedIn = this.selected
+  },
+
   methods: {
 
     select(btn, index) {
