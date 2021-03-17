@@ -179,7 +179,7 @@ export default {
 
   created() {
     this.$parent.currentApp = false
-    this.getData();
+    this._getData();
   },
 
   mounted() {
@@ -239,7 +239,7 @@ export default {
       })
         .then((res) => {
 
-          this.getData()
+          this._getData()
 
           setTimeout(() => {
             this.$refs.newAppModal.close()
@@ -250,16 +250,12 @@ export default {
         })
     },
 
-    getData() {
-      axios.post('/apps')
+    _getData() {
+
+      axios.get('/apps')
         .then((res) => {
-          // this.modules = res.data.modules
           this.apps = this._.cloneDeep(res.data.apps);
-          // this.appsCount = this.apps.length > 8
         })
-      .then(() => {
-        console.log(this.apps)
-      })
     },
 
     selectApplication(app) {

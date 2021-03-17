@@ -22,7 +22,19 @@
       </div>
     </Tree>
 
-    <div class="btn-action blue save" @click="saveChange" v-if="activeForSave">
+    <div class="input-group" v-if="inputField">
+      <input type="text" class="input-field" v-model.trim="newCategory" @keypress.enter="_createCategory">
+      <div>
+        <i class="fas fa-times" @click="newCategory = null"></i>
+        <i class="fas fa-plus" @click="_createCategory"></i>
+      </div>
+    </div>
+
+    <div class="rounded-circle green-bg-gradient" @click="inputField = !inputField">
+      <i class="fas fa-plus"></i>
+    </div>
+
+    <div class="btn-action blue save" @click="_saveChange" v-if="activeForSave">
       Save
     </div>
 
@@ -32,6 +44,7 @@
 <script>
 import draggable from "vuedraggable";
 import {DraggableTree} from 'vue-draggable-nested-tree'
+import {moduleUrl} from "@/helpers/general";
 
 export default {
 
@@ -46,13 +59,15 @@ export default {
       categoryList: [],
       module: {},
       activeForSave: false,
-      changed: null
+      changed: null,
+      newCategory: null,
+      inputField: false,
     }
   },
 
   created() {
     this.module.id = this.$parent.$parent.moduleId
-    this.loadData()
+    this._loadData()
   },
 
   mounted() {
@@ -75,8 +90,22 @@ export default {
       this.activeForSave = true
     },
 
-    saveChange() {
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/categories/rebuild`, this.changed)
+    _createCategory() {
+
+      axios.post(`${moduleUrl(this.$route)}/category`, { name: this.newCategory })
+        .then((res) => {
+          if (res.data.success) {
+            this.categoryList = this._.cloneDeep(res.data.categories)
+            this.inputField = false
+            this.newCategory = null
+            this.activeForSave = false
+          }
+        })
+
+    },
+
+    _saveChange() {
+      axios.patch(`${moduleUrl(this.$route)}/category`, this.changed)
         .then((res) => {
           if (res.data.success) {
             this.notifier.success('Categories save')
@@ -85,9 +114,9 @@ export default {
         .then( res => this.activeForSave = false )
     },
 
-    loadData() {
+    _loadData() {
 
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/categories`)
+      axios.get(`${moduleUrl(this.$route)}/category`)
         .then((res) => {
           this.categoryList = this._.cloneDeep(res.data.categories)
         })
@@ -115,6 +144,27 @@ export default {
     position: absolute;
     top: 20px;
     right: 30px;
+  }
+  .input-group {
+    width: 30%;
+    position: relative;
+    input {
+      width: auto;
+      padding: 7px 50px 7px 22px;
+    }
+    div {
+      position: absolute;
+      top: 13px;
+      right: 0;
+      width: 60px;
+      display: flex;
+      justify-content: space-evenly;
+      color: #0997b1;
+      font-size: 12px;
+      i {
+        cursor: pointer;
+      }
+    }
   }
 }
 

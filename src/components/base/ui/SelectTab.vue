@@ -1,6 +1,6 @@
 <template>
   <div class="tab-select">
-    <div class="item" :class="{ 'active': !value }" @click="select()">
+    <div class="item" :class="{ 'active': !value }" @click="select">
       Select
     </div>
     <template v-for="(item, key) in items">

@@ -17,10 +17,12 @@
 <script>
 import PageNavigation from "../../../base/PageNavigation"
 import StoreList from "./Stores/Index"
-import CategoriesList from "./Categories/Index";
-import ProductList from "./Products/Index";
-import Settings from "./Settings";
+import CategoriesList from "./Categories/Index"
+import ProductList from "./Products/Index"
+import Settings from "./Settings/Index"
 import Orders from "./Orders/Index"
+import Unions from "./Unions/Index"
+
 
 export default {
   name: "index",
@@ -32,18 +34,19 @@ export default {
   data() {
     return {
       tabScreens: [
-        StoreList, CategoriesList, ProductList, Orders, Settings
+        StoreList, CategoriesList, ProductList, Unions, Orders, Settings
       ],
       currentScreen: 0,
       list: [
         { title: 'Stores' },
         { title: 'Categories' },
         { title: 'Products' },
+        { title: 'Unions' },
         { title: 'Orders' },
         { title: 'Settings' },
       ],
       memory: {},
-      moduleId: null
+      moduleId: null,
     }
   },
 

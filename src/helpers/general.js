@@ -45,3 +45,7 @@ export const switcher = (res = null) => {
   }
 
 }
+
+export const moduleUrl = (route) => {
+  return `/${route.params.folder.toLowerCase()}/${route.params.moduleId}`
+}

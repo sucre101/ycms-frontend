@@ -60,6 +60,7 @@
 import NewShopModal from "../../../../eCommerce/NewShopModal";
 import draggable from 'vuedraggable'
 import YcmsActionButtons from "../../../../YcmsActionButtons";
+import {moduleUrl} from "@/helpers/general";
 
 export default {
   name: "stores-list",
@@ -83,7 +84,7 @@ export default {
   },
 
   created() {
-    this.loadData();
+    this._loadData();
   },
 
   mounted() {
@@ -92,9 +93,9 @@ export default {
 
   methods: {
 
-    loadData() {
+    _loadData() {
 
-      axios.post('/ecommerce/store-list', {uModuleId: this.userModuleId})
+      axios.get(`${moduleUrl(this.$route)}/store`)
         .then((res) => {
           this.storeList = this._.cloneDeep(res.data.stores)
         })
@@ -110,7 +111,7 @@ export default {
 
     addStore(data) {
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/create-store`, data)
+      axios.post(`/${moduleUrl(this.$route)}/create-store`, data)
         .then((res) => {
           this.storeList = this._.cloneDeep(res.data.stores)
         })
@@ -119,7 +120,7 @@ export default {
 
     deleteStore(id) {
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/delete-store`, { store_id: id})
+      axios.post(`/${moduleUrl(this.$route)}/delete-store`, { store_id: id})
           .then((res) => {
             this.storeList = this._.cloneDeep(res.data.stores)
           })
@@ -133,9 +134,6 @@ export default {
 
 <style scoped lang="scss">
 .table-list-items {
-  width: 70%;
-  background-color: white;
-  padding: 15px 50px;
 
   .list-group {
     display: flex;

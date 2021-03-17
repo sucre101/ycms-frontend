@@ -42,13 +42,6 @@ export default {
 
       }
     },
-    //
-    // editStore(v, s) {
-    //   if (!s) {
-    //
-    //   }
-    //
-    // }
   },
 
 }

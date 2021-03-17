@@ -135,6 +135,10 @@ export default {
       margin-bottom: 15px;
       align-items: center;
       text-align: center;
+      cursor: pointer;
+      img {
+        max-width: 100px;
+      }
 
       .module-destroy {
         position: absolute;
