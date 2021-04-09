@@ -89,6 +89,7 @@ export default {
 
   mounted() {
     window.setTitle('Store list')
+    // this.$parent.loading = true
   },
 
   methods: {
@@ -96,10 +97,13 @@ export default {
     _loadData() {
 
       axios.get(`${moduleUrl(this.$route)}/store`)
-        .then((res) => {
-          this.storeList = this._.cloneDeep(res.data.stores)
-        })
-        .then(res => this.$parent.loading = false)
+          .then((res) => {
+            this.storeList = this._.cloneDeep(res.data.stores)
+            this.$nextTick(() => {
+              this.$parent.loading = false
+              console.log(this.$parent.loading)
+            })
+          })
 
     },
 
@@ -110,17 +114,16 @@ export default {
     },
 
     addStore(data) {
-
-      axios.post(`/${moduleUrl(this.$route)}/create-store`, data)
+      axios.post(`${moduleUrl(this.$route)}/create-store`, data)
         .then((res) => {
           this.storeList = this._.cloneDeep(res.data.stores)
+          console.log(this.storeList)
         })
-
     },
 
     deleteStore(id) {
 
-      axios.post(`/${moduleUrl(this.$route)}/delete-store`, { store_id: id})
+      axios.post(`${moduleUrl(this.$route)}/delete-store`, { store_id: id})
           .then((res) => {
             this.storeList = this._.cloneDeep(res.data.stores)
           })

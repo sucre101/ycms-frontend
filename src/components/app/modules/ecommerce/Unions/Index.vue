@@ -62,7 +62,9 @@ export default {
       editor: ClassicEditor,
       unions: [],
       union: null,
-      currentUnion: {},
+      currentUnion: {
+        desc: ''
+      },
       createUnion: false,
       activeForSave: false,
       changeUnion: false,
@@ -110,7 +112,9 @@ export default {
           this.unions = this._.cloneDeep(res.data.unions)
         })
         .then((res) => {
-          this.currentUnion = this._.cloneDeep(this.unions[0])
+          if (this.unions.length) {
+            this.currentUnion = this._.cloneDeep(this.unions[0])
+          }
           this.activeForSave = false
         })
 

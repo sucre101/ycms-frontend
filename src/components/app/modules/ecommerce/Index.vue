@@ -23,7 +23,6 @@ import Settings from "./Settings/Index"
 import Orders from "./Orders/Index"
 import Unions from "./Unions/Index"
 
-
 export default {
   name: "index",
 

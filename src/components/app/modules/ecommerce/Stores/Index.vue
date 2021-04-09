@@ -3,7 +3,7 @@
 
     <preloader :loading="loading" />
 
-    <store-list v-if="!loading && !editStore"/>
+    <store-list v-if="!loading && !editStore" />
 
     <store v-if="editStore"/>
 
@@ -26,7 +26,6 @@ export default {
     return {
       loading: false,
       editStore: false,
-
     }
   },
 
