@@ -19,7 +19,6 @@
           <i class="far fa-edit" @click="editUnion(union)"></i>
           <i class="fas fa-times" @click="removeUnion(union.id)"></i>
         </div>
-
       </div>
       <div class="add" @click="createUnion = !createUnion">
         <i class="fas fa-plus"></i>
