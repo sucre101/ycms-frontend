@@ -3,11 +3,11 @@
   <div
     class="dropdown"
     :style="{
-      height: expanded ? 43 * (options.length + 1) + 'px' : '43px',
+      height: expanded ? 'auto' : '43px',
       zIndex: expanded ? 10 : '',
     }"
   >
-    <div class="item" @click="expanded = true">
+    <div class="item" @click="expanded = !expanded">
       <img
         src="/img/angle-down.svg"
         :style="{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }"
@@ -66,7 +66,6 @@ export default {
 
 .dropdown {
   width: 346px;
-  height: 43px;
   border-radius: 22px;
   border: solid 1px #868686;
   background-color: white;
@@ -76,13 +75,15 @@ export default {
   transition: height 0.5s;
   overflow: hidden;
   position: relative;
+  height: auto;
 
   .item {
     width: 100%;
     height: 43px;
     display: flex;
-    align-items: center;
     padding-left: 17px;
+    margin-bottom: 0;
+    justify-content: flex-start;
 
     &.option {
       padding-left: 35px;

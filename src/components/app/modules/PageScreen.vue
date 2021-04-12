@@ -305,6 +305,7 @@ export default {
     justify-content: flex-start;
     width: auto;
     margin-right: 25px;
+    max-width: 13%;
 
     .module {
       display: flex;
@@ -313,6 +314,9 @@ export default {
       justify-content: center;
       color: #0f97b1;
       cursor: pointer;
+      img {
+        width: 100%;
+      }
     }
   }
 }

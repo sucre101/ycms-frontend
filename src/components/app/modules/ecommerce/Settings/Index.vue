@@ -10,6 +10,11 @@
 
     <div class="container">
 
+      <div class="module-alias input-group">
+        <label for="module-alias-label">Module alias</label>
+        <input type="text" class="input-field" v-model="module.alias">
+      </div>
+
       <div class="settings_main" v-if="currentTab === 0">
 
         <div class="item" v-if="!loading">
@@ -34,6 +39,17 @@
 
       </div>
 
+      <div v-if="currentTab === 2" class="custom-styles">
+<!--        <div>-->
+<!--          <label for="">Checkout button</label>-->
+<!--          <div class="color-pick">-->
+
+<!--          </div>-->
+<!--          <div :style="checkoutBtnCss">result</div>-->
+<!--          <input type="range" min="1" max="20" step="1" :value="styles.checkout_button['border-radius']" @change="changeWidth">-->
+<!--        </div>-->
+      </div>
+
     </div>
 
   </div>
@@ -55,6 +71,10 @@ export default {
     return {
       moduleId: this.$parent.moduleId,
       settings: {},
+      module: {},
+      styles: {
+        checkout_button: []
+      },
       tabs: [
         { name: 'Main' },
         { name: 'Templates' },
@@ -63,13 +83,19 @@ export default {
       ],
       currentTab: 0,
       activeForSave: false,
-      loading: true
+      loading: true,
     }
   },
 
   watch: {
 
     settings: {
+      handler(val) {
+        this.activeForSave = true
+      },
+      deep: true
+    },
+    module: {
       handler(val) {
         this.activeForSave = true
       },
@@ -86,7 +112,30 @@ export default {
         { templateId: 2, name: 'Monster' },
         { templateId: 3, name: 'Wow Template' },
       ]
-    }
+    },
+
+    // checkoutBtnCss() {
+    //
+    //   //
+    //   let data = ''
+    //   //
+    //   let arg = this._.cloneDeep(this.styles.checkout_button)
+    //
+    //   console.log(this.styles.checkout_button)
+    //
+    //   this._.forEach(arg, (k) => {
+    //     console.log(k)
+    //   })
+    //   // console.log(this.styles.checkout_button)
+    //   // this.styles.checkout_button.forEach( (val, key) => {
+    //   //
+    //   //   console.log(val, key)
+    //   //
+    //   // } )
+    //
+    //   return 'background-color: aqua'
+    //
+    // }
 
   },
 
@@ -104,13 +153,18 @@ export default {
       this.currentTab = index
     },
 
+    changeWidth(val) {
+      // console.log(val)
+    },
+
     changeStoreStructure(val) {
-      this.settings.store_structure = val.value
+      this.notifier.warning('This function will be in the future')
+      // this.settings.store_structure = false
     },
 
     _saveChanges() {
 
-      axios.patch(`${moduleUrl(this.$route)}/settings`, this.settings)
+      axios.patch(`${moduleUrl(this.$route)}/settings`, { settings: this.settings, alias: this.module.alias })
         .then((res) => {
           if (res.data.success) {
             this.activeForSave = false
@@ -124,6 +178,20 @@ export default {
       axios.get(`${this.$parent.$parent.moduleUrl}/settings`)
           .then((res) => {
             this.settings = this._.cloneDeep(res.data.settings)
+            this.module = Object.assign('', res.data.module)
+
+            // let data = JSON.parse(res.data.styles.data)
+            //
+            // for (const [key, value] of Object.entries(data)) {
+            //
+            //   for (const [k, v] of Object.entries(value)) {
+            //     // console.log(k, v)
+            //     this.styles[key][k] = v
+            //   }
+            // }
+
+            // console.log(this.styles.checkout_button)
+
           })
           .then((res) => {
             this.activeForSave = false

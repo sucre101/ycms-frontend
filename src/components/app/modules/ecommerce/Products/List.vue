@@ -47,7 +47,6 @@
 
 <script>
 import {moduleUrl} from "@/helpers/general";
-import axios from "axios";
 import vueCustomScrollbar from 'vue-custom-scrollbar'
 import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
@@ -174,7 +173,7 @@ export default {
 <style scoped lang="scss">
 .table-list-items {
   .content-scroll {
-    max-height: 600px;
+    max-height: 600px !important;
   }
   .item {
     display: flex;

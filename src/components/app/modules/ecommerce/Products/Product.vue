@@ -42,6 +42,16 @@
           </div>
 
           <div class="input-group">
+            <label for="">
+              <select v-model="product.category_id">
+                <template v-for="category in categories">
+                  <option :value="category.id">{{ category.name }}</option>
+                </template>
+              </select>
+            </label>
+          </div>
+
+          <div class="input-group">
             <ckeditor :editor="editor" v-model="product.desc"></ckeditor>
           </div>
 
@@ -303,6 +313,7 @@ export default {
         { name: 'Labels' },
         { name: 'Images' },
       ],
+      categories: []
     }
   },
 
@@ -477,6 +488,7 @@ export default {
       this.labels = this._.cloneDeep($data.labels)
       this.stores = this._.cloneDeep($data.stores)
       this.unions = this._.cloneDeep($data.unions)
+      this.categories = this._.cloneDeep($data.categories)
 
       if (this.product.union !== null) {
         this.itsUnion = true
@@ -493,9 +505,7 @@ export default {
       axios.get(`${moduleUrl(this.$route)}/product/${this.productId}`)
           .then((res) => {
             if (res.data.success) {
-
               this.rebuildProduct(res.data)
-
             } else {
               this.notifier.warning(res.data.error)
               this.$router.replace({ query: { tab: 'products' } })
@@ -534,6 +544,9 @@ export default {
   background-color: white;
   padding: 15px 50px;
   position: relative;
+  .content-scroll {
+    max-height: 600px;
+  }
   .product-tabs {
     margin-top: 50px;
 

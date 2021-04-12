@@ -23,12 +23,9 @@
               placeholder="Shop Email"
               v-model.trim="shop.email"
             >
-            <input
-              ref="phone"
-              class="required"
-              placeholder="Shop Phone"
-              v-model.trim="shop.phone"
-            >
+
+            <the-mask :mask="['+# (###) ###-##-##']" class="required" ref="phone" placeholder="+* (***) ***-**-**"/>
+
           </div>
           <div class="col">
             <ycms-dropdown
@@ -79,14 +76,15 @@
 </template>
 
 <script>
-import YcmsDropdown from "./YcmsDropdown";
-import YcmsAddressSearcher from "./YcmsAddressSearcher";
+import YcmsDropdown from "./YcmsDropdown"
+import YcmsAddressSearcher from "./YcmsAddressSearcher"
+import {TheMask} from 'vue-the-mask'
 
 export default {
   name: 'new-shop-modal',
 
   components: {
-    YcmsDropdown, YcmsAddressSearcher
+    YcmsDropdown, YcmsAddressSearcher, TheMask
   },
 
   data() {

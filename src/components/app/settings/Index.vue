@@ -18,12 +18,13 @@
 import PageNavigation from "@/components/base/PageNavigation";
 import MainTab from "./MainTab"
 import PaymentTab from "./payment/Index"
+import LogoTab from "./LogoTab"
 
 export default {
   name: "index",
 
   components: {
-    PageNavigation, MainTab, PaymentTab
+    PageNavigation, MainTab, PaymentTab, LogoTab
   },
 
   data() {
@@ -31,10 +32,11 @@ export default {
       currentIndex: 0,
       tabs: [
         { title: 'Main' },
+        { title: 'Logo' },
         { title: 'Payment' },
       ],
       tabScreens: [
-        MainTab, PaymentTab
+        MainTab, LogoTab, PaymentTab,
       ]
     }
   },
@@ -58,12 +60,13 @@ export default {
   },
 
   methods: {
+
     changeView(view) {
       this.currentIndex = view
       this.$router.replace(
           { query: { tab: this.tabs[view].title.toLocaleLowerCase() }}
       )
-    }
+    },
   }
 }
 </script>

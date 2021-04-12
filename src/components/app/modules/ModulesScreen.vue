@@ -19,7 +19,7 @@
           })"
         >
 
-        {{ module.module.name }}
+        {{ module.alias || module.module.name }}
 
         <span class="module-destroy" @click="deleteModule(module.id)">X</span>
 
@@ -87,7 +87,7 @@ export default {
           .then((res) => {
             this.modules = this._.cloneDeep(res.data.modules)
             this.userModules = this._.cloneDeep(res.data.userModules)
-            console.log(this.modules)
+            console.log(this.userModules)
           })
           .catch((err) => {
             console.log(err)
@@ -181,6 +181,7 @@ export default {
       flex-wrap: wrap;
       flex-direction: row;
       margin-top: 15px;
+      justify-content: space-between;
 
       .module {
         display: flex;
@@ -189,9 +190,29 @@ export default {
         margin-right: 15px;
         margin-bottom: 15px;
         cursor: pointer;
-        min-width: 20%;
-        border: 1px solid;
+        min-width: 18%;
+        border: 1px solid #cecece1f;
         min-height: 200px;
+        img {
+          max-width: 100px;
+        }
+        label {
+          position: absolute;
+          font-weight: 600;
+          color: #2195f1;
+          font-size: 18px;
+          opacity: 0;
+        }
+      }
+
+      .module:hover {
+        background: #76a1d90a;
+        img {
+          opacity: 0.1;
+        }
+        label {
+          opacity: 1;
+        }
       }
 
       .module.active {
