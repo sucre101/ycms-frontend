@@ -19,7 +19,7 @@ import '@/assets/app.scss'
 Vue.config.devtools = true;
 
 window.axios = axios
-axios.defaults.baseURL = 'http://api.ycms/ycms'
+axios.defaults.baseURL = 'https://api.yappix.io/ycms'
 
 import AWN from "awesome-notifications"
 

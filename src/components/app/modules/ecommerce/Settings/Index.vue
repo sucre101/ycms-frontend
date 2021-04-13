@@ -10,12 +10,12 @@
 
     <div class="container">
 
-      <div class="module-alias input-group">
-        <label for="module-alias-label">Module alias</label>
-        <input type="text" class="input-field" v-model="module.alias">
-      </div>
-
       <div class="settings_main" v-if="currentTab === 0">
+
+        <div class="module-alias input-group">
+          <label for="module-alias-label">Module alias</label>
+          <input type="text" class="input-field" v-model="module.alias">
+        </div>
 
         <div class="item" v-if="!loading">
           On/Off store structure
@@ -177,7 +177,11 @@ export default {
 
       axios.get(`${this.$parent.$parent.moduleUrl}/settings`)
           .then((res) => {
-            this.settings = this._.cloneDeep(res.data.settings)
+
+            if (res.data.settings) {
+              this.settings = this._.cloneDeep(res.data.settings)
+            }
+
             this.module = Object.assign('', res.data.module)
 
             // let data = JSON.parse(res.data.styles.data)
