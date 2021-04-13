@@ -40,6 +40,10 @@ export default {
     name: {
       type: String,
       default: ''
+    },
+    colorType: {
+      type: String,
+      default: 'hex'
     }
   },
 
@@ -52,7 +56,13 @@ export default {
   methods: {
 
     updateValue($event) {
-      this.selectedColor = `rgba(${Object.values($event.rgba).join(', ')})`
+
+      if (!this.colorType === 'hex') {
+        this.selectedColor = `rgba(${Object.values($event.rgba).join(', ')})`
+      } else {
+        this.selectedColor = $event.hex
+      }
+
     },
 
     closeAndUpdate() {

@@ -38,7 +38,7 @@ export default {
   },
 
   created() {
-    this.loadData();
+    this._loadData();
   },
 
   mounted() {
@@ -47,7 +47,7 @@ export default {
 
   methods: {
 
-    loadData() {
+    _loadData() {
 
       axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/order`)
         .then((res) => {

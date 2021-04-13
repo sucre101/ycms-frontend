@@ -2,92 +2,126 @@
   <div class="category-table">
     <InnerTab :items="[
         { name: 'General' },
-        { name: 'Specs' }
+        { name: 'Parent' },
+        { name: 'Specs' },
+        { name: 'Media' }
     ]"
         @change="selectTab"
     />
 
-    <div class="category-tabs">
+    <div class="btn-action blue save" @click="_saveChanges" v-if="activeForSave">
+      Save
+    </div>
 
-      <div class="tab-general" v-if="currentTab === 0">
-        tab general
-      </div>
+    <vue-custom-scrollbar class="content-scroll">
 
-      <div class="tab-specs" v-if="currentTab === 1">
-        <div class="spec-group-list">
-          <div
-              v-for="(specGroup, index) in category.spec_groups"
-              class="spec-group"
-              :class="{ active:  index === currentActive }"
-              @mouseenter="currentActive = index"
-          >
-            <div class="btn-action">
-              <span @click="addNewSpec(index)">Add</span>
-              <span @click="deleteSpecGroup(index)">Remove</span>
-            </div>
-            {{ specGroup.name }}
-            <div class="spec" v-for="(spec, specIndex) in specGroup.specs">
-              {{ spec.name }}
-              <span @click="removeSpec(index, specIndex)">remove</span>
-            </div>
-            <div class="inputSpec" v-if="newSpec && index === showSpecIndex">
-              <input
-                  type="text"
-                  v-model.trim="newSpecName"
-                  @keyup.enter="addNewSpec(index)"
-                  @keyup.esc="newSpec = false"
-                  ref="inputSpec"
-              >
-              <span @click="newSpec = false">Cancel</span>
-              <span @click="addNewSpec(index)">save</span>
-            </div>
+      <div class="category-tabs">
+
+        <div class="tab-general" v-if="currentTab === 0">
+
+          <div class="input-group">
+            <label for="">Title</label>
+            <input type="text" class="input-field" v-model="category.name">
+          </div>
+
+          <div class="input-group textfield">
+            <label for="">Description</label>
+            <ckeditor :editor="editor" v-model="category.description"></ckeditor>
+          </div>
+
+        </div>
+
+        <div class="tab-parent" v-if="currentTab === 1">
+          <div class="input-group">
+            <label for="">Parent category</label>
+            <select v-model="category.parent_id">
+              <template v-for="category in list">
+                <option :value="category.id">{{ category.name }}</option>
+              </template>
+            </select>
           </div>
         </div>
-        <ycms-action-buttons
-            v-if="!newSpecGroup"
-            :buttons-list="[
-                {
-                  title: 'Add group',
-                  handler: 'eval:this.$parent.addSpecGroupInput()',
-                  class: 'bg-green-gradient'
-                },
-              ]"
-            align="left"
-        />
-        <div v-if="newSpecGroup" class="new-spec-input">
-          <input
-              type="text"
-              v-model.trim="newSpecGroupName"
-              @keyup.enter="setSpecDataName"
-              @keyup.esc="newSpecGroup = false"
-              ref="inputSpecGroup"
-          />
-          <span @click="newSpecGroup = false">X</span>
-          <span @click="setSpecDataName">Enter</span>
+
+        <div class="tab-specs" v-if="currentTab === 2">
+          <div class="spec-group-list">
+            <div
+                v-for="(specGroup, index) in category.spec_groups"
+                class="spec-group"
+                :class="{ active:  index === currentActive }"
+                @mouseenter="currentActive = index"
+            >
+              <div class="btn-action">
+                <span @click="addNewSpec(index)">Add</span>
+                <span @click="deleteSpecGroup(index)">Remove</span>
+              </div>
+              {{ specGroup.name }}
+              <div class="spec" v-for="(spec, specIndex) in specGroup.specs">
+                {{ spec.name }}
+                <span @click="removeSpec(index, specIndex)">remove</span>
+              </div>
+              <div class="inputSpec" v-if="newSpec && index === showSpecIndex">
+                <input
+                    type="text"
+                    v-model.trim="newSpecName"
+                    @keyup.enter="addNewSpec(index)"
+                    @keyup.esc="newSpec = false"
+                    ref="inputSpec"
+                >
+                <span @click="newSpec = false">Cancel</span>
+                <span @click="addNewSpec(index)">save</span>
+              </div>
+            </div>
+          </div>
+          <div class="ycms-button bg-green-gradient" @click="addSpecGroupInput" v-if="!newSpecGroup">
+            Add group
+          </div>
+          <div v-if="newSpecGroup" class="new-spec-input">
+            <input
+                type="text"
+                v-model.trim="newSpecGroupName"
+                @keyup.enter="setSpecDataName"
+                @keyup.esc="newSpecGroup = false"
+                ref="inputSpecGroup"
+            />
+            <span @click="newSpecGroup = false">X</span>
+            <span @click="setSpecDataName">Enter</span>
+          </div>
+        </div>
+
+        <div class="tab-media" v-if="currentTab === 3">
+
+          <div class="input-group category-icon" @click="openFileManager">
+            <label for="">Icon</label>
+            <img :src="category.icon ? `/img/${$store.getters.currentUser.user_folder}/${category.icon}` : '/img/Group 260.svg'" alt="" >
+          </div>
+
         </div>
       </div>
-    </div>
-
-    <div class="save-button" @click="saveAllData" v-if="activeForSave">
-      <img src="/img/ycms/exit_icon.svg" title="save product">
-    </div>
+    </vue-custom-scrollbar>
 
   </div>
 </template>
 
 <script>
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import InnerTab from "@/components/base/ui/InnerTab";
 import YcmsActionButtons from "@/components/YcmsActionButtons";
+import {moduleUrl} from "@/helpers/general";
+import FileManager from "@/components/base/filemanager/FileManager";
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 export default {
   name: "category",
 
   components: {
-    InnerTab, YcmsActionButtons
+    InnerTab, YcmsActionButtons, ckeditor: CKEditor.component, FileManager, vueCustomScrollbar
   },
 
   data() {
     return {
+      editor: ClassicEditor,
       currentTab: 0,
       category: {},
       categoryId: null,
@@ -98,6 +132,7 @@ export default {
       newSpecGroup: false,
       showSpecIndex: 0,
       activeForSave: false,
+      list: []
     }
   },
 
@@ -120,7 +155,9 @@ export default {
   created() {
     this.categoryId = this.$route.query.category
 
-    this.loadData()
+    this._loadData()
+
+    this.$root.$on('set::file', this.setImageCategory)
   },
 
   mounted() {
@@ -172,20 +209,40 @@ export default {
       this.category.spec_groups[spIndex].specs.splice(sIndex, 1)
     },
 
-    saveAllData() {
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/category/update-category`, this.category)
+    changeParent(id) {
+      this.category.parent_id = id
+    },
+
+    setImageCategory(item) {
+      console.log(item)
+      this.category.icon = item.name
+    },
+
+    openFileManager() {
+      this.$root.$emit('fmanager::open', true)
+    },
+
+    _saveChanges() {
+      axios.patch(`${moduleUrl(this.$route)}/category/${this.category.id}`, this.category)
         .then((res) => {
-          console.log(res)
+          this.notifier.success('Category save')
         })
     },
 
-    loadData() {
+    _loadData() {
 
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/category/${this.categoryId}`)
+      axios.get(`${moduleUrl(this.$route)}/category/${this.categoryId}`)
         .then((res) => {
           this.category = this._.cloneDeep(res.data.category)
+
+          if (this.category.description === null) {
+            this.category.description = ''
+          }
+
+          let rootArr = [ { name: 'Root', id: null } ]
+          this.list = this._.concat(rootArr, res.data.list)
         })
-          .then( res => this.activeForSave = false)
+        .then( res => this.activeForSave = false)
 
     }
 
@@ -200,9 +257,10 @@ export default {
   background-color: white;
   padding: 15px 50px;
   position: relative;
-  .category-tabs {
+  .content-scroll {
     margin-top: 50px;
-
+  }
+  .category-tabs {
     .spec-group-list {
       .spec-group.active {
         .spec {
@@ -240,6 +298,7 @@ export default {
             font-size: 12px;
             font-weight: normal;
             margin: 0 15px;
+            color: black;
           }
         }
       }
@@ -269,10 +328,18 @@ export default {
       padding: 3px 10px 3.5px 13px;
     }
   }
-  .save-button {
+  .save {
     position: absolute;
     top: 25px;
     right: 20px;
   }
+}
+.input-group {
+  &.textfield {
+    max-width: 800px;
+  }
+}
+.category-icon {
+  cursor: pointer;
 }
 </style>

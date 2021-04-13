@@ -13,64 +13,8 @@
 
     <div class="small-rounded-btn top-button">Support</div>
     <div class="small-rounded-btn top-button">Tour</div>
+    <div class="small-rounded-btn top-button" @click="$root.$emit('fmanager::open', true)">File Manager</div>
     <div class="small-rounded-btn top-button" @click="logout">Exit</div>
-
-<!--    <div class="left-side" v-if="currentAppName">-->
-
-<!--      <div class="app-icon">-->
-<!--        <img-->
-<!--          :src="currentApp.image ? currentApp.image : '/img/ycms/base_icon.png'"-->
-<!--        />-->
-<!--      </div>-->
-
-<!--      <div class="platform">-->
-<!--        <span class="name">{{ currentApp.name }}</span>-->
-<!--        <p>-->
-<!--          <span>Administrator</span>-->
-<!--          {{ name }} {{ lastName }}-->
-<!--        </p>-->
-<!--      </div>-->
-
-<!--    </div>-->
-
-
-<!--    <div class="top-bar">-->
-
-<!--      <div class="top-links">-->
-<!--        <router-link :to="'/dashboard'" tag="div" class="nav-tabs">-->
-<!--          <img src="/img/ycms/open-dashboard.svg" alt="">-->
-<!--          Dashboard-->
-<!--        </router-link>-->
-
-<!--        <div>-->
-<!--          <img src="/img/ycms/messenger.svg" alt="">-->
-<!--          Messages-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <img src="/img/ycms/push_icon.svg" alt="">-->
-<!--          Send Push-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <img src="/img/ycms/myacc_icon.svg" alt="">-->
-<!--          My Account-->
-<!--        </div>-->
-
-<!--        <router-link :to="'/settings'" tag="div" class="nav-tabs">-->
-<!--          <img src="/img/ycms/setting_icon.svg" alt="">-->
-<!--          Settings-->
-<!--        </router-link>-->
-
-<!--        <language/>-->
-
-<!--        <div @click="logout">-->
-<!--          <img src="/img/ycms/exit_icon.svg" alt="">-->
-<!--          Exit-->
-<!--        </div>-->
-
-<!--      </div>-->
-
-<!--    </div>-->
-
 
   </header>
 </template>

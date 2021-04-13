@@ -1,5 +1,5 @@
 <template>
-  <toggle-button
+  <ToggleButton
     switch-color="#FFFFFF"
     :width="47"
     :height="30"
@@ -7,6 +7,7 @@
     :color="{ checked: '#0989cc', unchecked: '#b5b5b5'}"
     @change="onChangeEventHandler"
     :value="value"
+    :label="label"
   />
 </template>
 
@@ -17,7 +18,7 @@ export default {
   name: "toggle-check",
 
   components: {
-    'toggle-button': ToggleButton
+    ToggleButton
   },
 
   props: {
@@ -25,6 +26,11 @@ export default {
       type: Boolean,
       default: false,
       required: true
+    },
+    label: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
 
@@ -37,5 +43,7 @@ export default {
 </script>
 
 <style scoped>
-
+label {
+  margin: 0;
+}
 </style>

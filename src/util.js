@@ -92,8 +92,10 @@ window.getPath = (param = 3) => {
 
 window.setTitle = text => {
   let title = document.getElementById('title')
-  title.innerText = text;
-  document.title = text;
+  if (title) {
+    title.innerText = text
+  }
+  document.title = text
 }
 
 // window.getPath = location.pathname.split('/').filter((i, l) => {

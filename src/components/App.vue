@@ -21,6 +21,8 @@
 
       </div>
 
+      <FileManager v-if="$root.openManager" ref="FileManager"/>
+
 <!--      <Reference ref="reference"/>-->
 
       <!--      <ycms-phone-block-->
@@ -44,6 +46,7 @@
 import { mapGetters } from 'vuex'
 import YcmsHeader from "./base/YcmsHeader"
 import YcmsDrawerMenu from "./YcmsDrawerMenu"
+import FileManager from "@/components/base/filemanager/FileManager";
 // import Reference from "./base/Reference";
 
 export default {
@@ -52,6 +55,7 @@ export default {
   components: {
     YcmsDrawerMenu,
     YcmsHeader,
+    FileManager
     // Reference
   },
 
@@ -87,6 +91,17 @@ export default {
       this.app = {}
       this.currentApp = false
       this.$children[0].currentApp = this._.cloneDeep({})
+    })
+
+    this.$root.$on('fmanager::open', (data) => {
+      this.$root.openManager = data
+
+      if (data) {
+        this.$nextTick(() => {
+          this.$refs.FileManager.$children[0].open()
+        })
+      }
+
     })
   },
 

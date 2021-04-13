@@ -26,6 +26,7 @@ export default {
     return {
       loading: false,
       editCategory: false,
+      list: []
     }
   },
 

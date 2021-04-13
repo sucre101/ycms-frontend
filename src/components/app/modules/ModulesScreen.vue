@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div v-if="modules.length">
     <div class="page-container">
 
       <div
-        v-for="module in userModules"
-        class="page"
+          v-for="module in userModules"
+          class="page"
       >
 
         <img
-          :src="module.module.image"
-          @click="$router.push({
+            :src="module.module.image"
+            @click="$router.push({
             name: 'module-edit',
               params: {
                 slug: $root.$children[0].app.slug,
@@ -19,7 +19,7 @@
           })"
         >
 
-        {{ module.module.name }}
+        {{ module.alias || module.module.name }}
 
         <span class="module-destroy" @click="deleteModule(module.id)">X</span>
 
@@ -32,22 +32,24 @@
     </div>
 
     <sweet-modal
-      class="modal modules-list"
-      width="915"
-      overlay-theme="dark"
-      ref="addModule"
+        v-if="modules.length"
+        class="modal modules-list"
+        width="915"
+        overlay-theme="dark"
+        ref="addModule"
     >
 
       <h3>Modules list</h3>
 
       <div class="modules-box">
         <div
-          v-for="module in modules"
-          class="module"
-          @click="selectModule(module)"
-          :class="{ active: selectedModule === module.id}"
+            v-for="module in modules"
+            class="module"
+            @click="selectModule(module)"
+            :class="{ active: selectedModule === module.id}"
         >
           <img :src="module.image" alt="">
+          <label>{{ module.name }}</label>
         </div>
       </div>
 
@@ -82,10 +84,14 @@ export default {
 
     loadModules() {
       axios.post('/module')
-        .then((res) => {
-          this.modules = this._.cloneDeep(res.data.modules)
-          this.userModules = this._.cloneDeep(res.data.userModules)
-        })
+          .then((res) => {
+            this.modules = this._.cloneDeep(res.data.modules)
+            this.userModules = this._.cloneDeep(res.data.userModules)
+            console.log(this.userModules)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
     },
 
     selectModule(module) {
@@ -94,22 +100,22 @@ export default {
 
     addModule() {
       axios.post('/module/add', {moduleId: this.selectedModule})
-        .then((res) => {
-          if (res.data.success) {
-            this.userModules = this._.cloneDeep(res.data.modules)
-          }
-        })
-        .then(res => this.$refs.addModule.close())
+          .then((res) => {
+            if (res.data.success) {
+              this.userModules = this._.cloneDeep(res.data.modules)
+            }
+          })
+          .then(res => this.$refs.addModule.close())
     },
 
     deleteModule(moduleId) {
 
       axios.post('/module/delete', {id: moduleId})
-        .then((res) => {
-          if (res.data.success) {
-            this.userModules = this._.cloneDeep(res.data.modules)
-          }
-        })
+          .then((res) => {
+            if (res.data.success) {
+              this.userModules = this._.cloneDeep(res.data.modules)
+            }
+          })
 
     }
 
@@ -135,6 +141,11 @@ export default {
       margin-bottom: 15px;
       align-items: center;
       text-align: center;
+      cursor: pointer;
+
+      img {
+        max-width: 100px;
+      }
 
       .module-destroy {
         position: absolute;
@@ -170,6 +181,7 @@ export default {
       flex-wrap: wrap;
       flex-direction: row;
       margin-top: 15px;
+      justify-content: space-between;
 
       .module {
         display: flex;
@@ -178,6 +190,29 @@ export default {
         margin-right: 15px;
         margin-bottom: 15px;
         cursor: pointer;
+        min-width: 18%;
+        border: 1px solid #cecece1f;
+        min-height: 200px;
+        img {
+          max-width: 100px;
+        }
+        label {
+          position: absolute;
+          font-weight: 600;
+          color: #2195f1;
+          font-size: 18px;
+          opacity: 0;
+        }
+      }
+
+      .module:hover {
+        background: #76a1d90a;
+        img {
+          opacity: 0.1;
+        }
+        label {
+          opacity: 1;
+        }
       }
 
       .module.active {

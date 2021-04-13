@@ -23,6 +23,9 @@ export default {
       this.$router.push('/apps')
     } else {
       axios.defaults.headers.post.app = this.$parent.app.slug
+      axios.defaults.headers.get.app = this.$parent.app.slug
+      axios.defaults.headers.patch.app = this.$parent.app.slug
+      axios.defaults.headers.put.app = this.$parent.app.slug
     }
   }
 }

@@ -76,19 +76,33 @@ export default {
       return this.currentTab === 0 ? 'Sign in to your account' : 'Registration account'
     },
 
+    title() {
+      return this.currentTab === 0 ? 'Login page' : 'Register page'
+    }
+
+  },
+
+  created() {
+    window.setTitle(this.title)
   },
 
   methods: {
+
+    waitForLoad() {
+      return new Promise(resolve => {
+        resolve();
+      })
+    },
 
     authenticate() {
       this.$store.dispatch('login')
       login(this.$data.form)
           .then((res) => {
+
             this.$store.commit("loginSuccess", res)
 
-            setTimeout(() => {
-              this.$router.push({ name: 'apps' })
-            }, 1000)
+            this.waitForLoad()
+              .then(res => this.$router.push({ name: 'apps' }))
 
           })
           .catch((error) => {

@@ -16,8 +16,11 @@ import _ from 'lodash'
 import axios from 'axios'
 import '@/assets/app.scss'
 
+Vue.config.devtools = true;
+
 window.axios = axios
-axios.defaults.baseURL = 'http://api.ycms/ycms'
+axios.defaults.baseURL = process.env.VUE_APP_URL
+
 
 import AWN from "awesome-notifications"
 
@@ -55,6 +58,13 @@ Vue.directive('active', (el, binding) => {
 
 })
 
+Vue.directive('scroll', {
+  bind(el, binding) {
+    el.classList.add(binding.value)
+    console.log(el, document.body)
+  }
+})
+
 Vue.directive('click-outside', {
   bind(el, binding) {
     el.addEventListener('click', e => e.stopPropagation());
@@ -81,6 +91,7 @@ new Vue({
     drawerOpen: Vue.prototype.locStor.fetch('drawerOpen'),
     userId: false,
     pageTitle: null,
+    openManager: false,
   },
   computed: {
     ...mapGetters(['reference'])

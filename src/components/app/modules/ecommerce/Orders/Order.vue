@@ -5,7 +5,7 @@
               @change="selectTab"
     />
 
-    <div class="btn-action save-btn blue" v-if="activeForSave" @click="saveOrder">
+    <div class="btn-action save-btn blue" v-if="activeForSave" @click="_saveOrder">
       Save
     </div>
 
@@ -75,6 +75,7 @@
 
 <script>
 import InnerTab from "@/components/base/ui/InnerTab";
+import {moduleUrl} from "@/helpers/general";
 export default {
   name: "order",
 
@@ -131,7 +132,7 @@ export default {
     this.$root.$emit('navigator::setBack', true)
 
     setTimeout(() => {
-      this.loadData()
+      this._loadData()
     }, 1000)
   },
 
@@ -141,23 +142,11 @@ export default {
 
   methods: {
 
-    loadData() {
-
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/order/${this.orderId}`)
-        .then((res) => {
-          this.order = this._.cloneDeep(res.data.order)
-          console.log(this.order)
-        }).then( res => this.activeForSave = false)
-
-
-    },
-
     selectTab(index) {
       this.currentTab = index
     },
 
     changeQty(index, val) {
-
       if (val === true) {
         this.order.cart_to_product[index].quantity++
       } else {
@@ -171,9 +160,8 @@ export default {
       this.activeForSave = true
     },
 
-    saveOrder() {
-
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/order/update-order`, this.order)
+    _saveOrder() {
+      axios.patch(`${moduleUrl(this.$route)}/order/${this.order.id}`, this.order)
         .then((res) => {
           this.notifier.success('Order save')
         })
@@ -182,7 +170,17 @@ export default {
 
     goProduct(id) {
       this.$parent.$parent.$emit('go::product', id)
-    }
+    },
+
+    _loadData() {
+
+      axios.get(`${moduleUrl(this.$route)}/order/${this.orderId}`)
+          .then((res) => {
+            this.order = this._.cloneDeep(res.data.order)
+          }).then( res => this.activeForSave = false)
+
+
+    },
 
   }
 }

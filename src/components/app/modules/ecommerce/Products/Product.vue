@@ -5,267 +5,281 @@
       @change="selectTab"
     />
 
-    <div class="product-tabs">
-      <div class="tab-general" v-if="selectedTab === 0">
+    <div class="btn-action blue save" @click="_saveProduct" v-if="activeForSave">
+      Save
+    </div>
 
-        <div v-if="itsUnion" class="union-group-name">
-          Group: {{ product.union.name }}
-        </div>
-        <div v-else class="union-group-name">
-          Make union
-        </div>
+    <vue-custom-scrollbar class="content-scroll">
 
-        <div class="input-group">
-          <label>
-            <input type="text" class="input-field" v-model.trim="product.name" placeholder="Title">
-          </label>
-        </div>
+      <div class="product-tabs">
+        <div class="tab-general" v-if="selectedTab === 0">
 
-        <div class="input-group">
-          <label>
-            <input type="text" class="input-field" v-model.trim="product.sku" placeholder="Sku">
-          </label>
-        </div>
-
-        <div class="input-group">
-          <label>
-            <textarea type="text" class="text-field" v-model.trim="product.desc" placeholder="Description" />
-          </label>
-        </div>
-
-      </div>
-
-      <div class="tab-data" v-if="selectedTab === 1">
-
-        <div class="product-to-store-table">
-
-          <div class="thead-table">
-            <div>
-              Store name
+          <div @mouseenter="showUnions = true" @mouseleave="showUnions = false">
+            <div v-if="!itsUnion" class="union-group-name">
+              Link to group
             </div>
-            <div>
-              Price
+            <div v-if="itsUnion" class="union-group-name">
+              Group: {{ product.union.name }}
+              <i class="fas fa-times" @click="removeUnion"></i>
             </div>
-            <div>
-              Old price
-            </div>
-            <div>
-              Discount
-            </div>
-            <div>
-              Quantity
-            </div>
-          </div>
-
-          <div class="item__" v-for="store in product.to_product">
-            <div class="store-name">
-              {{ store.name }}
-            </div>
-
-            <div class="product-store-data">
-              <div class="input-group">
-                <label>
-                  <input type="text" class="input-field" v-model.trim="store.pivot.price" placeholder="Price">
-                </label>
-              </div>
-              <div class="input-group">
-                <label>
-                  <input type="text" class="input-field" v-model.trim="store.pivot.old_price" placeholder="Old price">
-                </label>
-              </div>
-              <div class="input-group">
-                <label>
-                  <input type="text" class="input-field" v-model.trim="store.pivot.discount" placeholder="Discount">
-                </label>
-              </div>
-              <div class="input-group">
-                <label>
-                  <input type="text" class="input-field" v-model.trim="store.pivot.quantity" placeholder="Quantity">
-                </label>
+            <div class="unions-group" v-if="unions.length && showUnions">
+              <div v-for="union in unions" class="union-group-name" @click="selectUnion(union)">
+                {{ union.name }}
               </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <ycms-action-buttons
-              :buttons-list="[
-                {
-                  title: 'Add price to store',
-                  handler: 'eval:this.$parent.$refs.addPrice.open()',
-                  class: 'bg-green-gradient'
-                },
-              ]"
-              align="right"
-          />
-        </div>
-
-        <sweet-modal
-            class="modal"
-            ref="addPrice"
-            width="600"
-            overlay-theme="dark"
-        >
-          <div class="select-box">
-
-            <h4>Choose store</h4>
-
-            <ul>
-              <li v-for="store in stores" @click="tapStorePrice(store)">
-                {{ store.name }}
-              </li>
-            </ul>
-
+          <div class="input-group">
+            <label>
+              <input type="text" class="input-field" v-model.trim="product.name" placeholder="Title">
+            </label>
           </div>
-        </sweet-modal>
 
-      </div>
+          <div class="input-group">
+            <label>
+              <input type="text" class="input-field" v-model.trim="product.sku" placeholder="Sku">
+            </label>
+          </div>
 
-      <div class="tab-specs" v-if="selectedTab === 2">
-
-        <div class="spec-group-list-table">
-
-          <div v-for="(specGroup, sgIndex) in product.category.spec_groups" class="spec-group">
-            {{ specGroup.name }}
-
-            <div class="spec" v-for="(spec, sIndex) in specGroup.specs" @mouseenter="specId = spec.id" @mouseleave="specInputId = 0">
-
-              <div class="spec-name">{{ spec.name }}</div>
-
-              <div class="spec-data">
-                <template v-for="(specData, spIndex) in product.specs" class="spec-data" v-if="specData.spec_id === spec.id">
-
-                <span v-for="(sdata, sdIndex) in specData.data" v-if="sdata.id === spec.spec_id">
-                  {{ sdata }}
-                  <span class="rm" @click="deleteSpecData(spIndex, sdIndex)">x</span>
-                </span>
-
+          <div class="input-group">
+            <label for="">
+              <select v-model="product.category_id">
+                <template v-for="category in categories">
+                  <option :value="category.id">{{ category.name }}</option>
                 </template>
-                <div class="add-spec" @click="showSpecInput(sgIndex, sIndex)" v-if="specId === spec.id">
-                  +
-                </div>
-                <input
-                    type="text"
-                    v-if="specInput.sp === sIndex && specInput.gr === sgIndex && specInput.active"
-                    v-model="specInputData"
-                    @keyup.enter="addSpecData(spec)"
-                    ref="specInput"
-                />
+              </select>
+            </label>
+          </div>
+
+          <div class="input-group">
+            <ckeditor :editor="editor" v-model="product.desc"></ckeditor>
+          </div>
+
+        </div>
+
+        <div class="tab-data" v-if="selectedTab === 1">
+
+          <div class="product-to-store-table">
+
+            <div class="thead-table">
+              <div>
+                Store name
+              </div>
+              <div>
+                Price
+              </div>
+              <div>
+                Old price
+              </div>
+              <div>
+                Discount
+              </div>
+              <div>
+                Quantity
+              </div>
+            </div>
+
+            <div class="item__" v-for="store in product.to_product">
+              <div class="store-name">
+                {{ store.name }}
               </div>
 
+              <div class="product-store-data">
+                <div class="input-group">
+                  <label>
+                    <input type="text" class="input-field" v-model.trim="store.pivot.price" placeholder="Price">
+                  </label>
+                </div>
+                <div class="input-group">
+                  <label>
+                    <input type="text" class="input-field" v-model.trim="store.pivot.old_price" placeholder="Old price">
+                  </label>
+                </div>
+                <div class="input-group">
+                  <label>
+                    <input type="text" class="input-field" v-model.trim="store.pivot.discount" placeholder="Discount">
+                  </label>
+                </div>
+                <div class="input-group">
+                  <label>
+                    <input type="text" class="input-field" v-model.trim="store.pivot.quantity" placeholder="Quantity">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div>
+            <ycms-action-buttons
+                :buttons-list="[
+                  {
+                    title: 'Add price to store',
+                    handler: 'eval:this.$parent.$parent.$refs.addPrice.open()',
+                    class: 'bg-green-gradient'
+                  },
+                ]"
+                align="right"
+            />
+          </div>
+
+          <sweet-modal
+              class="modal"
+              ref="addPrice"
+              width="600"
+              overlay-theme="dark"
+          >
+            <div class="select-box">
+
+              <h4>Choose store</h4>
+
+              <ul>
+                <li v-for="store in stores" @click="tapStorePrice(store)">
+                  {{ store.name }}
+                </li>
+              </ul>
+
+            </div>
+          </sweet-modal>
+
+        </div>
+
+        <div class="tab-specs" v-if="selectedTab === 2">
+          <div class="spec-group-list-table">
+            <div v-for="(specGroup, sgIndex) in product.category.spec_groups" class="spec-group">
+              {{ specGroup.name }}
+              <div class="spec" v-for="(spec, sIndex) in specGroup.specs" @mouseenter="specId = spec.id" @mouseleave="specInputId = 0">
+
+                <div class="spec-name">{{ spec.name }}</div>
+
+                <div class="spec-data">
+
+                  <template v-for="(specData, spIndex) in product.specs" class="spec-data" v-if="specData.spec_id === spec.id">
+                    <span v-for="(sdata, sdIndex) in specData.data" v-if="sdata.id === spec.spec_id">
+                      {{ sdata }}
+                      <span class="rm" @click="deleteSpecData(spIndex, sdIndex)">x</span>
+                    </span>
+                  </template>
+
+                  <div class="add-spec" @click="showSpecInput(sgIndex, sIndex)" v-if="specId === spec.id">
+                    +
+                  </div>
+
+                  <input
+                      type="text"
+                      v-if="specInput.sp === sIndex && specInput.gr === sgIndex && specInput.active"
+                      v-model="specInputData"
+                      @keyup.enter="addSpecData(spec)"
+                      ref="specInput"
+                  />
+                </div>
+
+              </div>
+            </div>
+            <h4 v-if="!product.category.spec_groups.length">Category has no one specs</h4>
+            <div >
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-labels" v-if="selectedTab === 3">
+
+          <ul>
+            <li v-for="(label, index) in product.label_to_stores">
+              {{ getStoreName(label.store_id) }} - {{ label.label.title }}
+              <span @click="removeLabel(index)">
+                X
+              </span>
+            </li>
+          </ul>
+
+          <button class="add-label-to-store" @click.prevent="addLabel">
+            +
+          </button>
+
+          <sweet-modal
+              class="modal"
+              ref="addLabel"
+              width="600"
+              overlay-theme="dark"
+          >
+
+            <div class="select-box">
+
+              <h4>{{ !selectLabel ? 'Choose label' : 'Choose store' }}</h4>
+
+              <ul v-if="!selectLabel">
+                <li
+                    v-for="label in labels"
+                    @click="tapLabel(label)"
+                >
+                  {{ label.title }}
+                </li>
+              </ul>
+
+              <ul v-else>
+                <li v-for="store in stores" @click="tapStoreLabel(store)">
+                  {{ store.name }}
+                </li>
+              </ul>
 
             </div>
 
-          </div>
+          </sweet-modal>
 
         </div>
 
-      </div>
+        <div class="tab-images" v-if="selectedTab === 4">
 
-      <div class="tab-labels" v-if="selectedTab === 3">
+          <product-gallery :images="product.images" @remove="removeImage" @put="updateGallery"/>
 
-        <ul>
-          <li v-for="(label, index) in product.label_to_stores">
-            {{ getStoreName(label.store_id) }} - {{ label.label.title }}
-            <span @click="removeLabel(index)">
-              X
-            </span>
-          </li>
-        </ul>
-
-        <button class="add-label-to-store" @click.prevent="addLabel">
-          +
-        </button>
-
-        <sweet-modal
-            class="modal"
-            ref="addLabel"
-            width="600"
-            overlay-theme="dark"
-        >
-
-          <div class="select-box">
-
-            <h4>{{ !selectLabel ? 'Choose label' : 'Choose store' }}</h4>
-
-            <ul v-if="!selectLabel">
-              <li
-                  v-for="label in labels"
-                  @click="tapLabel(label)"
-              >
-                {{ label.title }}
-              </li>
-            </ul>
-
-            <ul v-else>
-              <li v-for="store in stores" @click="tapStoreLabel(store)">
-                {{ store.name }}
-              </li>
-            </ul>
-
-          </div>
-
-        </sweet-modal>
-
-      </div>
-
-      <div class="tab-images" v-if="selectedTab === 4">
-
-        <YcmsProductImageUploader
-            :url="`${$route.params.folder.toLowerCase()}/${$parent.$parent.moduleId}/product/${productId}/save-image`"
-            :p_images="product.images"
-            :entity_id="product.id"
-            name="product"
-        />
-
-      </div>
-
-      <div class="tab-unions" v-if="selectedTab === 5">
-
-        <div v-if="itsUnion" class="unions-list">
-          <div v-for="union in product.union.products">
-            <a href="#" :class="{ active: productId === union.id }" @click.prevent="changeProductUnion(union.id)">
-              {{ union.name }}
-            </a>
-          </div>
         </div>
 
-        <div class="union-description">
-          <label>
-            <textarea v-model="product.union.desc" placeholder="Union description"></textarea>
-          </label>
+        <div class="tab-unions" v-if="selectedTab === 5">
+
+          <div v-if="itsUnion" class="budge-list">
+            <div v-for="union in product.union.products" class="budge" :class="{ 'active': productId === union.id }">
+              <a href="#" @click.prevent="changeProductUnion(union.id)">
+                {{ union.name }}
+              </a>
+            </div>
+          </div>
+
+          <div class="union-description">
+            <ckeditor :editor="editor" v-model="product.union.desc" :disabled="true"></ckeditor>
+          </div>
         </div>
-
-
-
       </div>
-
-
-
-    </div>
-
-    <div class="save-button" @click="saveAllData" v-if="activeForSave">
-      <img src="/img/ycms/exit_icon.svg" title="save product">
-    </div>
+    </vue-custom-scrollbar>
 
   </div>
 </template>
 
 <script>
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import InnerTab from "@/components/base/ui/InnerTab";
 import YcmsProductImageUploader from "@/components/YcmsProductImageUploader";
 import YcmsActionButtons from "@/components/YcmsActionButtons";
+import {moduleUrl} from "@/helpers/general";
+import ProductGallery from "@/components/app/modules/ecommerce/Products/Tabs/ProductGallery";
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 export default {
   name: "product",
 
   components: {
-    InnerTab, YcmsProductImageUploader, YcmsActionButtons
+    ProductGallery,
+    InnerTab,
+    YcmsProductImageUploader,
+    YcmsActionButtons,
+    ckeditor: CKEditor.component,
+    vueCustomScrollbar
   },
 
   data() {
     return {
+      editor: ClassicEditor,
       productId: null,
       product: {},
       labels: [],
@@ -290,20 +304,23 @@ export default {
         sp: 0,
       },
       itsUnion: false,
+      unions: [],
+      showUnions: false,
       tabs: [
         { name: 'General' },
         { name: 'Data' },
         { name: 'Specs' },
         { name: 'Labels' },
         { name: 'Images' },
-      ]
+      ],
+      categories: []
     }
   },
 
   created() {
     this.productId = Number(this.$route.query.product)
 
-    this.loadData()
+    this._loadData()
   },
 
   mounted() {
@@ -330,50 +347,21 @@ export default {
 
   methods: {
 
-    loadData() {
-
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/product/${this.productId}`)
-        .then((res) => {
-          if (res.data.success) {
-
-            this.product = this._.cloneDeep(res.data.product)
-            this.labels = this._.cloneDeep(res.data.labels)
-            this.stores = this._.cloneDeep(res.data.stores)
-
-            if (this.product.union !== null) {
-              if (this.itsUnion === false) {
-                this.itsUnion = true
-                this.tabs.push({ name: 'Unions' })
-              }
-            }
-
-          } else {
-            this.notifier.warning(res.data.error)
-            this.$router.replace({ query: { tab: 'products' } })
-            this.$parent.editProduct = false
-          }
-        }).then( res => this.activeForSave = false)
-    },
-
     getStoreName(id) {
       return this.stores[this._.findIndex(this.stores, { id: id })].name
     },
 
     addLabel() {
-
       this.$refs.addLabel.open();
-
     },
 
     removeLabel(index) {
-
       this.product.label_to_stores = this.product.label_to_stores.filter( (k, v) => {
         return v !== index
       })
     },
 
     tapLabel(label) {
-
       this.newLabel = {
         product_id: this.productId,
         label_list_id: label.id,
@@ -404,7 +392,6 @@ export default {
     },
 
     tapStorePrice(store) {
-
       let index = this._.findIndex(this.product.to_product, { id: store.id });
 
       if (index !== -1) {
@@ -429,7 +416,6 @@ export default {
     },
 
     addSpecData(spec) {
-
       let index = this._.findIndex(this.product.specs, { spec_id: spec.id })
       let newSpec = {}
 
@@ -456,7 +442,6 @@ export default {
     },
 
     showSpecInput(gsIndex, sIndex) {
-
       this.specInput.gr = gsIndex
       this.specInput.sp = sIndex
       this.specInput.active = true
@@ -468,16 +453,74 @@ export default {
     },
 
     changeProductUnion(id) {
-
-      this.$router.replace( { query: { tab: 'products', product: id }} )
-      this.productId = id
-      this.loadData();
-
+      if (id !== this.product.id) {
+        this.$router.replace( { query: { tab: 'products', product: id }} )
+        this.productId = id
+        this._loadData();
+      }
     },
 
-    saveAllData() {
+    removeImage($array) {
+      this.product.images = this._.cloneDeep($array)
+    },
 
-      axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/product/${this.productId}/update-product`, this.product)
+    updateGallery($gallery) {
+
+      this._.forEach($gallery, (image, index) => {
+        image.order = index + 1
+      })
+
+      this.product.images = this._.sortBy($gallery, ['order'])
+    },
+
+    selectUnion($union) {
+      this.product.union = this._.cloneDeep($union)
+      this.itsUnion = true
+    },
+
+    removeUnion() {
+      this.product.union = Object.assign({})
+      this.itsUnion = false
+    },
+
+    rebuildProduct($data) {
+      this.product = this._.cloneDeep($data.product)
+      this.labels = this._.cloneDeep($data.labels)
+      this.stores = this._.cloneDeep($data.stores)
+      this.unions = this._.cloneDeep($data.unions)
+      this.categories = this._.cloneDeep($data.categories)
+
+      if (this.product.union !== null) {
+        this.itsUnion = true
+        if (this.tabs.length < 6) {
+          this.tabs.push({ name: 'Unions' })
+        }
+      } else if (this.product.union === null && this.tabs.length > 5) {
+          this.tabs.pop()
+      }
+    },
+
+    _loadData() {
+
+      axios.get(`${moduleUrl(this.$route)}/product/${this.productId}`)
+          .then((res) => {
+            if (res.data.success) {
+              this.rebuildProduct(res.data)
+            } else {
+              this.notifier.warning(res.data.error)
+              this.$router.replace({ query: { tab: 'products' } })
+              this.$parent.editProduct = false
+            }
+          }).then( res => this.activeForSave = false)
+    },
+
+    _saveProduct() {
+      axios.patch(`${moduleUrl(this.$route)}/product/${this.productId}`, this.product)
+          .then((res) => {
+            if (res.data.success) {
+              this.rebuildProduct(res.data)
+            }
+          })
           .then((res) => {
             this.notifier.success('Save data')
             this.$nextTick(() => {
@@ -501,6 +544,9 @@ export default {
   background-color: white;
   padding: 15px 50px;
   position: relative;
+  .content-scroll {
+    max-height: 600px;
+  }
   .product-tabs {
     margin-top: 50px;
 
@@ -557,6 +603,18 @@ export default {
       }
     }
   }
+  .budge-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+    .budge {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
   .save-button {
     position: absolute;
     right: 25px;
@@ -585,6 +643,15 @@ export default {
     background-color: red;
   }
   .tab-general {
+    .unions-group {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      div {
+        margin-right: 5px;
+      }
+    }
     .union-group-name {
       display: inline-block;
       background: blueviolet;
@@ -594,6 +661,7 @@ export default {
       border-radius: 22px;
       cursor: pointer;
     }
+
   }
   .tab-labels {
     ul {
@@ -620,25 +688,25 @@ export default {
   }
   .tab-unions {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    .unions-list {
+    flex-direction: column;
+    .budge-list {
       display: flex;
-      flex-direction: column;
-      width: 40%;
-    }
-    .union-description {
-      display: flex;
-      width: 55%;
-      textarea {
-        resize: none;
-        width: 90%;
-        padding: 10px 15px;
-        min-height: 200px;
+      width: 100%;
+      .budge {
+        &.active {
+          background-color: grey;
+          cursor: auto;
+        }
+      }
+      a {
+        color: inherit;
+        font-size: inherit;
+        text-decoration: none;
+        cursor: inherit;
       }
     }
-    a.active {
-      font-weight: 600;
+    .union-description {
+      width: 100%;
     }
   }
   .add-label-to-store {
