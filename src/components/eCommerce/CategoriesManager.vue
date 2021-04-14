@@ -183,7 +183,7 @@ export default {
 }
 
 .required {
-  background: no-repeat url(/img/required-star.svg) 325px 18px;
+  background: no-repeat url(~@/assets/img/required-star.svg) 325px 18px;
 }
 
 .tip {
