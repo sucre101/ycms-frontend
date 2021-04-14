@@ -13,7 +13,6 @@
     <div class="actions">
       <div class="btn-action blue" @click="_exportApp">Export</div>
     </div>
-
   </div>
 </template>
 
