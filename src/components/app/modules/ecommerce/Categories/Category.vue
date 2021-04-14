@@ -92,7 +92,7 @@
 
           <div class="input-group category-icon" @click="openFileManager">
             <label for="">Icon</label>
-            <img :src="category.icon ? `/img/${$store.getters.currentUser.user_folder}/${category.icon}` : '/img/Group 260.svg'" alt="" >
+            <img :src="category.icon ? `@/img/${$store.getters.currentUser.user_folder}/${category.icon}` : '@/img/Group 260.svg'" alt="" >
           </div>
 
         </div>

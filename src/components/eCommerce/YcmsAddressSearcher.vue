@@ -106,7 +106,7 @@ input {
 }
 
 .required {
-  background: no-repeat url(/img/required-star.svg) 710px 18px;
+  background: no-repeat url(@/img/required-star.svg) 710px 18px;
 }
 
 .dropdown {

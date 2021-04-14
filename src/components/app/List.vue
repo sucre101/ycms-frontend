@@ -6,7 +6,7 @@
     >
       <div class="app-item">
         <div class="app-icon">
-          <img :src="app.image ? app.image : 'http://api.ycms/img/ycms/base_icon.png'"/>
+          <img :src="app.image ? app.image : 'http://api.ycms@/img/ycms/base_icon.png'"/>
         </div>
         <div class="title">
           {{ app.name }}
