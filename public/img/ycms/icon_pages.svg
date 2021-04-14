@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31">
+  <g id="icon_pages" transform="translate(-36 -23)">
+    <g id="bord" fill="none" stroke="#b5b5b5" transform="translate(36 23)">
+      <rect width="36" height="31" stroke="none" rx="4"/>
+      <rect width="35" height="30" x=".5" y=".5" rx="3.5"/>
+    </g>
+    <path id="Icon_material-pages" fill="#b5b5b5"
+          d="M4.5 6.611v6.333h5.278L8.722 8.722l4.222 1.056V4.5H6.611A2.117 2.117 0 0 0 4.5 6.611zm5.278 8.444H4.5v6.333A2.117 2.117 0 0 0 6.611 23.5h6.333v-5.278l-4.222 1.056zm9.5 4.222l-4.222-1.056V23.5h6.333a2.117 2.117 0 0 0 2.111-2.111v-6.333h-5.278zM21.389 4.5h-6.333v5.278l4.222-1.056-1.056 4.222H23.5V6.611A2.117 2.117 0 0 0 21.389 4.5z"
+          data-name="Icon material-pages" transform="translate(40.5 24.5)"/>
+  </g>
+</svg>

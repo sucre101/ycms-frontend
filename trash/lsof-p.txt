@@ -1,0 +1,56 @@
+lsof -p <pid>
+
+
+
+>>> shell_exec('ps -A | grep \'ng run\'')
+=> """
+    9378 ??         0:49.58 ng run app:serve --host=localhost --port=8100     \n
+   10011 ??         0:51.35 ng run app:serve --host=localhost --port=8101     \n
+   70164 ttys001    0:00.00 sh -c ps -A | grep 'ng run'\n
+   70166 ttys001    0:00.00 grep ng run\n
+   """
+>>> shell_exec('lsof -p 9378')
+=> """
+   COMMAND  PID   USER   FD     TYPE             DEVICE SIZE/OFF                NODE NAME\n
+   node    9378 vitaly  cwd      DIR                1,4      832             2206032 /Users/vitaly/code/ycms-mobile\n
+   node    9378 vitaly  txt      REG                1,4 41792896             2361245 /usr/local/bin/node\n
+   node    9378 vitaly  txt      REG                1,4    36204             8322299 /Users/vitaly/code/ycms-mobile/node_modules/sass/node_modules/fsevents/fsevents.node\n
+   node    9378 vitaly  txt      REG                1,4    28056            18824362 /Library/Preferences/Logging/.plist-cache.8ZtLhtxK\n
+   node    9378 vitaly  txt      REG                1,4    38144             4386611 /Users/vitaly/code/ycms-mobile/node_modules/fsevents/lib/binding/Release/node-v64-darwin-x64/fse.node\n
+   node    9378 vitaly  txt      REG                1,4  1558064 1152921500312496539 /usr/lib/dyld\n
+   node    9378 vitaly    0u    unix 0x5fb43cf12336d409      0t0                     ->0x5fb43cf12336d7f1\n
+   node    9378 vitaly    1u    unix 0x5fb43cf12336cd01      0t0                     ->0x5fb43cf12336cf59\n
+   node    9378 vitaly    2u    unix 0x5fb43cf12336e089      0t0                     ->0x5fb43cf12336dfc1\n
+   node    9378 vitaly    3u  KQUEUE                                                 count=0, state=0xa\n
+   node    9378 vitaly    4     PIPE 0x7971fd2c182c807a    16384                     ->0x5424e62a9ce705d5\n
+   node    9378 vitaly    5     PIPE 0x5424e62a9ce705d5    16384                     ->0x7971fd2c182c807a\n
+   node    9378 vitaly    6     PIPE 0xb0a5929a99653878    16384                     ->0x78b7822b1fcb1ebd\n
+   node    9378 vitaly    7     PIPE 0x78b7822b1fcb1ebd    16384                     ->0xb0a5929a99653878\n
+   node    9378 vitaly    8     PIPE 0xdacae5d4a3461c81    16384                     ->0xcf85ff1ad31e902e\n
+   node    9378 vitaly    9     PIPE 0xcf85ff1ad31e902e    16384                     ->0xdacae5d4a3461c81\n
+   node    9378 vitaly   10u  KQUEUE                                                 count=0, state=0\n
+   node    9378 vitaly   11     PIPE 0x6e0905d4a5629080    16384                     ->0x2805b3adaa1ef237\n
+   node    9378 vitaly   12     PIPE 0x2805b3adaa1ef237    16384                     ->0x6e0905d4a5629080\n
+   node    9378 vitaly   13     PIPE  0x7d5552c2a4e56a6    16384                     ->0xa18d0e9a59332b38\n
+   node    9378 vitaly   14     PIPE 0xa18d0e9a59332b38    16384                     ->0x7d5552c2a4e56a6\n
+   node    9378 vitaly   15u  KQUEUE                                                 count=0, state=0xa\n
+   node    9378 vitaly   16     PIPE 0x77c9116d217f2bd9    16384                     ->0xf9d4858a97c07c22\n
+   node    9378 vitaly   17     PIPE 0xf9d4858a97c07c22    16384                     ->0x77c9116d217f2bd9\n
+   node    9378 vitaly   18     PIPE 0x8a80daadbd0d2632    16384                     ->0x4d9cbbc597957e6f\n
+   node    9378 vitaly   19     PIPE 0x4d9cbbc597957e6f    16384                     ->0x8a80daadbd0d2632\n
+   node    9378 vitaly   20r     CHR                3,2      0t0                 310 /dev/null\n
+   node    9378 vitaly   21u   systm 0x5fb43cf1256e7411      0t0                     [ctl com.apple.netsrc id 7 unit 3]\n
+   node    9378 vitaly   22u    unix 0x5fb43cf12336d661      0t0                     ->0x5fb43cf12336cb71\n
+   node    9378 vitaly   23u    unix 0x5fb43cf12336bd61      0t0                     ->0x5fb43cf12336d279\n
+   node    9378 vitaly   24u  KQUEUE                                                 count=0, state=0x9\n
+   node    9378 vitaly   25u    IPv4 0x5fb43cf1216e0049      0t0                 TCP localhost:xprint-server (LISTEN)\n
+   node    9378 vitaly   26r     DIR                1,4      832             2206032 /Users/vitaly/code/ycms-mobile\n
+   node    9378 vitaly   27r     DIR                1,4      416             1906402 /Users/vitaly/code\n
+   node    9378 vitaly   28r     DIR                1,4     1568             1077458 /Users/vitaly\n
+   node    9378 vitaly   29r     DIR                1,4      160              695662 /Users\n
+   node    9378 vitaly   30r     DIR                1,4      864 1152921500311879682 /System/Volumes/Data\n
+   node    9378 vitaly   31r     DIR                1,4       96 1152921500312301544 /System/Volumes\n
+   node    9378 vitaly   32r     DIR                1,4      256 1152921500311901983 /System\n
+   node    9378 vitaly   33u  KQUEUE                                                 count=0, state=0x9\n
+   """
+>>>

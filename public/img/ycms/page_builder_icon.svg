@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Page_Builder_icon" width="99" height="184" data-name="Page Builder_icon"
+     viewBox="0 0 99 184">
+  <defs>
+    <style>
+      .cls-2{fill:#ecedef}
+    </style>
+  </defs>
+  <g id="Group_Grid" data-name="Group Grid" transform="translate(-570 -665)">
+    <g id="Group_List" data-name="Group List" transform="translate(137)">
+      <g id="Group_List-2" data-name="Group List" transform="translate(0 364)">
+        <rect id="Прямоугольник_43" width="99" height="184" fill="#868686" data-name="Прямоугольник 43" rx="8"
+              transform="translate(433 301)"/>
+      </g>
+    </g>
+  </g>
+  <path id="Прямоугольник_66" d="M0 0H97V37H0z" class="cls-2" data-name="Прямоугольник 66" transform="translate(1 11)"/>
+  <path id="Прямоугольник_71" d="M0 0H97V37H0z" class="cls-2" data-name="Прямоугольник 71"
+        transform="translate(1 128)"/>
+  <path id="Прямоугольник_67" d="M0 0H46V37H0z" class="cls-2" data-name="Прямоугольник 67" transform="translate(1 50)"/>
+  <path id="Прямоугольник_69" d="M0 0H70V37H0z" class="cls-2" data-name="Прямоугольник 69" transform="translate(1 89)"/>
+  <path id="Прямоугольник_68" d="M0 0H49V37H0z" class="cls-2" data-name="Прямоугольник 68"
+        transform="translate(49 50)"/>
+  <path id="Прямоугольник_70" d="M0 0H25V37H0z" class="cls-2" data-name="Прямоугольник 70"
+        transform="translate(73 89)"/>
+</svg>

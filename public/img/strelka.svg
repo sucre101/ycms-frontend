@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+    <defs>
+        <style>
+            .cls-1{fill:#fff;stroke-miterlimit:10}.cls-1,.cls-2{stroke:#0997b1}.cls-2,.cls-3,.cls-5{fill:none}.cls-4,.cls-6{stroke:none}.cls-6{fill:#0997b1}
+        </style>
+    </defs>
+    <g id="strelka" transform="rotate(-90 97 332)">
+        <g id="Rectangle_4" class="cls-1" data-name="Rectangle 4" transform="translate(406 235)">
+            <rect width="23" height="23" class="cls-4" rx="11.5"/>
+            <rect width="22" height="22" x=".5" y=".5" class="cls-5" rx="11"/>
+        </g>
+        <g id="strelka-2" data-name="strelka">
+            <path id="Line_10" d="M0 0h9" class="cls-2" data-name="Line 10" transform="translate(406.5 246.5)"/>
+            <g id="Polygon_1" class="cls-3" data-name="Polygon 1">
+                <path d="M3.5 0L7 7H0z" class="cls-4" transform="rotate(90 89.5 332.5)"/>
+                <path d="M3.5 2.236L1.618 6h3.764L3.5 2.236M3.5 0L7 7H0l3.5-7z" class="cls-6" transform="rotate(90 89.5 332.5)"/>
+            </g>
+        </g>
+    </g>
+</svg>

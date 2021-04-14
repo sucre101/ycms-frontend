@@ -1,0 +1,6 @@
+To determine next id of table
+DB::select("select nextval('apps_id_seq')")[0]->nextval
+the problem is after executing this next id will be result of this snippet + 1,
+as it affects sequencer
+also you can look these answers
+https://stackoverflow.com/questions/18232714/postgresql-next-serial-value-in-a-table
