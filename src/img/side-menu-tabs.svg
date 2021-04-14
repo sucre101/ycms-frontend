@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="99" height="184" viewBox="0 0 99 184">
+    <defs>
+        <style>
+            .cls-1{fill:#868686}.cls-2{fill:#f0f3f6}.cls-3{fill:#fff}
+        </style>
+    </defs>
+    <g id="Side_Menu_Tabs" data-name="Side Menu + Tabs" transform="translate(-555 -301)">
+        <g id="Side_Menu" data-name="Side Menu" transform="translate(122)">
+            <rect id="Rectangle_43" width="99" height="184" class="cls-1" data-name="Rectangle 43" rx="8" transform="translate(433 301)"/>
+            <path id="Subtraction_2" d="M-1928 165h-62V0h62v165zm-51-62a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm12.5-39a10.512 10.512 0 0 0-10.5 10.5 10.512 10.512 0 0 0 10.5 10.5 10.512 10.512 0 0 0 10.5-10.5 10.512 10.512 0 0 0-10.5-10.5z" class="cls-2" data-name="Subtraction 2" transform="translate(2423.5 311)"/>
+        </g>
+        <path id="Subtraction_3" d="M-1955 24h-35V0h35v24zm-13-9v2h12v-2zm-18 0v2h12v-2zm24-11a4.506 4.506 0 0 0-4.5 4.5 4.505 4.505 0 0 0 4.5 4.5 4.5 4.5 0 0 0 4.5-4.5A4.5 4.5 0 0 0-1962 4zm-18 0a4.506 4.506 0 0 0-4.5 4.5 4.505 4.505 0 0 0 4.5 4.5 4.505 4.505 0 0 0 4.5-4.5A4.506 4.506 0 0 0-1980 4z" class="cls-3" data-name="Subtraction 3" transform="translate(2608 452)"/>
+    </g>
+</svg>

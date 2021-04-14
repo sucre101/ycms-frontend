@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="91" height="91" viewBox="0 0 91 91">
+    <defs>
+        <style>
+            .cls-1{fill:url(#linear-gradient)}.cls-2{fill:none}.cls-3,.cls-4{stroke:none}.cls-4{fill:#fff}.cls-5{filter:url(#Background)}
+        </style>
+        <linearGradient id="linear-gradient" x1="1" x2="0" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#0997b1"/>
+            <stop offset="1" stop-color="#2ccae6"/>
+        </linearGradient>
+        <filter id="Background" width="91" height="91" x="0" y="0" filterUnits="userSpaceOnUse">
+            <feOffset dy="10"/>
+            <feGaussianBlur result="blur" stdDeviation="10"/>
+            <feFlood flood-opacity=".2"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g id="Group_260" data-name="Group 260" transform="translate(-412 -360.5)">
+        <g class="cls-5" transform="translate(412 360.5)">
+            <rect id="Background-2" width="31" height="31" class="cls-1" data-name="Background" rx="15.5" transform="translate(30 20)"/>
+        </g>
+        <g id="Path_142" class="cls-2" data-name="Path 142">
+            <path d="M7.526 0l6.434 12.634L0 13.116z" class="cls-3" transform="rotate(-9 2708.64 -2661.512)"/>
+            <path d="M7.526 0L0 13.116l13.96-.482L7.526 0m.053-2.1l.839 1.646 6.433 12.635.713 1.399-1.57.054-13.96.482-1.796.062.895-1.56L6.659-.497 7.58-2.1z" class="cls-4" transform="rotate(-9 2708.64 -2661.512)"/>
+        </g>
+    </g>
+</svg>

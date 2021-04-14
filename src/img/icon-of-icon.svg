@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <defs>
+        <style>
+            .cls-1,.cls-4{fill:none}.cls-1{stroke:#393c40;stroke-width:.7px}.cls-2{fill:#393c40}.cls-3{stroke:none}
+        </style>
+    </defs>
+    <g id="Group_22" data-name="Group 22" transform="translate(-422 -485)">
+        <g id="Rectangle_26" class="cls-1" data-name="Rectangle 26">
+            <path d="M0 0h20v20H0z" class="cls-3" transform="translate(422 485)"/>
+            <path d="M.35.35h19.3v19.3H.35z" class="cls-4" transform="translate(422 485)"/>
+        </g>
+        <path id="Chevron" d="M5.35 11.266L.164 6.14a.547.547 0 0 1 0-.781L5.35.234a.817.817 0 0 1 1.145 0 .794.794 0 0 1 0 1.131L2.058 5.75l4.437 4.384a.8.8 0 0 1 0 1.131.817.817 0 0 1-1.145 0" class="cls-2" transform="translate(428.5 489.5)"/>
+    </g>
+</svg>

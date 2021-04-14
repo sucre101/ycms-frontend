@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20.805" height="20.954" viewBox="0 0 20.805 20.954">
+    <defs>
+        <style>
+            .cls-1{fill:#0997b1}
+        </style>
+    </defs>
+    <g id="drag-drop" transform="translate(1.054 -2.046)">
+        <path id="Shape" d="M4.648 2.933a.406.406 0 0 0 .287-.694l-2-2-.121-.12a.406.406 0 0 0-.574 0l-.116.116-2 2a.406.406 0 0 0 .574.574l1.423-1.422v7.418h.813V1.387L4.36 2.814a.4.4 0 0 0 .288.119z" class="cls-1" transform="translate(6.921 2.046)"/>
+        <path id="Shape-2" d="M4.36 5.991L2.933 7.418V0h-.812v7.418L.693 5.991a.406.406 0 0 0-.574.574l2 2 .115.115a.406.406 0 0 0 .574 0l.115-.115 2-2a.406.406 0 0 0-.574-.574z" class="cls-1" data-name="Shape" transform="translate(6.822 14.195)"/>
+        <path id="Shape-3" d="M4.36 5.991L2.933 7.418V0h-.812v7.418L.693 5.991a.406.406 0 0 0-.574.574l2 2 .115.115a.406.406 0 0 0 .574 0l.115-.115 2-2a.406.406 0 0 0-.574-.574z" class="cls-1" data-name="Shape" transform="rotate(-90 13.035 2.089)"/>
+        <path id="Shape-4" d="M4.36 5.991L2.933 7.418V0h-.812v7.418L.693 5.991a.406.406 0 0 0-.574.574l2 2 .115.115a.406.406 0 0 0 .574 0l.115-.115 2-2a.406.406 0 0 0-.574-.574z" class="cls-1" data-name="Shape" transform="rotate(90 -1.16 8.91)"/>
+    </g>
+</svg>

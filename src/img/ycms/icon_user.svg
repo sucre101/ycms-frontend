@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="31" viewBox="0 0 36 31">
+  <defs>
+    <style>
+      .cls-1,.cls-3{fill:none}.cls-1{stroke:#b5b5b5}.cls-2{stroke:none}
+    </style>
+  </defs>
+  <g id="icon_user" transform="translate(-102 -566)">
+    <g id="Прямоугольник_81" class="cls-1" data-name="Прямоугольник 81" transform="translate(102 566)">
+      <rect width="36" height="31" class="cls-2" rx="4"/>
+      <rect width="35" height="30" x=".5" y=".5" class="cls-3" rx="3.5"/>
+    </g>
+    <g id="Сгруппировать_258" data-name="Сгруппировать 258" transform="translate(111.778 573.143)">
+      <path id="Контур_141" d="M2097.7 585.776a8.794 8.794 0 0 1 16.769 0" class="cls-1" data-name="Контур 141"
+            transform="translate(-2097.696 -569.204)"/>
+      <g id="Эллипс_17" class="cls-1" data-name="Эллипс 17" transform="translate(2.922)">
+        <circle cx="5.524" cy="5.524" r="5.524" class="cls-2"/>
+        <circle cx="5.524" cy="5.524" r="5.024" class="cls-3"/>
+      </g>
+    </g>
+  </g>
+</svg>
