@@ -14,7 +14,7 @@
 
         <div class="module-alias input-group">
           <label for="module-alias-label">Module alias</label>
-          <input type="text" class="input-field" v-model="module.alias">
+          <input type="text" class="input-field" v-model="module.alias" @change="activeForSave = !activeForSave">
         </div>
 
         <div class="item" v-if="!loading">
@@ -95,6 +95,7 @@ export default {
       },
       deep: true
     },
+
     module: {
       handler(val) {
         this.activeForSave = true
