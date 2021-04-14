@@ -63,11 +63,11 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.newShopModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           Cancel
         </a>
         <a class="small-rounded-btn active arrow-right" @click="createShop">
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           Create
         </a>
       </div>
@@ -204,7 +204,7 @@ $stepHeight: 430px;
   }
 
   .required {
-    background: no-repeat url(/img/required-star.svg) 325px 18px;
+    background: no-repeat url(@/img/required-star.svg) 325px 18px;
   }
 
   .tip {

@@ -2,7 +2,7 @@ export const paymentServices = {
   1: {
     id: 1,
     label: 'Stripe',
-    logo: '/img/payment_services/Stripe.png',
+    logo: '@/img/payment_services/Stripe.png',
     fields: [
       { name: 'Published key' },
       { name: 'Secret key' },

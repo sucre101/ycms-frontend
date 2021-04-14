@@ -18,7 +18,7 @@
         </div>
         <img
           class="ml-auto"
-          src="/img/garbage.png"
+          src="@/img/garbage.png"
           @click="showDeleteWarning(category)"
         >
       </div>
@@ -80,7 +80,7 @@ export default {
         return '/storage/media-lib/' + this.category.media[0].id +
           '/conversions/cropped-thumb.jpg'
       else
-        return '/img/no-image.png'
+        return '@/img/no-image.png'
     }
   },
 }

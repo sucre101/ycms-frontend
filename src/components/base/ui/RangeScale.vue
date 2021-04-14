@@ -69,7 +69,7 @@ input[type=range]::-webkit-slider-runnable-track {
 
 input[type=range]::-webkit-slider-thumb {
   margin-top: -10px;
-  background-image: url("/img/ycms/thumb-scale.svg");
+  background-image: url("@/img/ycms/thumb-scale.svg");
   background-position: 0 center;
   background-repeat: no-repeat;
   width: 50px;

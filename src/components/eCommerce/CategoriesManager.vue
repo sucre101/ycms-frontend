@@ -65,7 +65,7 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.categoryModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           Cancel
         </a>
         <a
@@ -73,7 +73,7 @@
           @click="postCategory"
           :style="{paddingLeft: '10px'}"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           {{ editable ? 'Apply' : 'Create' }}
         </a>
       </div>
@@ -143,7 +143,7 @@ export default {
         return '/storage/media-lib/' + this.editable.media[0].id +
           '/conversions/cropped-thumb.jpg'
       else
-        return '/img/no-image.png'
+        return '@/img/no-image.png'
     }
   },
 
@@ -183,7 +183,7 @@ export default {
 }
 
 .required {
-  background: no-repeat url(/img/required-star.svg) 325px 18px;
+  background: no-repeat url(@/img/required-star.svg) 325px 18px;
 }
 
 .tip {

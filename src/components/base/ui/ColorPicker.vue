@@ -14,7 +14,7 @@
       <input type="hidden" :name="name" v-model="selectedColor">
       <img
         id="close-picker"
-        src="/img/close-circular-button-symbol.svg"
+        src="@/img/close-circular-button-symbol.svg"
         alt="close"
         :style="{ display: pickerHidden ? 'none' : '' }"
         @click.stop="closeAndUpdate"

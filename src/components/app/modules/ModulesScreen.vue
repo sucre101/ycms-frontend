@@ -55,7 +55,7 @@
 
       <div class="modal-action">
         <a class="small-rounded-btn active arrow-right" @click="addModule">
-          <img src="/img/dropright-icon.svg">
+          <img src="@/img/dropright-icon.svg">
           Create
         </a>
       </div>

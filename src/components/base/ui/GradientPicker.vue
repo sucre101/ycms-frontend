@@ -16,7 +16,7 @@
         ></div>
         <img
           class="direction-control"
-          src="/img/strelka.svg"
+          src="@/img/strelka.svg"
           @click="showPicker('directionPicker')"
           :style="{transform: `rotate(${newDirection})`}"
         >
@@ -34,7 +34,7 @@
 
         ></vue-color>
         <img
-          src="/img/close-circular-button-symbol.svg"
+          src="@/img/close-circular-button-symbol.svg"
           @click="closeAndUpdate('colorPicker1Visible')"
         >
       </div>
@@ -45,7 +45,7 @@
           @input="updateColor($event, 2)"
         ></vue-color>
         <img
-          src="/img/close-circular-button-symbol.svg"
+          src="@/img/close-circular-button-symbol.svg"
           @click="closeAndUpdate('colorPicker2Visible')"
         >
       </div>
@@ -54,14 +54,14 @@
         <div class="pickers">
           <img
             v-for="(direction, i) in directions"
-            src="/img/strelka.svg"
+            src="@/img/strelka.svg"
             :style="{transform: `rotate(${direction}deg)`}"
             :key="i"
             @click="newDirection = direction + 'deg'"
           >
         </div>
         <img
-          src="/img/close-circular-button-symbol.svg"
+          src="@/img/close-circular-button-symbol.svg"
           @click="closeAndUpdate('directionPickerVisible')"
         >
       </div>
@@ -231,7 +231,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  background: no-repeat url(/img/popup-gradient.svg);
+  background: no-repeat url(@/img/popup-gradient.svg);
   width: 118px;
   height: 146px;
   right: -108px;

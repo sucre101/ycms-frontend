@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="/img/ycms/lang_icon.svg" alt="">
+    <img src="@/img/ycms/lang_icon.svg" alt="">
     <a href="" @click.prevent="changeLang">Language<span></span></a>
 
     <div v-if="showLang" class="lang-dropdown">
@@ -128,7 +128,7 @@ a {
 
 span::after {
   content: "";
-  background-image: url("/img/ycms/choose_lang.svg");
+  background-image: url("@/img/ycms/choose_lang.svg");
   width: 5px;
   height: 5px;
   display: inline-block;

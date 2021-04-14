@@ -152,7 +152,7 @@ header {
 .y-arrow-left {
   width: 22px;
   height: 22px;
-  background-image: url("/img/ycms/left.svg");
+  background-image: url("@/img/ycms/left.svg");
   background-repeat: no-repeat;
   display: inline-block;
   cursor: pointer;
@@ -161,7 +161,7 @@ header {
 .y-arrow-right {
   width: 22px;
   height: 22px;
-  background-image: url("/img/ycms/right.svg");
+  background-image: url("@/img/ycms/right.svg");
   background-repeat: no-repeat;
   display: inline-block;
   cursor: pointer;
@@ -408,7 +408,7 @@ header {
   }
 }
 
-[src="/img/close-circular-button-symbol.svg"] {
+[src="@/img/close-circular-button-symbol.svg"] {
   width: 20px;
 }
 
@@ -441,7 +441,7 @@ header {
   }
 
   &.required {
-    background: no-repeat url(/img/required-star.svg) calc(100% - 18px) 18px;
+    background: no-repeat url(@/img/required-star.svg) calc(100% - 18px) 18px;
   }
 }
 

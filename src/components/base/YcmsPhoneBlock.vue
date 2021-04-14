@@ -1,7 +1,7 @@
 <template>
   <div class="phone-block">
     <div class="phone" :style="'transform:scale('+size+')'">
-      <img src="/img/ycms/phone.svg" alt="phone">
+      <img src="@/img/ycms/phone.svg" alt="phone">
       <svg class="docs-demo-device__md-bar" viewBox="0 0 1384.3 40.3">
         <path class="st0"
               d="M1343 5l18.8 32.3c.8 1.3 2.7 1.3 3.5 0L1384 5c.8-1.3-.2-3-1.7-3h-37.6c-1.5 0-2.5 1.7-1.7 3z"></path>

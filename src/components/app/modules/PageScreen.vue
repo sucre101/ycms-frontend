@@ -16,7 +16,7 @@
           :key="page.id"
         >
           <div class="item-title">
-            <img src="/img/drag-drop.svg" alt="" class="handle">
+            <img src="@/img/drag-drop.svg" alt="" class="handle">
             {{ page.name }}
             <span v-if="page.user_module">
               {{ page.user_module.alias || page.user_module.module.name }}

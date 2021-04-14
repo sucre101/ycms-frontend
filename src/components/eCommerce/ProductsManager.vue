@@ -7,7 +7,7 @@
     >
       <img
         class="handle"
-        src="/img/drag-drop.svg"
+        src="@/img/drag-drop.svg"
       >
 
       <div class="icon-container" @click="edit(prod)">
@@ -29,7 +29,7 @@
 
       <img
         class="ml-auto"
-        src="/img/garbage.png"
+        src="@/img/garbage.png"
         alt="garb"
         @click="showDeleteWarning(prod)"
       >
@@ -113,7 +113,7 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.categoryModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           Cancel
         </a>
         <a
@@ -121,7 +121,7 @@
           @click="postProduct"
           :style="{paddingLeft: '10px'}"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/img/dropleft-icon.svg">
           {{ editable ? 'Apply' : 'Create' }}
         </a>
       </div>
@@ -166,7 +166,7 @@ export default {
         return '/storage/media-lib/' + this.editable.media[0].id +
           '/conversions/cropped-thumb.jpg'
       else
-        return '/img/no-image.png'
+        return '@/img/no-image.png'
     },
     postProduct() {
       if (this.verify([
@@ -207,7 +207,7 @@ export default {
         return '/storage/media-lib/' + prod.media[0].id +
           '/conversions/cropped-thumb.jpg'
       else
-        return '/img/no-image.png'
+        return '@/img/no-image.png'
     },
     saveOrder() {
       let products = this.$el.getElementsByClassName('product')
@@ -223,7 +223,7 @@ export default {
         return '/storage/media-lib/' + this.editable.media[0].id +
           '/conversions/cropped-thumb.jpg'
       else
-        return '/img/no-image.png'
+        return '@/img/no-image.png'
     }
   },
 
@@ -332,7 +332,7 @@ export default {
 }
 
 .required {
-  background: no-repeat url(/img/required-star.svg) 325px 18px;
+  background: no-repeat url(@/img/required-star.svg) 325px 18px;
 }
 
 .tip {

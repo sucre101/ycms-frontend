@@ -84,12 +84,12 @@
         @click="prevStep"
         :class="{disabled: step == 1}"
       >
-        <img v-if="step != 1" src="/img/dropleft-icon.svg">
+        <img v-if="step != 1" src="@/img/dropleft-icon.svg">
         Back
       </a>
       <a class="small-rounded-btn active next mr-15" @click="nextStep">
         Next
-        <img src="/img/dropleft-icon.svg">
+        <img src="@/img/dropleft-icon.svg">
       </a>
     </div>
     </div>
@@ -188,7 +188,7 @@ export default {
       }
 
       .required {
-        background: no-repeat url(/img/required-star.svg) 325px 18px;
+        background: no-repeat url(@/img/required-star.svg) 325px 18px;
       }
     }
   }

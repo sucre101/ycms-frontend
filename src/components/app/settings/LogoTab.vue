@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       background: '#FFFFFF',
-      logo: '/img/ycms/yappix-background.png',
+      logo: '@/img/ycms/yappix-background.png',
       activeForSave: false,
     }
   },
@@ -172,7 +172,7 @@ export default {
     height: 100%;
 
     .phone {
-      background-image: url("/img/ycms/phone.svg");
+      background-image: url("@/img/ycms/phone.svg");
       background-repeat: no-repeat;
       background-size: contain;
       height: 88%;

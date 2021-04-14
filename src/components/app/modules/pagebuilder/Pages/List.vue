@@ -11,7 +11,7 @@
           <div class="btn btn-edit" @click.prevent="editpage(page.id)">Edit</div>
           <div class="btn btn-copy" @click.prevent="editpage(page.id)">Duplicate</div>
           <div class="btn btn-remove" @click.prevent="editpage(page.id)">
-            <img src="/img/garbage.png" alt="">
+            <img src="@/img/garbage.png" alt="">
           </div>
 
         </div>

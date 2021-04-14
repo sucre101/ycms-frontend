@@ -1,12 +1,12 @@
 <template>
   <div class="searcher">
 
-    <img src="/img/ycms/search-icon.svg" alt="" @click="search">
+    <img src="@/img/ycms/search-icon.svg" alt="" @click="search">
 
     <input type="text" :placeholder="placeholder" v-model.trim="query" @keyup.enter="search">
 
     <a href="#" @click.prevent="clearSearch">
-      <img src="/img/ycms/clear-search.svg">
+      <img src="@/img/ycms/clear-search.svg">
     </a>
 
   </div>

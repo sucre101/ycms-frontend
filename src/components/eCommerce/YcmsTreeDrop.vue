@@ -4,7 +4,7 @@
 <!--      <input v-bind="{name}" type="hidden" v-model="checked">-->
 <!--      <div class="item" @click="expanded = !expanded">-->
 <!--        <img-->
-<!--          src="/img/angle-down.svg"-->
+<!--          src="@/img/angle-down.svg"-->
 <!--          :style="{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }"-->
 <!--        >-->
 <!--        {{ placeholder }}-->

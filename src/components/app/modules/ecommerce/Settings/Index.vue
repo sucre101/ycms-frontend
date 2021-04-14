@@ -32,7 +32,7 @@
           class="cart"
         >
           <span @click="settings.template_id = template.templateId">
-            <img src="/img/uploads/template-1.png" alt="">
+            <img src="@/img/uploads/template-1.png" alt="">
             {{ template.name }}
           </span>
         </div>
