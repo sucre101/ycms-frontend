@@ -10,7 +10,7 @@
           </span>
           <div class="action">
             <btn
-              image="/img/ycms/edit_icon.svg"
+              image="@/assets/img/ycms/edit_icon.svg"
             />
           </div>
         </div>

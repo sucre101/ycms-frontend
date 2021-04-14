@@ -8,7 +8,7 @@
           <div class="node-group item">
 
             <div class="item-title">
-              <img src="/img/drag-drop.svg" alt="" class="handle">
+              <img src="@/assets/img/drag-drop.svg" alt="" class="handle">
               {{ data.name }}
             </div>
 

@@ -18,14 +18,14 @@
           :key="store.id"
         >
           <div class="item-title">
-            <img src="/img/drag-drop.svg" alt="" class="handle">
+            <img src="@/assets/img/drag-drop.svg" alt="" class="handle">
             {{ store.name }}
           </div>
 
           <div class="item-actions">
             <div class="btn-action-edit" @click="editStore(store.id)">Edit</div>
             <div @click="deleteStore(store.id)">
-              <img src="/img/garbage.png" alt="">
+              <img src="@/assets/img/garbage.png" alt="">
             </div>
           </div>
 

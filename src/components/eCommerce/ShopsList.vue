@@ -32,7 +32,7 @@
 
     <img
       class="ml-auto"
-      src="/img/garbage.png"
+      src="@/assets/img/garbage.png"
       alt="garb"
       @click="showDeletionWarning(shop)"
     >

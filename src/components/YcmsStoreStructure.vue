@@ -16,7 +16,7 @@
     >
       <div slot-scope="{data, store}" style="display: flex; align-items: center">
         <template v-if="!data.isDragPlaceHolder">
-          <img src="/img/drag-drop.svg" alt="" class="handle">
+          <img src="@/assets/img/drag-drop.svg" alt="" class="handle">
 
           <span v-if="!edit.id || edit.id !== data.id" style="padding-left: 5px">
             {{ data.name }}
@@ -121,11 +121,11 @@
             class="small-rounded-btn arrow-left"
             @click="$refs.structure.close(), newStructure.country = ''"
           >
-            <img src="/img/dropleft-icon.svg">
+            <img src="@/assets/img/dropleft-icon.svg">
             Cancel
           </a>
           <a class="small-rounded-btn active arrow-right" @click="createOrAddStructure">
-            <img src="/img/dropleft-icon.svg">
+            <img src="@/assets/img/dropleft-icon.svg">
             Create
           </a>
         </div>

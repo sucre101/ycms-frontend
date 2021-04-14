@@ -7,7 +7,7 @@
       <div class="ml-auto" >
 <!--                <img-->
 <!--                  style="margin-top: 20px"-->
-<!--                  src="/img/Group 260.svg"-->
+<!--                  src="@/assets/img/Group 260.svg"-->
 <!--                  alt="icon"-->
 <!--                >-->
       </div>
@@ -23,7 +23,7 @@
 
       <img
         class="ml-auto"
-        src="/img/garbage.png"
+        src="@/assets/img/garbage.png"
         alt="garb"
         @click="showDeleteWarning(app)"
       >
@@ -108,25 +108,25 @@
       <!--          <ycms-page-template-->
       <!--            name="menuTemplate"-->
       <!--            title="Side Menu"-->
-      <!--            img="/img/side-menu.svg"-->
+      <!--            img="@/assets/img/side-menu.svg"-->
       <!--            value="side-menu">-->
       <!--          </ycms-page-template>-->
       <!--          <ycms-page-template-->
       <!--            name="menuTemplate"-->
       <!--            title="Side Menu + Tab"-->
-      <!--            img="/img/side-menu-tabs.svg"-->
+      <!--            img="@/assets/img/side-menu-tabs.svg"-->
       <!--            value="side-menu-tabs">-->
       <!--          </ycms-page-template>-->
       <!--          <ycms-page-template-->
       <!--            name="menuTemplate"-->
       <!--            title="Tab Menu"-->
-      <!--            img="/img/tabs.svg"-->
+      <!--            img="@/assets/img/tabs.svg"-->
       <!--            value="tabs">-->
       <!--          </ycms-page-template>-->
       <!--          <ycms-page-template-->
       <!--            name="menuTemplate"-->
       <!--            title="Blank Page"-->
-      <!--            img="/img/blank.svg"-->
+      <!--            img="@/assets/img/blank.svg"-->
       <!--            value="blank">-->
       <!--          </ycms-page-template>-->
       <!--        </div>-->

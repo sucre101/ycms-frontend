@@ -63,11 +63,11 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.newShopModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           Cancel
         </a>
         <a class="small-rounded-btn active arrow-right" @click="createShop">
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           Create
         </a>
       </div>

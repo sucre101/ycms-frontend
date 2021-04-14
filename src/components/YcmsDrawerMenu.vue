@@ -35,7 +35,7 @@
 <!--        :class="{ 'active': act }"-->
 <!--      >-->
 <!--        <div class="icon-container">-->
-<!--          <img src="/img/email-icon.svg" alt="email">-->
+<!--          <img src="@/assets/img/email-icon.svg" alt="email">-->
 <!--        </div>-->
 <!--        <span>eCommerce</span>-->
 <!--        <div class="dropdown" @click.prevent="act = !act">-->

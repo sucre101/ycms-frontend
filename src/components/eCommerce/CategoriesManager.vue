@@ -65,7 +65,7 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.categoryModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           Cancel
         </a>
         <a
@@ -73,7 +73,7 @@
           @click="postCategory"
           :style="{paddingLeft: '10px'}"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           {{ editable ? 'Apply' : 'Create' }}
         </a>
       </div>

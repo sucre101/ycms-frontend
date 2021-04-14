@@ -172,7 +172,7 @@ export default {
     height: 100%;
 
     .phone {
-      background-image: url("/img/ycms/phone.svg");
+      background-image: url("@/assets/img/ycms/phone.svg");
       background-repeat: no-repeat;
       background-size: contain;
       height: 88%;

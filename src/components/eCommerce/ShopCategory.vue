@@ -18,7 +18,7 @@
         </div>
         <img
           class="ml-auto"
-          src="/img/garbage.png"
+          src="@/assets/img/garbage.png"
           @click="showDeleteWarning(category)"
         >
       </div>

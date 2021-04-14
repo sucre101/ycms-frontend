@@ -7,7 +7,7 @@
     >
       <img
         class="handle"
-        src="/img/drag-drop.svg"
+        src="@/assets/img/drag-drop.svg"
       >
 
       <div class="icon-container" @click="edit(prod)">
@@ -29,7 +29,7 @@
 
       <img
         class="ml-auto"
-        src="/img/garbage.png"
+        src="@/assets/img/garbage.png"
         alt="garb"
         @click="showDeleteWarning(prod)"
       >
@@ -113,7 +113,7 @@
           class="small-rounded-btn arrow-left"
           @click="$refs.categoryModal.close()"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           Cancel
         </a>
         <a
@@ -121,7 +121,7 @@
           @click="postProduct"
           :style="{paddingLeft: '10px'}"
         >
-          <img src="/img/dropleft-icon.svg">
+          <img src="@/assets/img/dropleft-icon.svg">
           {{ editable ? 'Apply' : 'Create' }}
         </a>
       </div>
