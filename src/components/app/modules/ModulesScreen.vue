@@ -46,9 +46,9 @@
             v-for="module in modules"
             class="module"
             @click="selectModule(module)"
-            :class="{ active: selectedModule === module.id}"
+            :class="{ active: selectedModule === module.id }"
         >
-          <img :src="module.image" alt="">
+          <img :src="getImage(module.image)" >
           <label>{{ module.name }}</label>
         </div>
       </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {imageUrl} from "@/helpers/general"
+
 export default {
   name: "modules-screen",
 
@@ -96,6 +98,10 @@ export default {
 
     selectModule(module) {
       this.selectedModule = module.id;
+    },
+
+    getImage(path) {
+      return imageUrl(path)
     },
 
     addModule() {
