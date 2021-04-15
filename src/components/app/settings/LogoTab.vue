@@ -15,7 +15,7 @@
         </div>
 
         <div class="select-icon-block">
-          <img :src="logo" @click="addImage">
+          <img :src="getImageUrl(logo)" @click="addImage">
         </div>
 
       </div>
@@ -180,7 +180,7 @@ export default {
       background-image: url("~@/assets/img/ycms/phone.svg");
       background-repeat: no-repeat;
       background-size: contain;
-      height: 88%;
+      height: 87%;
       width: 100%;
       border-radius: 27px;
       display: flex;
