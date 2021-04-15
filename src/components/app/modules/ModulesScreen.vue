@@ -8,7 +8,7 @@
       >
 
         <img
-            :src="module.module.image"
+            :src="getImage(module.module.image)"
             @click="$router.push({
             name: 'module-edit',
               params: {
