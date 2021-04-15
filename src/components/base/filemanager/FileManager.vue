@@ -29,7 +29,7 @@
 
       <div class="files-block">
         <div v-for="file in files" v-if="!loading" class="item">
-          <img :src="`/${file.name}`" @click.prevent="setFile(file)" />
+          <img :src="getImageUrl('/'+file.name)" @click.prevent="setFile(file)" />
         </div>
 
         <div class="btn-action blue" @click="browseFile">
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import RecursiveTree from "@/components/base/filemanager/RecursiveTree";
+import RecursiveTree from "@/components/base/filemanager/RecursiveTree"
+import {imageUrl} from "@/helpers/general"
 
 export default {
 
@@ -88,6 +89,10 @@ export default {
         this.$refs.FileManager.close()
         this.$root.$emit('fmanager::open', false)
       })
+    },
+
+    getImageUrl(path) {
+      return imageUrl(path)
     },
 
     getFiles($array) {
