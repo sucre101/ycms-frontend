@@ -23,7 +23,7 @@
       <div class="preview-block">
 
         <div class="phone" :style="{ 'background-color': background }" >
-          <img :src="`${logo}`" alt="" width="50%">
+          <img :src="getImageUrl(logo)" alt="" width="50%">
         </div>
 
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import ColorPicker from "@/components/base/ui/ColorPicker"
+import {imageUrl} from "@/helpers/general"
 
 export default {
   name: "logo-tab",
@@ -103,6 +104,10 @@ export default {
 
     updateBackground(value) {
       this.background = value
+    },
+
+    getImageUrl(path) {
+      return imageUrl(path)
     },
 
     addImage() {
