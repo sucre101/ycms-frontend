@@ -6,7 +6,7 @@
     >
       <div class="app-item">
         <div class="app-icon">
-          <img :src="app.image ? app.image : 'http://api.ycms@/img/ycms/base_icon.png'"/>
+          <img :src="app.image ? app.image : process.env.VUE_APP_URI + '/img/ycms/base_icon.png'"/>
         </div>
         <div class="title">
           {{ app.name }}
@@ -32,7 +32,7 @@
         <div class="app-name">
           <input id="application-name" type="text" v-model.trim="appName">
           <Tooltip
-            text="* Please don’t name the mobile app with more than 8 characters and without spaces. This name will be displayed under the icon on your smartphone’s home screen"/>
+              text="* Please don’t name the mobile app with more than 8 characters and without spaces. This name will be displayed under the icon on your smartphone’s home screen"/>
         </div>
         <div class="app-item-action">
           <div class="action-btn y-btn-blue" @click="showNewAppModal">
@@ -44,10 +44,10 @@
     </div>
 
     <sweet-modal
-      class="modal"
-      ref="newAppModal"
-      width="850"
-      overlay-theme="dark"
+        class="modal"
+        ref="newAppModal"
+        width="850"
+        overlay-theme="dark"
     >
 
       <div id="2-step" v-if="step === 1">
@@ -60,14 +60,14 @@
           </div>
           <div class="right-image">
             <ycms-image-uploader
-              name="app-icon"
-              type="app-icon"
-              :crop-in-modal="false"
-              :ratio="1"
-              style="margin-right: 15px"
-              size="43px"
-              icon="app-image"
-              min-dimensions="1024"
+                name="app-icon"
+                type="app-icon"
+                :crop-in-modal="false"
+                :ratio="1"
+                style="margin-right: 15px"
+                size="43px"
+                icon="app-image"
+                min-dimensions="1024"
             ></ycms-image-uploader>
           </div>
         </div>
@@ -82,13 +82,13 @@
           </div>
           <div class="right-image">
             <ycms-image-uploader
-              name="startup-image"
-              type="startup-image"
-              :ratio="1"
-              style="margin-right: 15px"
-              size="43px"
-              icon="image"
-              min-dimensions="1024"
+                name="startup-image"
+                type="startup-image"
+                :ratio="1"
+                style="margin-right: 15px"
+                size="43px"
+                icon="image"
+                min-dimensions="1024"
             ></ycms-image-uploader>
           </div>
         </div>
@@ -101,13 +101,14 @@
       <div id="4-step" v-if="step === 2">
         <h6>Select your first some feature for Homepage </h6>
         <div>
-          <ycms-page-template v-for="module in modules" :key="module.id"
-                              :data-id="module.id"
-                              name="homePageModule"
-                              :title="module.title"
-                              :description="module.description"
-                              :img="module.image"
-                              :value="module.name">
+          <ycms-page-template
+              v-for="module in modules" :key="module.id"
+              :data-id="module.id"
+              name="homePageModule"
+              :title="module.title"
+              :description="module.description"
+              :img="module.image"
+              :value="module.name">
           </ycms-page-template>
         </div>
       </div>
@@ -211,16 +212,16 @@ export default {
       axios.post('/app-delete', {
         id: this.appToDelete.id,
       })
-        .then((res) => {
-          this.apps.splice(this.apps.indexOf(this.appToDelete), 1)
-        })
+          .then((res) => {
+            this.apps.splice(this.apps.indexOf(this.appToDelete), 1)
+          })
     },
 
     duplicateApp(app) {
       axios.post('/app/duplicate', {
         app: app,
       })
-        .then(res => this.apps.push(res.app))
+          .then(res => this.apps.push(res.app))
     },
 
     showNewAppModal() {
@@ -237,25 +238,25 @@ export default {
         homePageModule: this.homePageModule,
         // menuTemplate: this.menuTemplate,
       })
-        .then((res) => {
+          .then((res) => {
 
-          this._getData()
+            this._getData()
 
-          setTimeout(() => {
-            this.$refs.newAppModal.close()
-            this.appName = null
-            this.step = 1
-          }, 3000)
+            setTimeout(() => {
+              this.$refs.newAppModal.close()
+              this.appName = null
+              this.step = 1
+            }, 3000)
 
-        })
+          })
     },
 
     _getData() {
 
       axios.get('/apps')
-        .then((res) => {
-          this.apps = this._.cloneDeep(res.data.apps);
-        })
+          .then((res) => {
+            this.apps = this._.cloneDeep(res.data.apps);
+          })
     },
 
     selectApplication(app) {
@@ -405,9 +406,9 @@ export default {
   border-radius: 10px;
   background-color: #FFF;
   background-image: -webkit-linear-gradient(top,
-    #0989cc,
-    #2696d1 53%,
-    #0989cc);
+      #0989cc,
+      #2696d1 53%,
+      #0989cc);
 }
 
 
