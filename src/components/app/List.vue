@@ -6,7 +6,7 @@
     >
       <div class="app-item">
         <div class="app-icon">
-          <img :src="app.image ? app.image : process.env.VUE_APP_URI + '/img/ycms/base_icon.png'"/>
+          <img :src="app.image ? app.image : $root.baseUrl + '/img/ycms/base_icon.png'"/>
         </div>
         <div class="title">
           {{ app.name }}

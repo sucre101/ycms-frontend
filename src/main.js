@@ -91,6 +91,7 @@ new Vue({
     userId: false,
     pageTitle: null,
     openManager: false,
+    baseUrl: process.env.VUE_APP_URI
   },
   computed: {
     ...mapGetters(['reference'])
