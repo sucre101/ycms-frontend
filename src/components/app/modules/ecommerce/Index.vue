@@ -22,18 +22,19 @@ import ProductList from "./Products/Index"
 import Settings from "./Settings/Index"
 import Orders from "./Orders/Index"
 import Unions from "./Unions/Index"
+import Labels from "./Labels/Index"
 
 export default {
   name: "index",
 
   components: {
-    PageNavigation, StoreList, CategoriesList, ProductList, Settings
+    PageNavigation, StoreList, CategoriesList, ProductList, Settings, Labels
   },
 
   data() {
     return {
       tabScreens: [
-        StoreList, CategoriesList, ProductList, Unions, Orders, Settings
+        StoreList, CategoriesList, ProductList, Unions, Labels, Orders, Settings
       ],
       currentScreen: 0,
       list: [
@@ -41,6 +42,7 @@ export default {
         { title: 'Categories' },
         { title: 'Products' },
         { title: 'Unions' },
+        { title: 'Labels' },
         { title: 'Orders' },
         { title: 'Settings' },
       ],

@@ -46,24 +46,6 @@ export default new VueRouter({
       },
       children: [
         {
-          path: 'shop',
-          name: 'shop',
-          redirect: 'shop/list',
-          component: () => import('./components/app/shop/Index'),
-          children: [
-            {
-              path: 'list',
-              name: 'shop-list',
-              component: () => import('./components/app/shop/stores/List')
-            },
-            {
-              path: ':store',
-              name: 'store',
-              component: () => import('./components/app/shop/stores/Index')
-            }
-          ]
-        },
-        {
           path: 'settings',
           name: 'app-settings',
           component: () => import('./components/app/settings/Index')

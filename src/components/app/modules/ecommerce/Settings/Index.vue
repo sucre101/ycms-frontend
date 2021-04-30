@@ -32,7 +32,6 @@
           class="cart"
         >
           <span @click="settings.template_id = template.templateId">
-<!--            <img src="@/assets/img/uploads/template-1.png" alt="">-->
             {{ template.name }}
           </span>
         </div>
@@ -40,14 +39,22 @@
       </div>
 
       <div v-if="currentTab === 2" class="custom-styles">
-<!--        <div>-->
-<!--          <label for="">Checkout button</label>-->
-<!--          <div class="color-pick">-->
 
-<!--          </div>-->
-<!--          <div :style="checkoutBtnCss">result</div>-->
-<!--          <input type="range" min="1" max="20" step="1" :value="styles.checkout_button['border-radius']" @change="changeWidth">-->
-<!--        </div>-->
+        <div class="preview-box">
+          <select v-model="currentElement" class="select-element" @change="selectElement(currentElement)">
+            <template v-for="(index, label) in style">
+              <option :value="label">{{ label }}</option>
+            </template>
+          </select>
+          <div v-inject-css="style[currentElement]">Checkout</div>
+        </div>
+
+        <div class="style-control">
+          <vue-custom-scrollbar class="content-scroll">
+            <StyleGenerator :input="currentStyle" :rules-exception="rules[currentElement]" @complete="changeElement"/>
+          </vue-custom-scrollbar>
+        </div>
+
       </div>
 
     </div>
@@ -56,15 +63,26 @@
 </template>
 
 <script>
-import InnerTab from "@/components/base/ui/InnerTab";
-import ToggleCheck from "@/components/base/ui/ToggleCheck";
-import { moduleUrl } from "@/helpers/general";
+import InnerTab from "@/components/base/ui/InnerTab"
+import ToggleCheck from "@/components/base/ui/ToggleCheck"
+import { moduleUrl } from "@/helpers/general"
+import {baseStyleTemplate} from "../getters"
+import { injectCss } from "@/vue-directives"
+import ColorPicker from "@/components/base/ui/ColorPicker"
+import vueCustomScrollbar from 'vue-custom-scrollbar'
+import "vue-custom-scrollbar/dist/vueScrollbar.css"
+import StyleGenerator from "@/components/base/StyleGenerator"
+import rulesStyleElementExclude from '../getters'
 
 export default {
   name: "index",
 
   components: {
-    InnerTab, ToggleCheck
+    InnerTab, ToggleCheck, ColorPicker, vueCustomScrollbar, StyleGenerator
+  },
+
+  directives: {
+    injectCss
   },
 
   data() {
@@ -72,9 +90,7 @@ export default {
       moduleId: this.$parent.moduleId,
       settings: {},
       module: {},
-      styles: {
-        checkout_button: []
-      },
+      styles: {},
       tabs: [
         { name: 'Main' },
         { name: 'Templates' },
@@ -84,6 +100,9 @@ export default {
       currentTab: 0,
       activeForSave: false,
       loading: true,
+      currentElement: {},
+      rules: rulesStyleElementExclude,
+      numericRules: ['width', 'height', 'border-radius', 'border-width', 'font-size'],
     }
   },
 
@@ -101,7 +120,15 @@ export default {
         this.activeForSave = true
       },
       deep: true
-    }
+    },
+
+    style: {
+      handler(val) {
+        this.activeForSave = true
+      },
+      deep: true
+    },
+
 
   },
 
@@ -115,28 +142,13 @@ export default {
       ]
     },
 
-    // checkoutBtnCss() {
-    //
-    //   //
-    //   let data = ''
-    //   //
-    //   let arg = this._.cloneDeep(this.styles.checkout_button)
-    //
-    //   console.log(this.styles.checkout_button)
-    //
-    //   this._.forEach(arg, (k) => {
-    //     console.log(k)
-    //   })
-    //   // console.log(this.styles.checkout_button)
-    //   // this.styles.checkout_button.forEach( (val, key) => {
-    //   //
-    //   //   console.log(val, key)
-    //   //
-    //   // } )
-    //
-    //   return 'background-color: aqua'
-    //
-    // }
+    style() {
+      return Object.keys(this.styles).length ? this.styles : baseStyleTemplate
+    },
+
+    currentStyle() {
+      return this.styles[this.currentElement]
+    }
 
   },
 
@@ -154,24 +166,52 @@ export default {
       this.currentTab = index
     },
 
-    changeWidth(val) {
-      // console.log(val)
+    changeElement($data) {
+      this.styles[this.currentElement] = $data
     },
 
     changeStoreStructure(val) {
       this.notifier.warning('This function will be in the future')
-      // this.settings.store_structure = false
+    },
+
+    prepareSendData() {
+      let $data = this.styles
+      for (let element in $data) {
+        for (let property in $data[element]) {
+          if (this.numericRules.includes(property)) {
+            $data[element][property] = parseInt($data[element][property])
+          }
+        }
+      }
+      return $data
+    },
+
+    selectElement($element) {
+      this.currentStyle = this.style[$element]
     },
 
     _saveChanges() {
-
-      axios.patch(`${moduleUrl(this.$route)}/settings`, { settings: this.settings, alias: this.module.alias })
+      axios.patch(`${moduleUrl(this.$route)}/settings`, { styles: this.prepareSendData(), alias: this.module.alias })
         .then((res) => {
           if (res.data.success) {
             this.activeForSave = false
             this.notifier.success('Save changes')
           }
         })
+    },
+
+    mergeStyleData($data) {
+
+      for (let style in $data) {
+        if (this.style.hasOwnProperty(style)) {
+          if (typeof $data[style] === "object") {
+            for (let innerStyle in $data[style]) {
+              this.style[style][innerStyle] = $data[style][innerStyle]
+            }
+          }
+        }
+      }
+      this.styles = this._.cloneDeep(this.style)
     },
 
     _loadData() {
@@ -183,20 +223,11 @@ export default {
               this.settings = this._.cloneDeep(res.data.settings)
             }
 
+            this.mergeStyleData(res.data.styles ? JSON.parse(res.data.styles.data) : baseStyleTemplate)
+
+            this.currentElement = Object.keys(this.style)[0]
+
             this.module = Object.assign('', res.data.module)
-
-            // let data = JSON.parse(res.data.styles.data)
-            //
-            // for (const [key, value] of Object.entries(data)) {
-            //
-            //   for (const [k, v] of Object.entries(value)) {
-            //     // console.log(k, v)
-            //     this.styles[key][k] = v
-            //   }
-            // }
-
-            // console.log(this.styles.checkout_button)
-
           })
           .then((res) => {
             this.activeForSave = false
@@ -228,6 +259,39 @@ export default {
         display: flex;
         width: 30%;
         align-items: center;
+      }
+    }
+    .custom-styles {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: relative;
+      .preview-box {
+        align-self: center;
+        align-content: center;
+        align-items: center;
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        select {
+          position: absolute;
+          top: 0;
+        }
+      }
+      .style-control {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        max-height: 500px;
+        section {
+          width: 100%;
+          display: flex;
+          padding: 0 30px;
+        }
+        label {
+          display: flex;
+          flex-direction: column;
+        }
       }
     }
     .settings_template {

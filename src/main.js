@@ -15,6 +15,7 @@ import { initialize } from './helpers/general';
 import _ from 'lodash'
 import axios from 'axios'
 import '@/assets/app.scss'
+import {active} from "@/vue-directives"
 
 Vue.config.devtools = true;
 
@@ -28,39 +29,33 @@ Vue.prototype.notifier = new AWN
 // window.io = require('socket.io-client')
 
 Vue.prototype.locStor = new YcmsLocalStorage
+
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'API KEY',
+    key: 'AIzaSyCe9h5Je-kOI5ZChchZ0_Y4g0Rw9783KBU',
     libraries: 'places',
   },
   installComponents: true
 });
+
 Vue.use(SweetModal)
 Vue.use(vueDebounce, {listenTo: ['input', 'keyup']})
 Vue.prototype._ = _
 
 Vue.component('preloader', require('./components/base/ui/Preloader.vue').default)
-
 Vue.component('vue-color', require('vue-color/src/components/Chrome.vue').default)
-
 Vue.component('ToggleButton', ToggleButton)
-
 Vue.component('input-tag', InputTag)
+Vue.directive('active', active)
 
-Vue.directive('active', (el, binding) => {
+Vue.directive('img-preview', (el, binding) => {
 
-  if (binding.value === getPath() || (binding.value === getPath(1) && binding.value !== getPath())) {
-    el.classList.add('active')
-  } else {
-    el.classList.remove('active')
-  }
 
 })
 
 Vue.directive('scroll', {
   bind(el, binding) {
     el.classList.add(binding.value)
-    console.log(el, document.body)
   }
 })
 
@@ -73,6 +68,26 @@ Vue.directive('click-outside', {
     document.body.removeEventListener('click', binding.value);
   }
 });
+
+// Vue.directive('css', (el, binding) => {
+//
+//   let _result = el.style = ''
+//
+//   for (let style in binding.value) {
+//
+//     let _thatStyle = binding.value[style]
+//
+//     switch (style) {
+//       case 'border-radius':
+//         _thatStyle = parseInt(binding.value[style]) + 'px'
+//         break
+//     }
+//
+//     _result += `${style}: ${_thatStyle};`
+//   }
+//
+//   el.style = _result
+// })
 
 String.prototype.capitalize = () => {
   return this.charAt(0).toUpperCase() + this.slice(1);

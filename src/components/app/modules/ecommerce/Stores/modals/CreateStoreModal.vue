@@ -1,9 +1,9 @@
 <template>
   <sweet-modal
-    class="modal text-left"
-    ref="newShopModal"
-    width="915"
-    overlay-theme="dark"
+      class="modal text-left"
+      ref="newShopModal"
+      width="915"
+      overlay-theme="dark"
   >
     <div style="text-align: left">
       <h6>Please add a new store</h6>
@@ -12,44 +12,44 @@
         <div class="cols">
           <div class="col">
             <input
-              ref="name"
-              class="required"
-              placeholder="Name of the Shop"
-              v-model.trim="shop.name"
+                ref="name"
+                class="required"
+                placeholder="Name of the Shop"
+                v-model.trim="shop.name"
             >
             <input
-              ref="email"
-              class="required"
-              placeholder="Shop Email"
-              v-model.trim="shop.email"
+                ref="email"
+                class="required"
+                placeholder="Shop Email"
+                v-model.trim="shop.email"
             >
 
             <the-mask :mask="['+# (###) ###-##-##']" class="required" ref="phone" placeholder="+* (***) ***-**-**"/>
 
           </div>
           <div class="col">
-            <ycms-dropdown
-              ref="currency"
-              :options="$parent.currencies"
-              placeholder="Currency"
-              @pick="cur => shop.currency = cur.id"
+            <dropdown
+                ref="currency"
+                :options="$parent.currencies"
+                placeholder="Currency"
+                @pick="cur => shop.currency = cur.id"
             />
             <input
-              ref="tax_rate"
-              class="required"
-              placeholder="Tax rate %"
-              type="number"
-              v-model="shop.tax_rate"
+                ref="tax_rate"
+                class="required"
+                placeholder="Tax rate %"
+                type="number"
+                v-model="shop.tax_rate"
             >
             <input
-              ref="tax_name"
-              class="required"
-              placeholder="Tax name"
-              v-model.trim="shop.tax_name"
+                ref="tax_name"
+                class="required"
+                placeholder="Tax name"
+                v-model.trim="shop.tax_name"
             >
           </div>
         </div>
-        <ycms-address-searcher ref="addrSearcher" @pick="setAddrGetCoords"/>
+        <address-searcher ref="addrSearcher" @pick="setAddrGetCoords"/>
         <p class="tip">
           * Please enter your full address in your native language and select
           one of suggested variants
@@ -60,8 +60,8 @@
 
       <div class="steps-controls">
         <a
-          class="small-rounded-btn arrow-left"
-          @click="$refs.newShopModal.close()"
+            class="small-rounded-btn arrow-left"
+            @click="$refs.newShopModal.close()"
         >
           <img src="@/assets/img/dropleft-icon.svg">
           Cancel
@@ -76,15 +76,15 @@
 </template>
 
 <script>
-import YcmsDropdown from "./YcmsDropdown"
-import YcmsAddressSearcher from "./YcmsAddressSearcher"
+import Dropdown from "@/components/base/Dropdown"
+import AddressSearcher from "@/components/base/AddressSearcher"
 import {TheMask} from 'vue-the-mask'
 
 export default {
-  name: 'new-shop-modal',
+  name: 'create-store-modal',
 
   components: {
-    YcmsDropdown, YcmsAddressSearcher, TheMask
+    Dropdown, AddressSearcher, TheMask
   },
 
   data() {
@@ -102,15 +102,15 @@ export default {
     setAddrGetCoords(addr) {
       this.shop.address = addr.description
       new gMaps.Geocoder().geocode(
-        {'address': addr.description},
-        res => {
-          this.shop.country = res[0].address_components
-            .find(c => c.types.includes('country')).long_name
-          this.shop.city = res[0].address_components
-            .find(c => c.types.includes('locality')).long_name
-          this.shop.lat = res[0].geometry.location.lat()
-          this.shop.lon = res[0].geometry.location.lng()
-        }
+          {'address': addr.description},
+          res => {
+            this.shop.country = res[0].address_components
+                .find(c => c.types.includes('country')).long_name
+            this.shop.city = res[0].address_components
+                .find(c => c.types.includes('locality')).long_name
+            this.shop.lat = res[0].geometry.location.lat()
+            this.shop.lon = res[0].geometry.location.lng()
+          }
       )
     },
 

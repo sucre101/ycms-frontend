@@ -1,33 +1,33 @@
 <template>
-<div class="container">
-  <div
-    class="dropdown"
-    :style="{
+  <div class="container">
+    <div
+        class="dropdown"
+        :style="{
       height: expanded ? 'auto' : '43px',
       zIndex: expanded ? 10 : '',
     }"
-  >
-    <div class="item" @click="expanded = !expanded">
-      <img
-        src="@/assets/img/angle-down.svg"
-        :style="{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }"
-      >
-      {{ selected || placeholder }}
-    </div>
-    <div
-      v-for="(opt, i) in options" :key="i"
-      class="item option"
-      @click="pick(opt)"
     >
-      {{ opt.name ? opt.name : opt }}
+      <div class="item" @click="expanded = !expanded">
+        <img
+            src="@/assets/img/angle-down.svg"
+            :style="{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }"
+        >
+        {{ selected || placeholder }}
+      </div>
+      <div
+          v-for="(opt, i) in options" :key="i"
+          class="item option"
+          @click="pick(opt)"
+      >
+        {{ opt.name ? opt.name : opt }}
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
-  name: 'ycms-dropdown',
+  name: 'dropdown',
 
   data() {
     return {

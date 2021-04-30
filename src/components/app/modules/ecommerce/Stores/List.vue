@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <new-shop-modal
+    <create-store-modal
       ref="newShopModal"
       @submitted="addStore"
     />
@@ -57,16 +57,16 @@
 </template>
 
 <script>
-import NewShopModal from "../../../../eCommerce/NewShopModal";
 import draggable from 'vuedraggable'
-import YcmsActionButtons from "../../../../YcmsActionButtons";
-import {moduleUrl} from "@/helpers/general";
+import YcmsActionButtons from "../../../../YcmsActionButtons"
+import {moduleUrl} from "@/helpers/general"
+import CreateStoreModal from "@/components/app/modules/ecommerce/Stores/modals/CreateStoreModal"
 
 export default {
   name: "stores-list",
 
   components: {
-    NewShopModal,
+    CreateStoreModal,
     draggable,
     YcmsActionButtons
   },

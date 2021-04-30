@@ -122,7 +122,7 @@ export default {
       width: 100%;
       display: flex;
       flex-direction: column;
-      border: 1px solid #f9f8f8;
+      border: 1px solid #c6c9cf;
       padding: 5px 10px;
       background: #f6f9fd47;
       min-height: 400px;
@@ -135,7 +135,7 @@ export default {
       display: flex;
       padding: 10px 20px;
       border-radius: 25px;
-      border: 1px solid #f0f3f68c;
+      border: 1px solid #c6c9cf;
       margin-bottom: 15px;
       background: #fff;
       cursor: pointer;

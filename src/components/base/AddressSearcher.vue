@@ -1,37 +1,41 @@
 <template>
-<div class="container">
-  <div
-    class="dropdown"
-    :style="{
-      height: expanded ? 43 * (predictions.length + 1) + 'px' : '43px',
-      zIndex: expanded ? 10 : '',
-    }"
-  >
-    <input
-      class="transparent-bg required"
-      v-debounce="getPredictions"
-      placeholder="Country / City / Address"
-      v-model="query"
-    >
+  <div class="container">
     <div
-      v-for="(prediction, i) in predictions" :key="i"
-      class="item option"
-      @click="pick(prediction)"
+        class="dropdown"
+        :style="{
+        height: expanded ? 43 * (predictions.length + 1) + 'px' : '43px',
+        zIndex: expanded ? 10 : '',
+      }"
     >
-      {{ prediction.description }}
+      <input
+          class="transparent-bg required"
+          v-debounce="getPredictions"
+          placeholder="Country / City / Address"
+          v-model="query"
+      >
+      <div
+          v-for="(prediction, i) in predictions" :key="i"
+          class="item option"
+          @click="pick(prediction)"
+      >
+        {{ prediction.description }}
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
-  name: 'ycms-address-searcher',
+  name: 'address-searcher',
 
   props: {
     address: {
       type: String,
       default: ''
+    },
+    injectScript: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -44,7 +48,9 @@ export default {
   },
 
   mounted() {
-    window.injectMapSearcherScript(this.initLocationSearch);
+    if (this.injectScript) {
+      window.injectMapSearcherScript(this.initLocationSearch)
+    }
   },
 
   created() {
@@ -65,14 +71,15 @@ export default {
     },
 
     getPredictions(input) {
-      if (input) gSearcher.getQueryPredictions(
-        { input }, res => {
-          if (res && res.length) {
-            this.predictions = res
-            this.expanded = true
-          }
-        }
-      )
+      if (input) {
+        gSearcher.getQueryPredictions({input}, res => {
+              if (res && res.length) {
+                this.predictions = res
+                this.expanded = true
+              }
+            }
+        )
+      }
     },
 
 

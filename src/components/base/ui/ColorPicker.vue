@@ -8,8 +8,8 @@
       <vue-color
         :value="selectedColor"
         @input="updateValue"
-        :style="{display: pickerHidden ? 'none' : ''}"
         piker="chrome"
+        v-if="!pickerHidden"
       />
       <input type="hidden" :name="name" v-model="selectedColor">
       <img
@@ -44,12 +44,16 @@ export default {
     colorType: {
       type: String,
       default: 'hex'
+    },
+    returnElement: {
+      type: String,
+      default: null
     }
   },
 
   watch: {
     pickerHidden(newVal, oldVal) {
-      this.$el.style.zIndex = newVal ? 'auto' : 10
+      this.$el.style.zIndex = newVal ? 'auto' : 100
     }
   },
 
@@ -66,8 +70,8 @@ export default {
     },
 
     closeAndUpdate() {
-      this.pickerHidden = true
-      this.$emit('update', this.selectedColor)
+      this.pickerHidden = !this.pickerHidden
+      this.$emit('update', this.selectedColor, this.returnElement)
     }
   },
 
