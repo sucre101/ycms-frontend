@@ -41,7 +41,7 @@
       <div v-if="currentTab === 2" class="custom-styles">
 
         <div class="preview-box">
-          <select v-model="currentElement" class="select-element" @change="selectElement(currentElement)">
+          <select v-model="currentElement" class="select-element" @change="selectElement">
             <template v-for="(index, label) in style">
               <option :value="label">{{ label }}</option>
             </template>
@@ -51,7 +51,7 @@
 
         <div class="style-control">
           <vue-custom-scrollbar class="content-scroll">
-            <StyleGenerator :input="currentStyle" :rules-exception="rules[currentElement]" @complete="changeElement"/>
+            <StyleGenerator v-if="refresh" :input="currentStyle" :rules-exception="rules[currentElement]" @complete="changeElement"/>
           </vue-custom-scrollbar>
         </div>
 
@@ -103,6 +103,7 @@ export default {
       currentElement: {},
       rules: rulesStyleElementExclude,
       numericRules: ['width', 'height', 'border-radius', 'border-width', 'font-size'],
+      refresh: true,
     }
   },
 
@@ -146,8 +147,16 @@ export default {
       return Object.keys(this.styles).length ? this.styles : baseStyleTemplate
     },
 
-    currentStyle() {
-      return this.styles[this.currentElement]
+    currentStyle: {
+
+      get() {
+        return this.styles[this.currentElement]
+      },
+
+      set() {
+        return this.styles[this.currentElement]
+      }
+
     }
 
   },
@@ -186,8 +195,13 @@ export default {
       return $data
     },
 
-    selectElement($element) {
-      this.currentStyle = this.style[$element]
+    selectElement() {
+
+      this.refresh = false
+
+      this.$nextTick(() => {
+        this.refresh = true
+      })
     },
 
     _saveChanges() {

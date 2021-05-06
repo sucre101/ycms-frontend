@@ -33,36 +33,17 @@
 // })
 
 const injectCss = (el, binding) => {
-  let _result = ''
+  let result = ''
   el.style = ''
 
-  for (let style in binding.value) {
-
-    let _thatStyle = binding.value[style]
-
-    switch (style) {
-      case 'border-radius':
-        _thatStyle = parseInt(binding.value[style]) + 'px'
-        break
-      case 'width':
-        _thatStyle = parseInt(binding.value[style]) + 'px'
-        break
-      case 'height':
-        _thatStyle = parseInt(binding.value[style]) + 'px'
-        break
-      case 'border-width':
-        _thatStyle = parseInt(binding.value[style]) + 'px'
-        break
-      case 'font-size':
-        _thatStyle = parseInt(binding.value[style]) + 'px'
-        break
+  for (let property in binding.value) {
+    if (['border-radius', 'width', 'height', 'border-width', 'font-size'].includes(property)) {
+      result += `${property}: ${parseInt(binding.value[property]) + 'px'};`
+    } else {
+      result += `${property}: ${binding.value[property]};`
     }
-
-    _result += `${style}: ${_thatStyle};`
   }
-
-
-  el.style = _result
+  el.style = result
 }
 
 const active = (el, binding) => {

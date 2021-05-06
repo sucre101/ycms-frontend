@@ -8,7 +8,8 @@
       <div class="app-icon"></div>
       <span>{{ app.name }}</span>
       <div class="dropdown" @click="toggleLeftMenu">
-        <img :src="isOpen ? '@/assets/img/dropleft-icon.svg' : '@/assets//img/dropright-icon.svg'">
+        <img v-if="isOpen" src="@/assets/img/dropleft-icon.svg">
+        <img v-else src="@/assets/img/dropright-icon.svg">
       </div>
     </div>
 

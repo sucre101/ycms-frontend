@@ -10,7 +10,7 @@
           </template>
 
           <template v-if="type.type === 'color'">
-            <ColorPicker :return-element="type.name" style="width: 100px" :color="value[type.name]" @update="change"/>
+            <ColorPicker :return-element="type.name" style="width: 100px" :input="value[type.name]" @update="change"/>
           </template>
 
           <template v-if="type.type === 'select'">
