@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="99" height="184" viewBox="0 0 99 184">
+    <defs>
+        <style>
+            .cls-1{fill:#868686}.cls-2{fill:#f0f3f6}
+        </style>
+    </defs>
+    <g id="Side_Menu" data-name="Side Menu" transform="translate(-433 -301)">
+        <rect id="Rectangle_43" width="99" height="184" class="cls-1" data-name="Rectangle 43" rx="8" transform="translate(433 301)"/>
+        <path id="Subtraction_2" d="M-1928 165h-62V0h62v165zm-51-62a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm-8-18a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4.005 4.005 0 0 0-4-4zm8 5v2h19v-2zm0-4v2h35v-2zm12.5-39a10.512 10.512 0 0 0-10.5 10.5 10.512 10.512 0 0 0 10.5 10.5 10.512 10.512 0 0 0 10.5-10.5 10.512 10.512 0 0 0-10.5-10.5z" class="cls-2" data-name="Subtraction 2" transform="translate(2423.5 311)"/>
+    </g>
+</svg>

@@ -32,7 +32,7 @@
       >
         <div slot-scope="{data, store}" style="display: flex; align-items: center">
           <template v-if="!data.isDragPlaceHolder">
-            <img src="/img/drag-drop.svg" alt="" class="handle">
+            <img src="@/assets/img/drag-drop.svg" alt="" class="handle">
             {{ data.name }}
             <div class="action-group">
               <div class="actions" v-if="!data.default" style="width: auto; font-size: 15px;">

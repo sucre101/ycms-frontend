@@ -13,10 +13,10 @@
       <template v-if="currentTab === 0 && !isAuth">
         <form @submit.prevent="authenticate">
           <div class="form-group">
-            <input type="email" v-model="form.email" class="form-control required" placeholder="Email Address" autocomplete="off">
+            <input type="email" v-model="authForm.email" class="form-control required" placeholder="Email Address" autocomplete="off">
           </div>
           <div class="form-group">
-            <input type="password" v-model="form.password" class="form-control required" placeholder="Password" autocomplete="off">
+            <input type="password" v-model="authForm.password" class="form-control required" placeholder="Password" autocomplete="off">
           </div>
           <div class="form-group">
             <input type="submit" value="Login" @keyup.enter="authenticate" class="ycms-button bg-green-gradient">
@@ -31,7 +31,28 @@
 
       <template v-if="currentTab === 1 && !isAuth">
 
-        REGISTER
+        <form @submit.prevent="register">
+          <div class="form-group">
+            <input type="text" v-model="registerForm.name" class="form-control required" placeholder="Your Name" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="email" v-model="registerForm.email" class="form-control required" placeholder="Email Address" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="password" v-model="registerForm.password" class="form-control required" placeholder="Password" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="password" v-model="repeatPass" class="form-control required" placeholder="Repeat your password" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Login" @keyup.enter="register" class="ycms-button bg-green-gradient">
+          </div>
+          <div class="form-group" v-if="authError">
+            <p class="error">
+              {{ authError }}
+            </p>
+          </div>
+        </form>
 
       </template>
 
@@ -40,8 +61,8 @@
 </template>
 
 <script>
-import {login} from '@/helpers/auth'
-import InnerTab from "@/components/base/ui/InnerTab"
+import { login, register } from "../../helpers/auth"
+import InnerTab from "../base/ui/InnerTab"
 
 export default {
 
@@ -53,10 +74,16 @@ export default {
 
   data() {
     return {
-      form: {
+      authForm: {
         email: '',
         password: ''
       },
+      registerForm: {
+        name: '',
+        email: '',
+        password: '',
+      },
+      repeatPass: '',
       error: null,
       currentTab: 0,
       tabs: [
@@ -96,7 +123,7 @@ export default {
 
     authenticate() {
       this.$store.dispatch('login')
-      login(this.$data.form)
+      login(this.$data.authForm)
           .then((res) => {
 
             this.$store.commit("loginSuccess", res)
@@ -108,6 +135,23 @@ export default {
           .catch((error) => {
             this.$store.commit("loginFailed", {error})
           });
+    },
+
+    register() {
+
+      if (this.registerForm.password !== this.repeatPass) {
+        this.notifier.warning('Second password incorrect')
+        return false;
+      }
+
+      register(this.$data.registerForm)
+        .then((res) => {
+          this.$store.commit('loginSuccess', res)
+
+          this.waitForLoad()
+              .then(res => this.$router.push({ name: 'apps' }))
+        })
+
     },
 
     selectTab(index) {
@@ -137,6 +181,7 @@ export default {
       padding: 0 25px;
       color: #0997b1;
       font-size: 14px;
+      outline: none;
     }
   }
   .ycms-button {

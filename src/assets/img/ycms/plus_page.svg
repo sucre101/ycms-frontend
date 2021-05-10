@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+  <defs>
+    <style>
+      .cls-2{fill:#e5e5e5}
+    </style>
+  </defs>
+  <g id="plus_page" data-name="plus page" transform="translate(-36 -224)">
+    <rect id="bord" width="37" height="37" fill="#0989cc" rx="18.5" transform="translate(36 224)"/>
+    <g id="Сгруппировать_275" data-name="Сгруппировать 275">
+      <path id="Прямоугольник_182" d="M0 0H1V17H0z" class="cls-2" data-name="Прямоугольник 182"
+            transform="translate(54 234)"/>
+      <path id="Прямоугольник_183" d="M0 0H1V17H0z" class="cls-2" data-name="Прямоугольник 183"
+            transform="rotate(90 -89.5 152.5)"/>
+    </g>
+  </g>
+</svg>

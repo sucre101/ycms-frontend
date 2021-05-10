@@ -1,4 +1,5 @@
 import { refreshToken } from "@/helpers/auth";
+import axios from "axios";
 
 export function initialize(store, router) {
 
@@ -48,4 +49,8 @@ export const switcher = (res = null) => {
 
 export const moduleUrl = (route) => {
   return `/${route.params.folder.toLowerCase()}/${route.params.moduleId}`
+}
+
+export const imageUrl = (path) => {
+  return process.env.VUE_APP_URI + path
 }

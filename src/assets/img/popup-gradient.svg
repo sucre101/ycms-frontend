@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102.022" height="149.999" viewBox="0 0 102.022 149.999">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}.cls-2{filter:url(#popup_gradient)}
+        </style>
+        <filter id="popup_gradient" width="102.022" height="149.999" x="0" y="0" filterUnits="userSpaceOnUse">
+            <feOffset dy="3"/>
+            <feGaussianBlur result="blur" stdDeviation="3"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g class="cls-2">
+        <path id="popup_gradient-2" d="M-5950.979 132a9 9 0 0 1-9-9V43.694a6.087 6.087 0 0 0-2.691-4.54c-2.506-1.472-7.33-1.354-7.33-1.354l10.022-8.155V9a9 9 0 0 1 9-9h56a9 9 0 0 1 9 9v114a9 9 0 0 1-9 9z" class="cls-1" data-name="popup_gradient" transform="translate(5979 6)"/>
+    </g>
+</svg>

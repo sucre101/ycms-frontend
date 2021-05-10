@@ -83,7 +83,7 @@ export default {
   display: block;
   width: 200px;
   height: 200px;
-  background-image: url(/img/ycms/yappix-background.png);
+  background-image: url(@/img/ycms/yappix-background.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%;

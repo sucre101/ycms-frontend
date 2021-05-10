@@ -8,14 +8,15 @@
       <div class="app-icon"></div>
       <span>{{ app.name }}</span>
       <div class="dropdown" @click="toggleLeftMenu">
-        <img :src="isOpen ? '/img/dropleft-icon.svg' : '/img/dropright-icon.svg'">
+        <img v-if="isOpen" src="@/assets/img/dropleft-icon.svg">
+        <img v-else src="@/assets/img/dropright-icon.svg">
       </div>
     </div>
 
     <router-link :to="{ name: 'module-list', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/document-icon.svg" alt="document">
+          <img src="@/assets/img/document-icon.svg" alt="document">
         </div>
         <span>Modules & Pages</span>
       </div>
@@ -24,18 +25,19 @@
     <a :href="'/app/' + app.slug + '/style'">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/style-icon.svg" alt="document">
+          <img src="@/assets/img/style-icon.svg" alt="document">
         </div>
         <span>Styles & Appearance</span>
       </div>
     </a>
+
 <!--    <a href="" style="cursor: initial">-->
 <!--      <div-->
 <!--        class="menu-entry"-->
 <!--        :class="{ 'active': act }"-->
 <!--      >-->
 <!--        <div class="icon-container">-->
-<!--          <img src="/img/email-icon.svg" alt="email">-->
+<!--          <img src="@/assets/img/email-icon.svg" alt="email">-->
 <!--        </div>-->
 <!--        <span>eCommerce</span>-->
 <!--        <div class="dropdown" @click.prevent="act = !act">-->
@@ -82,7 +84,7 @@
     <router-link :to="{ name: 'publication', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/cloud-icon.svg" alt="document">
+          <img src="@/assets/img/cloud-icon.svg" alt="document">
         </div>
         <span>Publication & Sources</span>
       </div>
@@ -91,7 +93,7 @@
     <a :href="'/app/' + app.slug + '/orders'">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/printer-icon.svg" alt="printer">
+          <img src="@/assets/img/printer-icon.svg" alt="printer">
         </div>
         <span>Orders</span>
       </div>
@@ -99,7 +101,7 @@
     <a :href="'/app/' + app.slug + '/statistics'">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/statistics-icon.svg" alt="stats">
+          <img src="@/assets/img/statistics-icon.svg" alt="stats">
         </div>
         <span>Statistics</span>
       </div>
@@ -108,7 +110,7 @@
     <a :href="'/app/' + app.slug + '/email'">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/email-icon.svg" alt="email">
+          <img src="@/assets/img/email-icon.svg" alt="email">
         </div>
         <span>Email Templates</span>
       </div>
@@ -117,7 +119,7 @@
     <router-link :to="{ name: 'app-settings', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
         <div class="icon-container">
-          <img src="/img/document-icon.svg" alt="document">
+          <img src="@/assets/img/document-icon.svg" alt="document">
         </div>
         <span>Settings</span>
       </div>

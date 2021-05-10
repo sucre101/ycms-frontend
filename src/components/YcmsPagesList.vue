@@ -8,7 +8,7 @@
     <img
       v-if="notHome(page) && showNotDeleted"
       class="handle"
-      src="/img/drag-drop.svg"
+      src="@/assets/img/drag-drop.svg"
     >
     <div v-else style="width: 21px"></div>
     <div class="icon-container" @click="chooseIcon(page)">
@@ -50,7 +50,7 @@
     <img
       v-if="notHome(page)"
       class="ml-auto"
-      src="/img/garbage.png"
+      src="@/assets/img/garbage.png"
       alt="garb"
       @click="showDeleteWarning(page)"
     >

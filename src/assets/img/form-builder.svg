@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="99" height="184" viewBox="0 0 99 184">
+    <defs>
+        <style>
+            .cls-1{fill:#868686}.cls-2{fill:#ecedef}.cls-3{fill:#2b2b2b}.cls-4{fill:#fff;font-size:6px;font-family:OpenSans-Light,Open Sans;font-weight:300}
+        </style>
+    </defs>
+    <g id="Form_Builder" data-name="Form Builder" transform="translate(-841.5 -665)">
+        <g id="Blank" transform="translate(286.5 364)">
+            <g id="Side_Menu" data-name="Side Menu" transform="translate(122)">
+                <rect id="Rectangle_43" width="99" height="184" class="cls-1" data-name="Rectangle 43" rx="8" transform="translate(433 301)"/>
+            </g>
+        </g>
+        <path id="Rectangle_72" d="M0 0h81v14H0z" class="cls-2" data-name="Rectangle 72" transform="translate(848 691)"/>
+        <path id="Rectangle_73" d="M0 0h81v14H0z" class="cls-2" data-name="Rectangle 73" transform="translate(848 717)"/>
+        <path id="Rectangle_74" d="M0 0h81v38H0z" class="cls-2" data-name="Rectangle 74" transform="translate(848 743)"/>
+        <path id="Rectangle_75" d="M0 0h81v11H0z" class="cls-3" data-name="Rectangle 75" transform="translate(848 784)"/>
+        <text id="Field_name" class="cls-4" data-name="Field name" transform="translate(848 688)">
+            <tspan x="0" y="0">Field name</tspan>
+        </text>
+        <text id="Field_name-2" class="cls-4" data-name="Field name" transform="translate(848 714)">
+            <tspan x="0" y="0">Field name</tspan>
+        </text>
+        <text id="Field_name-3" class="cls-4" data-name="Field name" transform="translate(848 740)">
+            <tspan x="0" y="0">Field name</tspan>
+        </text>
+    </g>
+</svg>

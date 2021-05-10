@@ -15,7 +15,7 @@
         </div>
 
         <div class="select-icon-block">
-          <img :src="logo" @click="addImage">
+          <img :src="getImageUrl(logo)" @click="addImage">
         </div>
 
       </div>
@@ -23,7 +23,7 @@
       <div class="preview-block">
 
         <div class="phone" :style="{ 'background-color': background }" >
-          <img :src="`${logo}`" alt="" width="50%">
+          <img :src="getImageUrl(logo)" alt="" width="50%">
         </div>
 
       </div>
@@ -37,6 +37,7 @@
 
 <script>
 import ColorPicker from "@/components/base/ui/ColorPicker"
+import {imageUrl} from "@/helpers/general"
 
 export default {
   name: "logo-tab",
@@ -103,6 +104,10 @@ export default {
 
     updateBackground(value) {
       this.background = value
+    },
+
+    getImageUrl(path) {
+      return imageUrl(path)
     },
 
     addImage() {
@@ -172,10 +177,10 @@ export default {
     height: 100%;
 
     .phone {
-      background-image: url("/img/ycms/phone.svg");
+      background-image: url("~@/assets/img/ycms/phone.svg");
       background-repeat: no-repeat;
       background-size: contain;
-      height: 88%;
+      height: 87%;
       width: 100%;
       border-radius: 27px;
       display: flex;

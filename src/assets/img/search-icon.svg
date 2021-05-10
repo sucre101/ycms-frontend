@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="16.8" viewBox="0 0 14 16.8">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-4{fill:none}.cls-1,.cls-2{stroke:#393c40}.cls-1{stroke-width:.7px}.cls-3{stroke:none}
+        </style>
+    </defs>
+    <g id="search_icon" transform="translate(-555 -281)">
+        <g id="Ellipse_23" class="cls-1" data-name="Ellipse 23" transform="translate(555 281)">
+            <circle cx="7" cy="7" r="7" class="cls-3"/>
+            <circle cx="7" cy="7" r="6.65" class="cls-4"/>
+        </g>
+        <path id="Line_41" d="M0 0l3 4" class="cls-2" data-name="Line 41" transform="translate(565.5 293.5)"/>
+    </g>
+</svg>

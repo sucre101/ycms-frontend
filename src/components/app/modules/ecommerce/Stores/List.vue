@@ -18,14 +18,14 @@
           :key="store.id"
         >
           <div class="item-title">
-            <img src="/img/drag-drop.svg" alt="" class="handle">
+            <img src="@/assets/img/drag-drop.svg" alt="" class="handle">
             {{ store.name }}
           </div>
 
           <div class="item-actions">
             <div class="btn-action-edit" @click="editStore(store.id)">Edit</div>
             <div @click="deleteStore(store.id)">
-              <img src="/img/garbage.png" alt="">
+              <img src="@/assets/img/garbage.png" alt="">
             </div>
           </div>
 
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <new-shop-modal
+    <create-store-modal
       ref="newShopModal"
       @submitted="addStore"
     />
@@ -57,16 +57,16 @@
 </template>
 
 <script>
-import NewShopModal from "../../../../eCommerce/NewShopModal";
 import draggable from 'vuedraggable'
-import YcmsActionButtons from "../../../../YcmsActionButtons";
-import {moduleUrl} from "@/helpers/general";
+import YcmsActionButtons from "../../../../YcmsActionButtons"
+import {moduleUrl} from "@/helpers/general"
+import CreateStoreModal from "@/components/app/modules/ecommerce/Stores/modals/CreateStoreModal"
 
 export default {
   name: "stores-list",
 
   components: {
-    NewShopModal,
+    CreateStoreModal,
     draggable,
     YcmsActionButtons
   },

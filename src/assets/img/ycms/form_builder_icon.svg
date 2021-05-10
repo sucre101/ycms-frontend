@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Form_Builder_icon" width="99" height="184" data-name="Form Builder_icon"
+     viewBox="0 0 99 184">
+    <defs>
+        <style>
+            .cls-2{fill:#ecedef}.cls-4{fill:#fff;font-size:6px;font-family:OpenSans-Light,Open Sans;font-weight:300}
+        </style>
+    </defs>
+    <g id="Blank" transform="translate(-555 -301)">
+        <g id="Side_Menu" data-name="Side Menu" transform="translate(122)">
+            <rect id="Прямоугольник_43" width="99" height="184" fill="#868686" data-name="Прямоугольник 43" rx="8"
+                  transform="translate(433 301)"/>
+        </g>
+    </g>
+    <path id="Прямоугольник_72" d="M0 0H81V14H0z" class="cls-2" data-name="Прямоугольник 72"
+          transform="translate(6.5 26)"/>
+    <path id="Прямоугольник_73" d="M0 0H81V14H0z" class="cls-2" data-name="Прямоугольник 73"
+          transform="translate(6.5 52)"/>
+    <path id="Прямоугольник_74" d="M0 0H81V38H0z" class="cls-2" data-name="Прямоугольник 74"
+          transform="translate(6.5 78)"/>
+    <path id="Прямоугольник_75" fill="#2b2b2b" d="M0 0H81V11H0z" data-name="Прямоугольник 75"
+          transform="translate(6.5 119)"/>
+    <text id="Field_name" class="cls-4" data-name="Field name" transform="translate(6.5 23)">
+        <tspan x="0" y="0">Field name</tspan>
+    </text>
+    <text id="Field_name-2" class="cls-4" data-name="Field name" transform="translate(6.5 49)">
+        <tspan x="0" y="0">Field name</tspan>
+    </text>
+    <text id="Field_name-3" class="cls-4" data-name="Field name" transform="translate(6.5 75)">
+        <tspan x="0" y="0">Field name</tspan>
+    </text>
+</svg>

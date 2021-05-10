@@ -8,7 +8,7 @@
       >
 
         <img
-            :src="module.module.image"
+            :src="getImage(module.module.image)"
             @click="$router.push({
             name: 'module-edit',
               params: {
@@ -46,16 +46,16 @@
             v-for="module in modules"
             class="module"
             @click="selectModule(module)"
-            :class="{ active: selectedModule === module.id}"
+            :class="{ active: selectedModule === module.id }"
         >
-          <img :src="module.image" alt="">
+          <img :src="getImage(module.image)" >
           <label>{{ module.name }}</label>
         </div>
       </div>
 
       <div class="modal-action">
         <a class="small-rounded-btn active arrow-right" @click="addModule">
-          <img src="/img/dropright-icon.svg">
+          <img src="@/assets/img/dropright-icon.svg">
           Create
         </a>
       </div>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import {imageUrl} from "@/helpers/general"
+
 export default {
   name: "modules-screen",
 
@@ -96,6 +98,10 @@ export default {
 
     selectModule(module) {
       this.selectedModule = module.id;
+    },
+
+    getImage(path) {
+      return imageUrl(path)
     },
 
     addModule() {

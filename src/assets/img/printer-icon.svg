@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Printer-Icon" width="26" height="24.4" viewBox="0 0 26 24.4">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}
+        </style>
+    </defs>
+    <path id="Shape" d="M23.477 20.62h-.727a.406.406 0 1 1 0-.813h.726a1.713 1.713 0 0 0 1.711-1.707V7.424a1.713 1.713 0 0 0-1.711-1.711H2.524A1.713 1.713 0 0 0 .813 7.424V18.1a1.713 1.713 0 0 0 1.711 1.711h.966a.406.406 0 1 1 0 .813h-.966A2.526 2.526 0 0 1 0 18.1V7.424A2.526 2.526 0 0 1 2.524 4.9h2.148V1.625A1.627 1.627 0 0 1 6.3 0h13.4a1.627 1.627 0 0 1 1.625 1.625V4.9h2.148A2.526 2.526 0 0 1 26 7.424V18.1a2.526 2.526 0 0 1-2.523 2.52zM6.3.813a.814.814 0 0 0-.813.813v3.25h15.029V1.625A.814.814 0 0 0 19.7.813z" class="cls-1"/>
+    <path id="Shape-2" d="M10.156 0H.406a.406.406 0 0 0 0 .812h9.75a.406.406 0 0 0 0-.812z" class="cls-1" data-name="Shape" transform="translate(7.719 17.495)"/>
+    <path id="Shape-3" d="M10.156 0H.406a.406.406 0 0 0 0 .812h9.75a.406.406 0 0 0 0-.812z" class="cls-1" data-name="Shape" transform="translate(7.719 20.338)"/>
+    <ellipse id="Oval" cx=".813" cy=".812" class="cls-1" rx=".813" ry=".812" transform="translate(2.421 7.26)"/>
+    <ellipse id="Oval-2" cx=".813" cy=".812" class="cls-1" data-name="Oval" rx=".813" ry=".812" transform="translate(4.991 7.26)"/>
+    <ellipse id="Oval-3" cx=".813" cy=".812" class="cls-1" data-name="Oval" rx=".813" ry=".812" transform="translate(7.561 7.26)"/>
+    <path id="Shape-4" d="M17.062 10.562H0V0h17.062v10.561zM.976.977v8.609h15.11V.977z" class="cls-1" data-name="Shape" transform="translate(4.469 13.838)"/>
+</svg>

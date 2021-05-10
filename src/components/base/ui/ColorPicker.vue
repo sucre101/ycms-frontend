@@ -8,13 +8,13 @@
       <vue-color
         :value="selectedColor"
         @input="updateValue"
-        :style="{display: pickerHidden ? 'none' : ''}"
         piker="chrome"
+        v-if="!pickerHidden"
       />
       <input type="hidden" :name="name" v-model="selectedColor">
       <img
         id="close-picker"
-        src="/img/close-circular-button-symbol.svg"
+        src="@/assets/img/close-circular-button-symbol.svg"
         alt="close"
         :style="{ display: pickerHidden ? 'none' : '' }"
         @click.stop="closeAndUpdate"
@@ -25,15 +25,17 @@
 
 <script>
 export default {
-  name: 'color-picker',
+name: 'color-picker',
+
   data() {
     return {
-      selectedColor: this.color,
       pickerHidden: true,
+      selectedColor: this.input
     }
   },
+
   props: {
-    color: {
+    input: {
       type: String,
       default: '#FFFFFF'
     },
@@ -44,12 +46,16 @@ export default {
     colorType: {
       type: String,
       default: 'hex'
+    },
+    returnElement: {
+      type: String,
+      default: null
     }
   },
 
   watch: {
     pickerHidden(newVal, oldVal) {
-      this.$el.style.zIndex = newVal ? 'auto' : 10
+      this.$el.style.zIndex = newVal ? 'auto' : 100
     }
   },
 
@@ -66,8 +72,8 @@ export default {
     },
 
     closeAndUpdate() {
-      this.pickerHidden = true
-      this.$emit('update', this.selectedColor)
+      this.pickerHidden = !this.pickerHidden
+      this.$emit('update', this.selectedColor, this.returnElement)
     }
   },
 
@@ -78,7 +84,6 @@ export default {
 
 .picker-block {
   border-radius: 15px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.16);
   border: solid 3px rgba(181, 181, 181, 0.47);
   background-image: linear-gradient(160deg, #a7a7a7 17%, #e5e5e5 43%, #a7a7a7 68%);
   display: inline-block;
@@ -92,8 +97,7 @@ export default {
 
     .vc-chrome {
       position: absolute;
-      bottom: -251px;
-      right: -63px;
+      top: 30px;
     }
   }
 }
@@ -102,7 +106,7 @@ export default {
 #close-picker {
   width: 20px;
   position: absolute;
-  right: -90px;
-  bottom: -28px;
+  right: -152px;
+  bottom: -13px;
 }
 </style>

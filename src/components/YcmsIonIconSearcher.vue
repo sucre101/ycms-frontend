@@ -8,7 +8,7 @@
     <h6>Select icon for a page</h6>
 
     <div class="searcher" @click="$refs.input.focus()">
-      <img src="/img/search-icon.svg" alt="search">
+      <img src="@/assets/img/search-icon.svg" alt="search">
       <input type="text" ref="input" v-model="search">
     </div>
 
