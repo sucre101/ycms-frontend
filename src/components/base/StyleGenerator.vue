@@ -1,7 +1,7 @@
 <template>
   <div class="style-block">
     <div v-for="type in styles">
-      <div v-if="value.hasOwnProperty(type.name)">
+      <div>
         <label>
           {{ type.title }}
           <template v-if="type.type !== 'select' && type.type !== 'color'">
@@ -88,29 +88,21 @@ export default {
       if (extClass) {
         this.value[extClass] = val
       } else {
-        switch (val.target.name) {
-          case 'width':
-            this.value['width'] = `${val.target.value}px`
-            break
-          case 'height':
-            this.value['height'] = `${val.target.value}px`
-            break
-          case 'border-radius':
-            this.value['border-radius'] = `${val.target.value}px`
-            break
-          case 'border-width':
-            this.value['border-width'] = `${val.target.value}px`
-            break
-          case 'justify-content':
-            this.value['justify-content'] = `${val.target.value}`
-            break
-          case 'align-items':
-            this.value['align-items'] = `${val.target.value}`
-            break
-          case 'font-size':
-            this.value['font-size'] = `${val.target.value}px`
-            break
+
+        const numRules = ['width', 'height', 'border-radius', 'border-width', 'font-size', 'margin-left', 'margin-top']
+
+        if (numRules.includes(val.target.name)) {
+
+          if (['width', 'margin-left'].includes(val.target.name)) {
+            this.value[val.target.name] = `${val.target.value}%`
+          } else {
+            this.value[val.target.name] = `${val.target.value}px`
+          }
+
+        } else {
+          this.value[val.target.name] = `${val.target.value}`
         }
+
       }
 
       this.$emit('complete', this.value)
