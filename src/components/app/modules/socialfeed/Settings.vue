@@ -14,7 +14,6 @@
             <label>Can message</label>
             <toggle-check :value="settings.can_message" @complete="switchActive('can_message')"/>
           </div>
-          {{ items ? true : false }}
           <div class="input-field">
             <label>Can block</label>
             <toggle-check :value="settings.can_block" @complete="switchActive('can_block')"/>
@@ -64,10 +63,10 @@
         this.selectedTab = index
       },
       loadPage() {
-        axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`)
-        .then((res) => {
-          this.settings = res.data.settings
-        })
+        // axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`)
+        // .then((res) => {
+        //   this.settings = res.data.settings
+        // })
       },
       switchActive(type) {
         switch (type) {
@@ -86,10 +85,10 @@
         }
       },
       updateSettings() {
-        axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`, this.settings)
-        .then((res) => {
-          this.settings = res.data.settings
-        })
+        // axios.post(`/${this.$route.params.folder.toLowerCase()}/${this.module.id}/settings`, this.settings)
+        // .then((res) => {
+        //   this.settings = res.data.settings
+        // })
       },
     },
   }
