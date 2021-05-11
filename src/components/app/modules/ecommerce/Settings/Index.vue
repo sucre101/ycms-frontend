@@ -270,7 +270,7 @@ export default {
               this.settings = this._.cloneDeep(res.data.settings)
             }
 
-            if (res.data.styles.data === null) {
+            if (res.data.styles && res.data.styles.data === null) {
               this.reset = true
             }
 
