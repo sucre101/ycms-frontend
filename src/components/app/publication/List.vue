@@ -2,13 +2,25 @@
   <div class="table-list-items">
     <h4>Publications</h4>
 
-    <div class="table-list">
+    <table class="table table-list-items">
+      <tr>
+        <td>ID</td>
+        <td>Created</td>
+        <td>Version</td>
+        <td>Status</td>
+        <td>Actions</td>
+      </tr>
+      <tr v-for="item in list">
+        <td>{{ item.id }}</td>
+        <td>{{ item.created_at }}</td>
+        <td>{{ item.version }}</td>
+        <td>{{ item.status_id }}</td>
+        <td>
+          <a class="btn-action blue" v-if="item.status_id === 2" @click="_downloadApp(item.version)" >Download</a>
+        </td>
+      </tr>
+    </table>
 
-      <div v-for="item in list">
-        {{ item.id }}, {{ item.created_at }}, {{ item.status_id }}
-      </div>
-
-    </div>
 
     <div class="actions">
       <div class="btn-action blue" @click="_exportApp">Export</div>
@@ -17,52 +29,68 @@
 </template>
 
 <script>
-export default {
-  name: "list",
+  export default {
+    name: "list",
 
-  data() {
-    return {
-      list: []
-    }
-  },
+    data() {
+      return {
+        list: []
+      }
+    },
 
-  created() {
-    this._getExportBuilds()
-  },
+    created() {
+      this._getExportBuilds()
+    },
 
-  methods: {
+    methods: {
 
-    _exportApp() {
+      _downloadApp(version) {
 
-      let slug = this.$root.$children[0].app.slug
+        axios.get(`download?file=${encodeURIComponent("v"+version+"/app.apk")}`)
+        .then((res) => {
+          if(res.data.success){
+            const url = window.URL.createObjectURL(new Blob([res.data.path]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download',  `app-v${version}.apk`);
+            document.body.appendChild(link);
+            link.click()
+          }
+        })
 
-      axios.get(`${slug}/publication/export`)
+      },
+
+      _exportApp() {
+
+        let slug = this.$root.$children[0].app.slug
+
+        axios.get(`${slug}/publication/export`)
         .then((res) => {
           console.log(res)
         })
 
-    },
+      },
 
-    _getExportBuilds() {
-      let slug = this.$root.$children[0].app.slug
+      _getExportBuilds() {
+        let slug = this.$root.$children[0].app.slug
 
-      axios.get(`${slug}/publication`)
-          .then((res) => {
-            if (res.data.success) {
-              this.list = res.data.builds
-            }
-          })
+        axios.get(`${slug}/publication`)
+        .then((res) => {
+          if (res.data.success) {
+            this.list = res.data.builds
+          }
+        })
+      }
+
     }
 
   }
-
-}
 </script>
 
 <style scoped lang="scss">
-.actions {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
+  .actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
 </style>
