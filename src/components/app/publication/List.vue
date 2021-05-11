@@ -49,13 +49,15 @@
         axios.get(`download?file=${encodeURIComponent("v"+version+"/app.apk")}`)
         .then((res) => {
           if(res.data.success){
-            const url = window.URL.createObjectURL(new Blob([res.data.path]));
             const link = document.createElement('a');
-            link.href = url;
+            link.href = res.data.path;
             link.setAttribute('download',  `app-v${version}.apk`);
             document.body.appendChild(link);
             link.click()
+          }else{
+            this.notifier.warning(res.data.message)
           }
+
         })
 
       },
