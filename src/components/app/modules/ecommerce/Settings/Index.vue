@@ -332,6 +332,7 @@ export default {
           position: relative;
           -webkit-transform:scale(0.85);
           transform:scale(0.85);
+          overflow: hidden;
           .inner-block {
             cursor: pointer;
             &.active {
