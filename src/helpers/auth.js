@@ -17,10 +17,12 @@ export function register(credentials) {
   return new Promise(((resolve, reject) => {
     axios.post('/auth/register', credentials)
         .then((res) => {
-          setAuthorization(res.data.user.access_token);
-          res(res.data.user);
+          console.log(res)
+          setAuthorization(res.data.access_token);
+          resolve(res.data);
         })
         .catch((err) => {
+          console.log(err)
           reject('Something was wrong. Try again')
         })
   }))
