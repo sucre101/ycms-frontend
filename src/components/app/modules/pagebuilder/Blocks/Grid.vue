@@ -4,18 +4,19 @@
               :style="block.template?block.template.style:''"
               :key="block.id" :class="'bl-tooltip-box block-'+block.layout" >
         <span  class="bl-tooltip" :ref="'block-'+block.id" >
-          <span v-if="!deleted && block.s_order !== 1" @click="changeBlockOrder(false, block.id)">l</span>
+          <i v-if="!deleted && block.s_order !== 1" @click="changeBlockOrder(false, block.id)" class="fa fa-arrow-circle-left"></i>
           {{block.order}}-{{block.layout}}-layout
-          <span v-if="!deleted" @click="openNewBlockModal(block)" >up</span>
-          <span v-if="!deleted"  @click="removeBlockConfirm(block.id)" >rem</span>
-          <span v-if="!deleted"  @click="openNewElementModal(null, block.id)" >+</span>
-          <span v-if="deleted"  @click="restoreBlockConfirm(block.id)" >res</span>
-          <span v-if="deleted"  @click="deleteBlockConfirm(block.id)" >d</span>
-          <a
+          <i v-if="!deleted" @click="openNewBlockModal(block)" class="fa fa-edit" ></i>
+          <i v-if="!deleted"  @click="removeBlockConfirm(block.id)" class="fa fa-trash" ></i>
+          <span v-if="!deleted"  @click="openNewElementModal(null, block.id)" class="fa fa-plus-circle" ></span>
+          <span v-if="deleted"  @click="restoreBlockConfirm(block.id)" class="fa fa-trash-restore" ></span>
+          <span v-if="deleted"  @click="deleteBlockConfirm(block.id)" class="fa fa-trash"></span>
+          <i
               v-if="!deleted && blocks[index+1] && blocks[index+1].s_order > block.s_order"
               @click="changeBlockOrder(true, block.id)"
-              style="float: right"
-          >r</a>
+
+              class="fa fa-arrow-circle-right"
+          ></i>
         </span>
             <span
                 class="el-tooltip-box"
@@ -25,8 +26,8 @@
             >
             <span v-if="!deleted" class="el-tooltip"  :ref="'element-'+elem.id" >
               element - {{elem.type}}
-              <a  @click="openNewElementModal(elem, block.id)" >e</a>
-              <a  @click="deleteElementConfirm(elem.id, block.id)" >d</a>
+              <i  @click="openNewElementModal(elem, block.id)" class="fa fa-edit"></i>
+              <i  @click="deleteElementConfirm(elem.id, block.id)" class="fa fa-trash" ></i>
             </span>
 
           <div

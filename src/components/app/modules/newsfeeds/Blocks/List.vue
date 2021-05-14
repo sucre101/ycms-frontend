@@ -136,12 +136,11 @@
           block.content = getIdFromURL(block.content)
           formData.append('video', block.content);
         }else if (block.type === 'image'){
-          formData.append('image', this.$refs['imageContent'+block.id].files[0]);
+          formData.append('image', this.$refs['imageContent'+block.id][0].files[0]);
         }else if (block.type === 'html'){
           formData.append('html', block.content);
         }
         formData.append('id', block.id);
-
         axios.post(`/${this.$route.params.folder.toLowerCase()}/post/${this.post.id}/block/update`,
             formData,
             {
