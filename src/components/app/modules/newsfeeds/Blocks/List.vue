@@ -23,7 +23,7 @@
         <ckeditor :editor="editor" v-model="data.content" ></ckeditor>
       </div>
       <div v-else-if="data.type === 'image'">
-        <img v-if="data.content"  :src="data.content" width="400px" />
+        <img v-if="data.content"  :src="'https://api.yappix.io'+data.content" width="400px" />
         <input type="file" :ref="'imageContent'+data.id" @change="updateBlock(data)" >
       </div>
       <div v-else-if="data.type === 'video'">
@@ -136,12 +136,11 @@
           block.content = getIdFromURL(block.content)
           formData.append('video', block.content);
         }else if (block.type === 'image'){
-          formData.append('image', this.$refs['imageContent'+block.id].files[0]);
+          formData.append('image', this.$refs['imageContent'+block.id][0].files[0]);
         }else if (block.type === 'html'){
           formData.append('html', block.content);
         }
         formData.append('id', block.id);
-
         axios.post(`/${this.$route.params.folder.toLowerCase()}/post/${this.post.id}/block/update`,
             formData,
             {
