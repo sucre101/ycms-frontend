@@ -37,8 +37,13 @@ const injectCss = (el, binding) => {
   el.style = ''
 
   for (let property in binding.value) {
-    if (['border-radius', 'width', 'height', 'border-width', 'font-size'].includes(property)) {
-      result += `${property}: ${parseInt(binding.value[property]) + 'px'};`
+    if (['border-radius', 'width', 'height', 'border-width', 'font-size', 'margin-left', 'margin-top'].includes(property)) {
+
+      if (['width', 'margin-left'].includes(property)) {
+        result += `${property}: ${parseInt(binding.value[property]) + '%'};`
+      } else {
+        result += `${property}: ${parseInt(binding.value[property]) + 'px'};`
+      }
     } else {
       result += `${property}: ${binding.value[property]};`
     }

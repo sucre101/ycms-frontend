@@ -66,7 +66,7 @@
         >
           <div class="module" @click="chooseModule(module.id)">
 
-            <img :src="module.module.image" >
+            <img :src="getImage(module.module.image)" >
             <label>{{ module.alias || module.module.name }}</label>
 
           </div>
@@ -116,6 +116,7 @@
 import ToggleCheck from "../../base/ui/ToggleCheck";
 import YcmsActionButtons from "../../YcmsActionButtons";
 import draggable from 'vuedraggable'
+import {imageUrl} from "@/helpers/general";
 
 export default {
   name: "page-screen",
@@ -148,6 +149,10 @@ export default {
         })
         .then( res => this.$refs.addPage.close())
         .then( res => this.page = {} )
+    },
+
+    getImage(path) {
+      return imageUrl(path)
     },
 
     openModal() {

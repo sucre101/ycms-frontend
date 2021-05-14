@@ -41,12 +41,23 @@
       <div v-if="currentTab === 2" class="custom-styles">
 
         <div class="preview-box">
-          <select v-model="currentElement" class="select-element" @change="selectElement">
+          <select v-model="currentElement" class="select-element" @change="selectElement(false)">
             <template v-for="(index, label) in style">
               <option :value="label">{{ label }}</option>
             </template>
           </select>
-          <div v-inject-css="style[currentElement]">Checkout</div>
+
+          <div class="wrap">
+            <template v-for="(element, index) in style">
+              <div class="inner-block" v-inject-css="basePosition[index]" :class="{ active: index === currentElement }" @click="selectElement(index)">
+                <div v-inject-css="element['css']">{{ element['title'] }}</div>
+              </div>
+            </template>
+
+          </div>
+
+          <div class="btn-action blue" @click="_resetStyle" v-if="!reset">Reset</div>
+
         </div>
 
         <div class="style-control">
@@ -66,13 +77,12 @@
 import InnerTab from "@/components/base/ui/InnerTab"
 import ToggleCheck from "@/components/base/ui/ToggleCheck"
 import { moduleUrl } from "@/helpers/general"
-import {baseStyleTemplate} from "../getters"
+import {baseStyleTemplate, elementsPosition, rulesStyleElementExclude} from "../getters"
 import { injectCss } from "@/vue-directives"
 import ColorPicker from "@/components/base/ui/ColorPicker"
 import vueCustomScrollbar from 'vue-custom-scrollbar'
 import "vue-custom-scrollbar/dist/vueScrollbar.css"
 import StyleGenerator from "@/components/base/StyleGenerator"
-import rulesStyleElementExclude from '../getters'
 
 export default {
   name: "index",
@@ -102,8 +112,11 @@ export default {
       loading: true,
       currentElement: {},
       rules: rulesStyleElementExclude,
-      numericRules: ['width', 'height', 'border-radius', 'border-width', 'font-size'],
+      numericRules: ['width', 'height', 'border-radius', 'border-width', 'font-size', 'margin-left', 'margin-top'],
       refresh: true,
+      basePosition: elementsPosition,
+      elements: baseStyleTemplate,
+      reset: false
     }
   },
 
@@ -150,11 +163,11 @@ export default {
     currentStyle: {
 
       get() {
-        return this.styles[this.currentElement]
+        return this.styles[this.currentElement]['css']
       },
 
       set() {
-        return this.styles[this.currentElement]
+        return this.styles[this.currentElement]['css']
       }
 
     }
@@ -176,7 +189,7 @@ export default {
     },
 
     changeElement($data) {
-      this.styles[this.currentElement] = $data
+      this.styles[this.currentElement]['css'] = $data
     },
 
     changeStoreStructure(val) {
@@ -186,16 +199,24 @@ export default {
     prepareSendData() {
       let $data = this.styles
       for (let element in $data) {
-        for (let property in $data[element]) {
+        for (let property in $data[element]['css']) {
           if (this.numericRules.includes(property)) {
-            $data[element][property] = parseInt($data[element][property])
+            if (['width', 'margin-left'].includes(property)) {
+              $data[element]['css'][property] = `${parseInt($data[element]['css'][property])}%`
+            } else {
+              $data[element]['css'][property] = parseInt($data[element]['css'][property])
+            }
           }
         }
       }
       return $data
     },
 
-    selectElement() {
+    selectElement(element = false) {
+
+      if (element !== false) {
+        this.currentElement = element
+      }
 
       this.refresh = false
 
@@ -219,13 +240,25 @@ export default {
       for (let style in $data) {
         if (this.style.hasOwnProperty(style)) {
           if (typeof $data[style] === "object") {
-            for (let innerStyle in $data[style]) {
-              this.style[style][innerStyle] = $data[style][innerStyle]
+
+            if ($data[style].hasOwnProperty('title')) {
+              this.style[style]['title'] = $data[style]['title']
+            }
+
+            for (let innerStyle in $data[style]['css']) {
+              this.style[style]['css'][innerStyle] = $data[style]['css'][innerStyle]
             }
           }
         }
       }
       this.styles = this._.cloneDeep(this.style)
+    },
+
+    _resetStyle() {
+      axios.delete(`${moduleUrl(this.$route)}/settings/style`)
+        .then((res) => {
+          console.log(res)
+        })
     },
 
     _loadData() {
@@ -237,7 +270,11 @@ export default {
               this.settings = this._.cloneDeep(res.data.settings)
             }
 
-            this.mergeStyleData(res.data.styles ? JSON.parse(res.data.styles.data) : baseStyleTemplate)
+            if (res.data.styles && res.data.styles.data === null) {
+              this.reset = true
+            }
+
+            this.mergeStyleData(res.data.styles && res.data.styles.data !== null ? JSON.parse(res.data.styles.data) : baseStyleTemplate)
 
             this.currentElement = Object.keys(this.style)[0]
 
@@ -287,6 +324,22 @@ export default {
         width: 60%;
         display: flex;
         flex-direction: column;
+        height: 600px;
+        .wrap {
+          width: 330px;
+          height: 600px;
+          border: 1px solid;
+          position: relative;
+          -webkit-transform:scale(0.85);
+          transform:scale(0.85);
+          overflow: hidden;
+          .inner-block {
+            cursor: pointer;
+            &.active {
+              border: 1px solid #cb5e5e;
+            }
+          }
+        }
         select {
           position: absolute;
           top: 0;
@@ -301,6 +354,7 @@ export default {
           width: 100%;
           display: flex;
           padding: 0 30px;
+          min-height: 500px;
         }
         label {
           display: flex;
