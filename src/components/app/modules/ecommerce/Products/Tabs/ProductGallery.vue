@@ -11,7 +11,7 @@
         v-for="(image, index) in productImages"
         :key="index"
       >
-        <img :src="image.url_original">
+        <img :src="getImageUrl(image.url_original)">
         <span @click="remove(index)">
           <i class="fas fa-times"></i>
         </span>
@@ -25,6 +25,7 @@
 
 <script>
 import draggable from "vuedraggable";
+import {imageUrl} from "@/helpers/general";
 
 export default {
   name: "product-gallery",
@@ -59,6 +60,10 @@ export default {
   },
 
   methods: {
+
+    getImageUrl(path) {
+      return imageUrl(path)
+    },
 
     remove(index) {
 
