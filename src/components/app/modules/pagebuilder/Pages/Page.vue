@@ -156,6 +156,7 @@
     },
     created() {
       this.module.id = this.$parent.moduleId
+      console.log(this.module.id)
       this.loadPage()
       this.loadTemplates()
     },
@@ -193,9 +194,9 @@
         })
       },
       setBlocks(blocks){
-        this.blocks = this._.cloneDeep(blocks.filter(p => p.is_deleted === false));
-        this.blocks_trash = this._.cloneDeep(blocks.filter(p => p.is_deleted === true));
-        this.blocks_tree = this._.cloneDeep(blocks.filter(p => p.s_order === 1 && p.is_deleted === false));
+        this.blocks = this._.cloneDeep(blocks.filter(p => p.is_deleted === 0));
+        this.blocks_trash = this._.cloneDeep(blocks.filter(p => p.is_deleted === 1));
+        this.blocks_tree = this._.cloneDeep(blocks.filter(p => p.s_order === 1 && p.is_deleted === 0));
 
         this.setUndroppable()
       },
@@ -413,6 +414,8 @@
       storeTemplate(template){
         delete template.style;
         delete template.id;
+
+        template.user_module_id = this.module.id
 
         axios.post(`/${this.$route.params.folder.toLowerCase()}/template/store`,{
           style: template,
