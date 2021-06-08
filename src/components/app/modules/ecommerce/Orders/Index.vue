@@ -12,7 +12,7 @@ import Order from "./Order"
 
 export default {
   name: "index",
-
+  title: 'Orders',
   components: {
     'orders-list': List,
     Order
@@ -33,7 +33,7 @@ export default {
 
     goProduct(url) {
       // this.$router.push(url)
-      console.log(this.$parent)
+      // console.log(this.$parent)
     }
 
   }

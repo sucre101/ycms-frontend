@@ -39,3 +39,30 @@ export const styleTypes = [
   { type: 'color', name: 'background-color', title: 'Background color' },
   { type: 'color', name: 'border-color', title: 'Border color'},
 ]
+
+export const userFields = {
+  1: {
+    type_id: 1,
+    title: 'Registration link'
+  },
+  2: {
+    type_id: 2,
+    title: 'User avatar'
+  },
+  3: {
+    type_id: 3,
+    title: 'Phone number'
+  },
+  4: {
+    type_id: 4,
+    title: 'Email'
+  },
+  5: {
+    type_id: 5,
+    title: 'Website link'
+  },
+  6: {
+    type_id: 6,
+    title: 'Extended address'
+  }
+}

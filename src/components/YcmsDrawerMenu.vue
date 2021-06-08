@@ -175,7 +175,7 @@ export default {
 
 .drawer-menu {
   width: 264px;
-  background-image: linear-gradient(to bottom, #2b2b2b, #868686);
+  background-color: #0A1018;
   min-height: calc(100vh - 80px);
   transition: margin-left .5s ease-in-out;
   margin-left: -240px;

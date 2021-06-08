@@ -1,8 +1,6 @@
-import { refreshToken } from "@/helpers/auth";
 import axios from "axios";
 
 export function initialize(store, router) {
-
 
   router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
@@ -17,14 +15,18 @@ export function initialize(store, router) {
     }
   });
 
-  axios.interceptors.response.use(null, (error) => {
-    if (error.resposne.status === 401) {
-      store.commit('logout')
-      router.push('/login')
-    }
+  if (process.env.NODE_ENV !== 'development') {
+    axios.interceptors.response.use((response) => {
+      return response
+    }, (error) => {
+      if (error) {
+        store.commit('logout')
+        router.push('/login')
+      }
 
-    return Promise.reject(error);
-  });
+      return Promise.reject(error);
+    });
+  }
 
   if (store.getters.currentUser) {
     setAuthorization(store.getters.currentUser.token);
@@ -47,10 +49,14 @@ export const switcher = (res = null) => {
 
 }
 
-export const moduleUrl = (route) => {
+export const moduleUrl = route => {
   return `/${route.params.folder.toLowerCase()}/${route.params.moduleId}`
 }
 
-export const imageUrl = (path) => {
+export const imageUrl = path => {
   return process.env.VUE_APP_URI + path
+}
+
+export let changeView = (currentIndex, $router) => {
+  console.log(currentIndex, $router)
 }

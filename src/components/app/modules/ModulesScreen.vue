@@ -89,7 +89,6 @@ export default {
           .then((res) => {
             this.modules = this._.cloneDeep(res.data.modules)
             this.userModules = this._.cloneDeep(res.data.userModules)
-            console.log(this.userModules)
           })
           .catch((err) => {
             console.log(err)

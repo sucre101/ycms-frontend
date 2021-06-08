@@ -49,11 +49,6 @@ Vue.component('ToggleButton', ToggleButton)
 Vue.component('input-tag', InputTag)
 Vue.directive('active', active)
 
-Vue.directive('img-preview', (el, binding) => {
-
-
-})
-
 Vue.directive('scroll', {
   bind(el, binding) {
     el.classList.add(binding.value)

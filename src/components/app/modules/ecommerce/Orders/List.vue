@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import {moduleUrl} from "@/helpers/general";
+
 export default {
   name: "orders-list",
 
@@ -49,7 +51,7 @@ export default {
 
     _loadData() {
 
-      axios.get(`/${this.$route.params.folder.toLowerCase()}/${this.$parent.$parent.moduleId}/order`)
+      axios.get(`${moduleUrl(this.$route)}/order`)
         .then((res) => {
           this.orders = this._.cloneDeep(res.data.orders)
         })

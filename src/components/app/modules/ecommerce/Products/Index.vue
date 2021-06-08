@@ -16,7 +16,7 @@ import Product from './Product'
 
 export default {
   name: "index",
-
+  title: 'Products',
   components: {
     'products-list': List,
     'product': Product

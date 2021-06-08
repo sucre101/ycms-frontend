@@ -5,6 +5,7 @@
         :style="{
         height: expanded ? 43 * (predictions.length + 1) + 'px' : '43px',
         zIndex: expanded ? 10 : '',
+        overflowY: expanded ? 'scroll' : ''
       }"
     >
       <input
@@ -66,7 +67,9 @@ export default {
 
     pick(prediction) {
       this.query = prediction.description
-      this.expanded = false
+      this.$nextTick(() => {
+        this.expanded = false
+      })
       this.$emit('pick', prediction)
     },
 

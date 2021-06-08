@@ -51,7 +51,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
   name: "index",
-
+  title: 'Unions',
   components: {
     ckeditor: CKEditor.component,
   },

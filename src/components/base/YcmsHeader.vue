@@ -1,7 +1,6 @@
 <template>
   <header ref="header">
 
-
     <div class="profile-card">
       <p class="profile-name">{{ name }} {{ lastName }}</p>
       <span>Manager</span>

@@ -16,6 +16,7 @@ import Store from './Store'
 
 export default {
   name: "index",
+  title: 'Stores',
 
   components: {
     'store-list': List,

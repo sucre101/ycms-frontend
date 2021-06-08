@@ -30,6 +30,7 @@
       <div class="files-block">
         <div v-for="file in files" v-if="!loading" class="item">
           <img :src="getImageUrl('/'+file.name)" @click.prevent="setFile(file)" />
+          <i class="fas fa-crop" @click="cropImage(file)"></i>
         </div>
 
         <div class="btn-action blue" @click="browseFile">
@@ -43,18 +44,35 @@
 
     </sweet-modal>
 
+    <sweet-modal
+        ref="nestedChild"
+        v-if="crop"
+    >
+
+      <div class="cropper-wrapper">
+        <cropper class="cropper" ref="cropper" :src="getImageUrl(crop)" />
+      </div>
+
+      <div class="button-wrapper">
+        <span class="button" @click="uploadImage">Crop image</span>
+      </div>
+
+    </sweet-modal>
+
   </div>
 </template>
 
 <script>
 import RecursiveTree from "@/components/base/filemanager/RecursiveTree"
 import {imageUrl} from "@/helpers/general"
+import { Cropper } from 'vue-advanced-cropper'
+import 'vue-advanced-cropper/dist/style.css'
 
 export default {
 
   name: "file-manager",
 
-  components: { RecursiveTree },
+  components: { RecursiveTree, Cropper },
 
   data() {
     return {
@@ -66,7 +84,8 @@ export default {
       uploadFile: null,
       progressUpload: 0,
       isUpload: false,
-      currentFolder: null
+      currentFolder: null,
+      crop: null
     }
   },
 
@@ -82,6 +101,32 @@ export default {
   },
 
   methods: {
+
+    cropImage($file) {
+      this.crop = `/${$file.name}`
+      this.$nextTick(() => {
+        this.$refs.nestedChild.open()
+      })
+    },
+
+    uploadImage(event) {
+      const { canvas } = this.$refs.cropper.getResult();
+
+      console.log(canvas)
+
+      return
+
+      if (canvas) {
+        const form = new FormData();
+        canvas.toBlob((blob) => {
+          form.append('file', blob);
+          fetch('http://example.com/upload/', {
+            method: 'POST',
+            body: form,
+          });
+        }, 'image/jpeg');
+      }
+    },
 
     setFile(file) {
       this.$root.$emit('set::file', file)
@@ -206,6 +251,16 @@ export default {
             cursor: pointer;
             margin-bottom: 10px;
             margin-right: 10px;
+            position: relative;
+            & i {
+              position: absolute;
+              right: 0;
+              top: 0;
+              color: grey;
+              &:hover {
+                color: #0997b1;
+              }
+            }
             img {
               width: 100%;
             }

@@ -1,5 +1,4 @@
 import {getLocalUser} from "@/helpers/auth";
-import router from "@/router";
 
 const user = getLocalUser();
 
@@ -22,27 +21,31 @@ export default {
     },
     authError(state) {
       return state.auth_error;
+    },
+    isEmployee(state) {
+      return !!state.currentUser.has_owner
     }
   },
   mutations: {
     login(state) {
-      state.loading = true;
-      state.auth_error = null;
+      state.loading = true
+      state.auth_error = null
     },
     loginSuccess(state, payload) {
-      state.auth_error = null;
-      state.isLoggedIn = true;
-      state.loading = false;
-      state.currentUser = Object.assign({}, payload.user, {token: payload.access_token});
+      state.auth_error = null
+      state.isLoggedIn = true
+      state.loading = false
+      state.currentUser = Object.assign({}, payload.user, {token: payload.access_token})
 
-      localStorage.setItem("user", JSON.stringify(state.currentUser));
+      localStorage.setItem("user", JSON.stringify(state.currentUser))
     },
     loginFailed(state, payload) {
-      state.loading = false;
-      state.auth_error = payload.error;
+      state.loading = false
+      state.auth_error = payload.error
     },
     logout(state) {
-      localStorage.removeItem("user");
+      localStorage.removeItem('user')
+      localStorage.removeItem('app')
       state.isLoggedIn = false;
       state.currentUser = null;
     }

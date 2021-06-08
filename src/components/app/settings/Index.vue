@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <page-navigation
         :list="tabs"
         :selected="currentIndex"
@@ -10,21 +9,21 @@
     <div v-for="(tab, index) in tabScreens">
       <component :is="tab" v-show="index === currentIndex" :ref="'tab' + index"/>
     </div>
-
   </div>
 </template>
 
 <script>
-import PageNavigation from "@/components/base/PageNavigation";
+import PageNavigation from "@/components/base/PageNavigation"
 import MainTab from "./MainTab"
 import PaymentTab from "./payment/Index"
 import LogoTab from "./LogoTab"
+import Company from "./company/Index"
 
 export default {
   name: "index",
 
   components: {
-    PageNavigation, MainTab, PaymentTab, LogoTab
+    PageNavigation, MainTab, PaymentTab, LogoTab, Company
   },
 
   data() {
@@ -34,9 +33,10 @@ export default {
         { title: 'Main' },
         { title: 'Logo' },
         { title: 'Payment' },
+        { title: 'Company' },
       ],
       tabScreens: [
-        MainTab, LogoTab, PaymentTab,
+        MainTab, LogoTab, PaymentTab, Company
       ]
     }
   },

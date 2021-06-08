@@ -86,7 +86,7 @@ import StyleGenerator from "@/components/base/StyleGenerator"
 
 export default {
   name: "index",
-
+  title: 'Settings',
   components: {
     InnerTab, ToggleCheck, ColorPicker, vueCustomScrollbar, StyleGenerator
   },
@@ -263,7 +263,7 @@ export default {
 
     _loadData() {
 
-      axios.get(`${this.$parent.$parent.moduleUrl}/settings`)
+      axios.get(`${moduleUrl(this.$route)}/settings`)
           .then((res) => {
 
             if (res.data.settings) {

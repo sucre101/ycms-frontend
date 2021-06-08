@@ -21,6 +21,7 @@
     "sass": "^1.26.5",
     "sweet-modal-vue": "^2.0.0",
     "tree-helper": "^1.4.14",
+    "vue-advanced-cropper": "^1.6.0",
     "vue-axios": "^2.1.5",
     "vue-bootstrap-typeahead": "^0.2.6",
     "vue-color": "^2.7.1",

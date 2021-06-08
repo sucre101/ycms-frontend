@@ -105,12 +105,20 @@ export default {
 
     title() {
       return this.currentTab === 0 ? 'Login page' : 'Register page'
+    },
+
+    registerEmployee() {
+      return this.$route.query.hasOwnProperty('key')
     }
 
   },
 
   created() {
     window.setTitle(this.title)
+
+    if (this.itsLink) {
+      this.currentTab = 1
+    }
   },
 
   methods: {
@@ -142,6 +150,10 @@ export default {
       if (this.registerForm.password !== this.repeatPass) {
         this.notifier.warning('Second password incorrect')
         return false;
+      }
+
+      if (this.registerEmployee) {
+        this.$data.registerForm.key = this.$route.query.key
       }
 
       register(this.$data.registerForm)

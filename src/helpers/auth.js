@@ -17,7 +17,6 @@ export function register(credentials) {
   return new Promise(((resolve, reject) => {
     axios.post('/auth/register', credentials)
         .then((res) => {
-          console.log(res)
           setAuthorization(res.data.access_token);
           resolve(res.data);
         })

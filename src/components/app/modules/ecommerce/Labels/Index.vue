@@ -55,7 +55,7 @@ import {imgPreview} from '@/vue-directives'
 
 export default {
   name: "index",
-
+  title: 'Labels',
   directives: {
     imgPreview
   },

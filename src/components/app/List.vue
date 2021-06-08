@@ -24,7 +24,7 @@
 
     </div>
 
-    <div class="apps-list-item">
+    <div class="apps-list-item" v-if="!isEmployee">
       <div class="app-item new-app">
         <div class="title">
           New App
@@ -159,7 +159,8 @@ export default {
       step: 1,
       appsList: [],
       modulesList: [],
-      appsCount: false
+      appsCount: false,
+      isEmployee: this.$store.getters.isEmployee
     }
   },
 
@@ -180,7 +181,7 @@ export default {
 
   created() {
     this.$parent.currentApp = false
-    this._getData();
+    this._getData()
   },
 
   mounted() {

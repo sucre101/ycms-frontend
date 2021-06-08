@@ -1,21 +1,11 @@
 <template>
   <div>
-    <page-navigation
-        ref="pNavigator"
-        :list="list"
-        @change="changeScreen"
-        :selected="currentScreen"
-    />
-
-    <div v-for="(tab, index) in tabScreens">
-      <component :is="tab" v-if="index === currentScreen"/>
-    </div>
-
+    <PageNavigation :component-list="tabScreens"/>
   </div>
 </template>
 
 <script>
-import PageNavigation from "../../../base/PageNavigation"
+import PageNavigation from "../../../base/PageNavigationTab"
 import StoreList from "./Stores/Index"
 import CategoriesList from "./Categories/Index"
 import ProductList from "./Products/Index"
@@ -37,15 +27,6 @@ export default {
         StoreList, CategoriesList, ProductList, Unions, Labels, Orders, Settings
       ],
       currentScreen: 0,
-      list: [
-        { title: 'Stores' },
-        { title: 'Categories' },
-        { title: 'Products' },
-        { title: 'Unions' },
-        { title: 'Labels' },
-        { title: 'Orders' },
-        { title: 'Settings' },
-      ],
       memory: {},
       moduleId: null,
     }

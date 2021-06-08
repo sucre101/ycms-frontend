@@ -14,9 +14,8 @@ import List from './List'
 import Category from "./Category"
 
 export default {
-
   name: "index",
-
+  title: 'Categories',
   components: {
     'categories-list': List,
     'category': Category

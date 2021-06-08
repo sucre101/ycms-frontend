@@ -133,7 +133,7 @@
       },
 
       src() {
-        return this.base64 || this.previewImg || this.imageUrl || '@/img/no-image.png'
+        return this.base64 || this.previewImg || this.imageUrl || `/img/no-image.png`
       }
     },
 

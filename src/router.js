@@ -28,12 +28,12 @@ export default new VueRouter({
       }
     },
     {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('./components/app/settings/Index'),
+      path: '/profile',
+      name: 'profile',
+      component: () => import('./components/profile/Index'),
       meta: {
         requiresAuth: true,
-        title: 'Settings'
+        title: 'Profile settings'
       }
     },
     {
@@ -48,7 +48,10 @@ export default new VueRouter({
         {
           path: 'settings',
           name: 'app-settings',
-          component: () => import('./components/app/settings/Index')
+          component: () => import('./components/app/settings/Index'),
+          meta: {
+            title: 'Settings'
+          }
         },
         {
           path: 'module',
