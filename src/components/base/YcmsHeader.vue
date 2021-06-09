@@ -1,19 +1,32 @@
 <template>
   <header ref="header">
 
-    <div class="profile-card">
-      <p class="profile-name">{{ name }} {{ lastName }}</p>
-      <span>Manager</span>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
     </div>
 
-    <router-link :to="'/dashboard'" tag="div" class="small-rounded-btn top-button">
-      Dashboard
-    </router-link>
+    <div class="user-control-block">
 
-    <div class="small-rounded-btn top-button">Support</div>
-    <div class="small-rounded-btn top-button">Tour</div>
-    <div class="small-rounded-btn top-button" @click="$root.$emit('fmanager::open', true)">File Manager</div>
-    <div class="small-rounded-btn top-button" @click="logout">Exit</div>
+      <div class="publish-button">Publish the app</div>
+      <div class="messages-icon new-event"></div>
+      <div class="notification-icon new-event"></div>
+      <div class="user-avatar"></div>
+
+    </div>
+
+<!--    <div class="profile-card">-->
+<!--      <p class="profile-name">{{ name }} {{ lastName }}</p>-->
+<!--      <span>Manager</span>-->
+<!--    </div>-->
+
+<!--    <router-link :to="'/dashboard'" tag="div" class="small-rounded-btn top-button">-->
+<!--      Dashboard-->
+<!--    </router-link>-->
+
+<!--    <div class="small-rounded-btn top-button">Support</div>-->
+<!--    <div class="small-rounded-btn top-button">Tour</div>-->
+<!--    <div class="small-rounded-btn top-button" @click="$root.$emit('fmanager::open', true)">File Manager</div>-->
+<!--    <div class="small-rounded-btn top-button" @click="logout">Exit</div>-->
 
   </header>
 </template>
@@ -61,7 +74,12 @@ export default {
   },
 
   created() {
-    this.currentApp = this._.cloneDeep(this.app)
+    //
+    // if (this.app === null) {
+    //   this.$router.push('apps')
+    // }
+
+    // this.currentApp = this._.cloneDeep(this.app)
   },
 
   methods: {
@@ -77,125 +95,75 @@ export default {
 
 header {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  height: 80px;
-  background-color: #c6c9cf;
+  height: 105px;
+  width: 65%;
+  overflow: hidden;
 
-  .profile-card {
-
+  .user-control-block {
+    width: 25%;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 264px;
-    height: 100%;
-    margin-right: 75px;
-
-    .profile-name {
-      font-weight: 700;
-      margin: 0;
+    div {
+      cursor: pointer;
+    }
+    .publish-button {
+      width: 150px;
+      height: 40px;
+      color: white;
+      background-image: linear-gradient(144deg, #ed59a3 3%, #af2c6d 10%, #e54896 29%);
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      border-radius: 11px;
+    }
+    .messages-icon {
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-image: url('~@/assets/img/comment.svg');
+    }
+    .notification-icon {
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-image: url('~@/assets/img/Push.svg');
+    }
+    .user-avatar {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: grey;
+    }
+    .new-event {
+      position: relative;
+      &::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #eb58a3;
+        display: flex;
+        right: 5px;
+        position: absolute;
+        top: 5px;
+      }
     }
   }
 
 }
-
-//header {
-//  position: relative;
-//
-//  .left-side {
-//    display: flex;
-//    align-items: center;
-//    width: 400px;
-//    position: absolute;
-//    top: 0;
-//    left: 0;
-//
-//    .app-icon {
-//      width: 111px;
-//      display: flex;
-//      align-items: center;
-//      justify-content: center;
-//
-//      img {
-//        width: auto;
-//        max-width: 80%;
-//      }
-//    }
-//
-//    .platform {
-//      display: flex;
-//      flex-direction: column;
-//
-//      .name {
-//        font-size: 24px;
-//        font-weight: 500;
-//        font-stretch: normal;
-//        font-style: normal;
-//        line-height: 1.21;
-//        letter-spacing: normal;
-//        color: #0989cc;
-//      }
-//
-//      p {
-//        font-size: 14px;
-//        color: #222222;
-//        margin: 0;
-//
-//        span {
-//          font-size: 13px;
-//          font-weight: normal;
-//          font-stretch: normal;
-//          font-style: normal;
-//          line-height: 1.15;
-//          letter-spacing: normal;
-//          color: #b5b5b5;
-//          padding-right: 10px;
-//        }
-//      }
-//    }
-//  }
-//
-//
-//  .top-bar {
-//    display: flex;
-//    align-items: center;
-//    width: calc(100% - 111px);
-//    flex-direction: row;
-//    justify-content: space-between;
-//    margin-left: 400px;
-//
-//    .top-links {
-//      display: flex;
-//      flex-direction: row;
-//      justify-content: space-between;
-//      width: 60%;
-//      font-size: 13px;
-//      font-weight: 500;
-//      font-stretch: normal;
-//      font-style: normal;
-//      line-height: 1.15;
-//      letter-spacing: normal;
-//      color: #222222;
-//
-//      > div {
-//        display: flex;
-//        align-items: center;
-//        cursor: pointer;
-//        position: relative;
-//
-//        img {
-//          padding-right: 10px;
-//        }
-//
-//        span {
-//          font-weight: bold;
-//          display: inline-block;
-//          vertical-align: middle;
-//        }
-//
-//      }
-//    }
-//
-//  }
-//}
+.hamburger {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
 </style>

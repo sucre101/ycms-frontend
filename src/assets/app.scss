@@ -124,28 +124,23 @@ h3 {
   //min-height: 100vh;
   //width: calc(100vw - 521px);
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  background-color: #f9fbfd;
 }
 
 header {
   display: flex;
   align-items: center;
-  height: 81px;
-  background: #c6c9cf;
   width: 100%;
-  z-index: 99;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 264px;
-    height: 100%;
-  }
-
-  .platform-name {
-    font-weight: 700;
+  position: relative;
+  &::after {
+    content: '';
+    width: 97%;
+    background-color: #edf2f6;
+    height: 2px;
+    bottom: 0;
+    right: 0;
+    position: absolute;
   }
 }
 
@@ -257,13 +252,12 @@ header {
   height: 100vh;
   position: fixed;
   top: 80px;
-  width: 100%;
-  background: #f0f3f6;
+  width: 67%;
+  margin-left: 230px;
 
   .settings-block {
     padding: 45px 45px 110px 45px;
     flex: 1;
-    overflow-y: scroll;
 
     h5 {
       font-size: 16px;

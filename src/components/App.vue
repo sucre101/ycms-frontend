@@ -2,18 +2,18 @@
   <div>
 
     <div class="all-but-phone" v-if="isLoggedIn">
-      <YcmsHeader
-        :name="currentUser.name"
-        :last-name="currentUser.lastname"
-        :app="app"
+
+
+      <ycms-drawer-menu
+          :app="app ? app : {}"
       />
 
-      <div id="main-content">
+      <YcmsHeader
+          :name="currentUser.name"
+          :last-name="currentUser.lastname"
+          :app="app"/>
 
-        <ycms-drawer-menu
-          v-if="isLoggedIn && currentApp"
-          :app="app"
-        />
+      <div id="main-content">
 
         <div class="settings-block">
           <router-view></router-view>
@@ -78,9 +78,9 @@ export default {
       this.currentApp = true
     }
 
-    if (!this.getApplication && this.currentUser) {
-      this.$router.push('/dashboard')
-    }
+    // if (!this.getApplication && this.currentUser) {
+    //   this.$router.push('/dashboard')
+    // }
 
     this.$on('app::set', (data) => {
       this.app = this._.cloneDeep(data)

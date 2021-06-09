@@ -4,14 +4,16 @@
     :class="{ active: isOpen }"
     :style="{ height: height }"
   >
-    <div class="app-name">
-      <div class="app-icon"></div>
-      <span>{{ app.name }}</span>
-      <div class="dropdown" @click="toggleLeftMenu">
-        <img v-if="isOpen" src="@/assets/img/dropleft-icon.svg">
-        <img v-else src="@/assets/img/dropright-icon.svg">
-      </div>
-    </div>
+<!--    <div class="app-name">-->
+<!--      <div class="app-icon"></div>-->
+<!--      <span>{{ app.name }}</span>-->
+<!--      <div class="dropdown" @click="toggleLeftMenu">-->
+<!--        <img v-if="isOpen" src="@/assets/img/dropleft-icon.svg">-->
+<!--        <img v-else src="@/assets/img/dropright-icon.svg">-->
+<!--      </div>-->
+<!--    </div>-->
+
+    <div class="yappix-logo"></div>
 
     <router-link :to="{ name: 'module-list', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
@@ -30,56 +32,6 @@
         <span>Styles & Appearance</span>
       </div>
     </a>
-
-<!--    <a href="" style="cursor: initial">-->
-<!--      <div-->
-<!--        class="menu-entry"-->
-<!--        :class="{ 'active': act }"-->
-<!--      >-->
-<!--        <div class="icon-container">-->
-<!--          <img src="@/assets/img/email-icon.svg" alt="email">-->
-<!--        </div>-->
-<!--        <span>eCommerce</span>-->
-<!--        <div class="dropdown" @click.prevent="act = !act">-->
-<!--          <img :src="act ? '/img/dropdown-icon.svg' : '/img/dropleft-icon.svg'">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div v-if="act" class="dropdown-box">-->
-<!--        <ul>-->
-<!--          <li>-->
-<!--            <a :href="'/app/' + app.slug + '/shops'">-->
-<!--              Stores-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a :href="'/app/' + app.slug + '/shop-categories'">-->
-<!--              Categories-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a :href="'/app/' + app.slug + '/units'">-->
-<!--              Units-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="">-->
-<!--              Products-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a :href="'/app/' + app.slug + '/labels'">-->
-<!--              Labels-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a :href="'/app/' + app.slug + '/orders'">-->
-<!--              Orders-->
-<!--            </a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </a>-->
-
 
     <router-link :to="{ name: 'publication', params: { slug: app.slug } }" tag="a">
       <div class="menu-entry">
@@ -144,7 +96,7 @@ export default {
   computed: {
 
     height() {
-      return !this.getOpen ? '100%' : 'auto';
+      return !this.getOpen ? '100vh' : 'auto';
     },
 
   },
@@ -174,7 +126,7 @@ export default {
 <style lang="scss" scoped>
 
 .drawer-menu {
-  width: 264px;
+  width: 240px;
   background-color: #0A1018;
   min-height: calc(100vh - 80px);
   transition: margin-left .5s ease-in-out;
@@ -182,6 +134,8 @@ export default {
   z-index: 99999;
   position: absolute;
   height: auto;
+  display: flex;
+  flex-direction: column;
   &.active{
     margin-left: 0;
     position: relative;
@@ -195,6 +149,14 @@ export default {
     border: solid 1px #50b109;
     background-color: #d8d8d8;
     margin: 0 10px 0 0;
+  }
+  .yappix-logo {
+    width: 100%;
+    height: 105px;
+    cursor: pointer;
+    background-image: url('~@/assets/img/img-ex-logo.png');
+    background-repeat: no-repeat;
+    background-position: 10px 30px;
   }
   .app-name {
     display: flex;
@@ -227,7 +189,7 @@ export default {
   .menu-entry {
     display: flex;
     align-items: center;
-    height: 69px;
+    height: 40px;
     font-size: 14px;
     font-weight: 300;
     color: #ffffff;
@@ -236,7 +198,11 @@ export default {
     cursor: pointer;
     padding: 0 20px;
     .icon-container {
-      width: 69px;
+      width: 15px;
+      margin-right: 15px;
+      img {
+        width: 100%;
+      }
 
     }
     &.active::after {

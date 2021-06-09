@@ -20,11 +20,20 @@ export default new VueRouter({
     },
     {
       path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('./components/dashboard/Index'),
+      meta: {
+        requiresAuth: true,
+        title: 'Dashboard'
+      }
+    },
+    {
+      path: '/apps',
       name: 'apps',
       component: () => import('./components/app/List'),
       meta: {
         requiresAuth: true,
-        title: 'Dashboard'
+        title: 'Applications'
       }
     },
     {
