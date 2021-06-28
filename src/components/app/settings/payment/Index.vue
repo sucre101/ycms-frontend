@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import YcmsActionButtons from "@/components/YcmsActionButtons"
 import ListService from "./ListService"
 import EditService from "./EditService"
 
@@ -20,7 +19,7 @@ export default {
   name: "index",
 
   components: {
-    YcmsActionButtons, ListService, EditService
+    ListService, EditService
   },
 
   data() {

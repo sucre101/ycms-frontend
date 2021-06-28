@@ -36,16 +36,7 @@
 
     <div class="action-group" style="width: auto">
       <div class="actions" style="width: auto">
-        <ycms-action-buttons
-          :buttons-list="[
-            {
-              title: 'Add store',
-              handler: 'eval:this.$parent.$refs.newShopModal.open()',
-              class: 'bg-green-gradient',
-            },
-          ]"
-          align="right"
-        />
+
       </div>
     </div>
 
@@ -58,7 +49,6 @@
 
 <script>
 import draggable from 'vuedraggable'
-import YcmsActionButtons from "../../../../YcmsActionButtons"
 import {moduleUrl} from "@/helpers/general"
 import CreateStoreModal from "@/components/app/modules/ecommerce/Stores/modals/CreateStoreModal"
 
@@ -68,7 +58,6 @@ export default {
   components: {
     CreateStoreModal,
     draggable,
-    YcmsActionButtons
   },
 
   data() {
@@ -87,11 +76,6 @@ export default {
     this._loadData();
   },
 
-  mounted() {
-    window.setTitle('Store list')
-    // this.$parent.loading = true
-  },
-
   methods: {
 
     _loadData() {
@@ -101,7 +85,6 @@ export default {
             this.storeList = this._.cloneDeep(res.data.stores)
             this.$nextTick(() => {
               this.$parent.loading = false
-              console.log(this.$parent.loading)
             })
           })
 

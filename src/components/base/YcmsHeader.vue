@@ -2,15 +2,19 @@
   <header ref="header">
 
     <div class="hamburger">
-      <i class="fas fa-bars"></i>
+      <i class="fas fa-bars" @click="hideSidebar()"></i>
+      <h1 id="title">{{ title }}</h1>
     </div>
 
     <div class="user-control-block">
 
       <div class="publish-button">Publish the app</div>
+      <div class="file-manager-icon" @click="$root.$emit('fmanager::open', true)">
+        <i class="far fa-folder-open"></i>
+      </div>
       <div class="messages-icon new-event"></div>
       <div class="notification-icon new-event"></div>
-      <div class="user-avatar"></div>
+      <div class="user-avatar" @click="$router.push({name: 'settings'})"></div>
 
     </div>
 
@@ -33,6 +37,7 @@
 
 <script>
 // import Language from "./Language";
+import {swapSidebar} from "../../helpers/general"
 
 export default {
   name: "ycms-header",
@@ -64,6 +69,9 @@ export default {
   computed: {
     currentAppName() {
       return this.currentApp !== null ? this.currentApp.name : false
+    },
+    title() {
+      return this.$route.meta.title ? this.$route.meta.title : this.$root.pageTitle
     }
   },
 
@@ -87,6 +95,12 @@ export default {
       this.$store.commit('logout')
       this.$router.push({name: 'login'})
     },
+
+    hideSidebar() {
+      let sb = this.$store.getters.getSidebar
+      swapSidebar(!sb)
+    }
+
   }
 }
 </script>
@@ -100,6 +114,7 @@ header {
   align-items: center;
   height: 105px;
   width: 65%;
+  margin-left: 240px;
   overflow: hidden;
 
   .user-control-block {
@@ -143,6 +158,10 @@ header {
       border-radius: 50%;
       background-color: grey;
     }
+    .file-manager-icon {
+      color: #687c97;
+      font-size: 20px;
+    }
     .new-event {
       position: relative;
       &::before {
@@ -161,9 +180,13 @@ header {
 
 }
 .hamburger {
-  width: 100px;
+  width: 45%;
   display: flex;
-  justify-content: center;
   cursor: pointer;
+  align-items: center;
+  margin-left: 35px;
+  i {
+    cursor: pointer;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view/>
+    User Settings
   </div>
 </template>
 
@@ -8,8 +8,12 @@
 export default {
   name: "index",
 
-  created() {
-    console.log(1223)
+  mounted() {
+    window.setTitle(this.$route.meta.title)
   }
 }
 </script>
+
+<style scoped>
+
+</style>

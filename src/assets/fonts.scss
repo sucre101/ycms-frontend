@@ -1,7 +1,23 @@
 @font-face {
-  font-family: 'SFProText';
+  font-family: 'SFProText-Regular';
   src: url('~@/assets/fonts/SFProDisplay-Regular.woff2') format('woff2'),
   url('~@/assets/fonts/SFProDisplay-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SFProText-Bold';
+  src: url('~@/assets/fonts/SFProDisplay-Bold.woff2') format('woff2'),
+  url('~@/assets/fonts/SFProDisplay-Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SFProText-Light';
+  src: url('~@/assets/fonts/SFProDisplay-Light.woff2') format('woff2'),
+  url('~@/assets/fonts/SFProDisplay-Light.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

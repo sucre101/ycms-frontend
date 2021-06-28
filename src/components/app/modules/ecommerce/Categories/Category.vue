@@ -106,7 +106,6 @@
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import InnerTab from "@/components/base/ui/InnerTab";
-import YcmsActionButtons from "@/components/YcmsActionButtons";
 import {moduleUrl} from "@/helpers/general";
 import FileManager from "@/components/base/filemanager/FileManager";
 import vueCustomScrollbar from 'vue-custom-scrollbar'
@@ -116,7 +115,7 @@ export default {
   name: "category",
 
   components: {
-    InnerTab, YcmsActionButtons, ckeditor: CKEditor.component, FileManager, vueCustomScrollbar
+    InnerTab, ckeditor: CKEditor.component, FileManager, vueCustomScrollbar
   },
 
   data() {
@@ -159,11 +158,6 @@ export default {
 
     this.$root.$on('set::file', this.setImageCategory)
   },
-
-  mounted() {
-    window.setTitle('Category edit')
-  },
-
 
   methods: {
 

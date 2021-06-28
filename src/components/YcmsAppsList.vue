@@ -29,16 +29,16 @@
       >
     </div>
 
-    <ycms-action-buttons
-      :buttons-list="[
-        {
-          title: 'NEW APP',
-          handler: 'eval:this.$parent.showNewAppModal()',
-          class: 'bg-green-gradient'
-        },
-      ]"
-      align="right"
-    />
+<!--    <ycms-action-buttons-->
+<!--      :buttons-list="[-->
+<!--        {-->
+<!--          title: 'NEW APP',-->
+<!--          handler: 'eval:this.$parent.showNewAppModal()',-->
+<!--          class: 'bg-green-gradient'-->
+<!--        },-->
+<!--      ]"-->
+<!--      align="right"-->
+<!--    />-->
     <sweet-modal
       class="modal"
       ref="newAppModal"

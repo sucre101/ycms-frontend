@@ -110,16 +110,16 @@
           </div>
 
           <div>
-            <ycms-action-buttons
-                :buttons-list="[
-                  {
-                    title: 'Add price to store',
-                    handler: 'eval:this.$parent.$parent.$refs.addPrice.open()',
-                    class: 'bg-green-gradient'
-                  },
-                ]"
-                align="right"
-            />
+<!--            <ycms-action-buttons-->
+<!--                :buttons-list="[-->
+<!--                  {-->
+<!--                    title: 'Add price to store',-->
+<!--                    handler: 'eval:this.$parent.$parent.$refs.addPrice.open()',-->
+<!--                    class: 'bg-green-gradient'-->
+<!--                  },-->
+<!--                ]"-->
+<!--                align="right"-->
+<!--            />-->
           </div>
 
           <sweet-modal
@@ -258,8 +258,6 @@
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import InnerTab from "@/components/base/ui/InnerTab";
-import YcmsProductImageUploader from "@/components/YcmsProductImageUploader";
-import YcmsActionButtons from "@/components/YcmsActionButtons";
 import {moduleUrl} from "@/helpers/general";
 import ProductGallery from "@/components/app/modules/ecommerce/Products/Tabs/ProductGallery";
 import vueCustomScrollbar from 'vue-custom-scrollbar'
@@ -271,8 +269,6 @@ export default {
   components: {
     ProductGallery,
     InnerTab,
-    YcmsProductImageUploader,
-    YcmsActionButtons,
     ckeditor: CKEditor.component,
     vueCustomScrollbar
   },
@@ -321,10 +317,6 @@ export default {
     this.productId = Number(this.$route.query.product)
 
     this._loadData()
-  },
-
-  mounted() {
-    window.setTitle('Product edit')
   },
 
   watch: {

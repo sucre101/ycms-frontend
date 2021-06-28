@@ -32,16 +32,16 @@
         </div>
         <div class="action-group">
           <div class="actions">
-            <ycms-action-buttons
-              :buttons-list="[
-            {
-              title: 'Add page',
-              handler: 'eval:this.$parent.$parent.openModal()',
-              class: 'bg-green-gradient',
-            },
-          ]"
-              align="right"
-            />
+<!--            <ycms-action-buttons-->
+<!--              :buttons-list="[-->
+<!--            {-->
+<!--              title: 'Add page',-->
+<!--              handler: 'eval:this.$parent.$parent.openModal()',-->
+<!--              class: 'bg-green-gradient',-->
+<!--            },-->
+<!--          ]"-->
+<!--              align="right"-->
+<!--            />-->
           </div>
         </div>
 
@@ -114,15 +114,14 @@
 
 <script>
 import ToggleCheck from "../../base/ui/ToggleCheck";
-import YcmsActionButtons from "../../YcmsActionButtons";
 import draggable from 'vuedraggable'
-import {imageUrl} from "@/helpers/general";
+import {imageUrl} from "@/helpers/general"
 
 export default {
   name: "page-screen",
 
   components: {
-    ToggleCheck, draggable, YcmsActionButtons
+    ToggleCheck, draggable
   },
 
   data() {

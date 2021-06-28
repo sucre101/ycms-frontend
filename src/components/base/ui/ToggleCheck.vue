@@ -1,13 +1,14 @@
 <template>
   <ToggleButton
     switch-color="#FFFFFF"
-    :width="47"
-    :height="30"
+    :width="30"
+    :height="18"
     :margin="2"
-    :color="{ checked: '#0989cc', unchecked: '#b5b5b5'}"
+    :color="{ checked: '#8674f4', unchecked: '#b8b8b8'}"
     @change="onChangeEventHandler"
     :value="value"
     :label="label"
+    :disabled="disabled"
   />
 </template>
 
@@ -31,7 +32,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {

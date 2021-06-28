@@ -82,12 +82,6 @@ export default {
 
   },
 
-  mounted() {
-
-    window.setTitle('Labels')
-
-  },
-
   created() {
     this._loadData()
     this.$root.$on('set::file', this.putImage)

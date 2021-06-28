@@ -190,6 +190,8 @@ export default {
 <style lang="scss">
 #file-manager {
   .sweet-modal {
+    top: 50%;
+    left: 40%;
     .sweet-title {
       display: flex !important;
       flex-direction: column !important;

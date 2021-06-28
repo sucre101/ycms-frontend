@@ -101,7 +101,6 @@ export default {
 
   },
   mounted() {
-    window.setTitle(`Edit store`)
     this.$parent.loading = true;
   },
 

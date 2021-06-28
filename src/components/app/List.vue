@@ -1,148 +1,165 @@
 <template>
   <div class="apps-list" :class="{ 'scroller' : appsCount }">
-    <div class="apps-list-item"
-         v-for="app in apps" :key="app.id"
-         :data-id="app.id"
-    >
-      <div class="app-item">
-        <div class="app-icon">
-          <img :src="app.image ? app.image : $root.baseUrl + '/img/ycms/base_icon.png'"/>
-        </div>
-        <div class="title">
-          {{ app.name }}
-          <span>Administrator <p>{{ app.user.name }} {{ app.user.lastname }}</p></span>
-        </div>
-        <div class="app-item-action">
-          <div class="action-btn y-btn-black" @click="showDeleteWarning(app)">
-            Delete
-          </div>
-          <div class="action-btn y-btn-blue" @click.prevent="selectApplication(app)">
-            Manage
-          </div>
-        </div>
-      </div>
 
+    <div class="create" @click="createApp()">Create</div>
+
+    <div class="create-app-block">
+      <div class="title">
+        <h4>Creating new application</h4>
+      </div>
+      <div class="main">
+        <span>Please enter full informations below</span>
+
+        <div class="input-group">
+          <label>
+            <input type="text" placeholder="App Name" class="input-field" v-model="appName">
+          </label>
+        </div>
+
+      </div>
     </div>
 
-    <div class="apps-list-item" v-if="!isEmployee">
-      <div class="app-item new-app">
-        <div class="title">
-          New App
-        </div>
-        <div class="app-name">
-          <input id="application-name" type="text" v-model.trim="appName">
-          <Tooltip
-              text="* Please don’t name the mobile app with more than 8 characters and without spaces. This name will be displayed under the icon on your smartphone’s home screen"/>
-        </div>
-        <div class="app-item-action">
-          <div class="action-btn y-btn-blue" @click="showNewAppModal">
-            Create
-          </div>
-        </div>
-      </div>
+<!--    <div class="apps-list-item"-->
+<!--         v-for="app in apps" :key="app.id"-->
+<!--         :data-id="app.id"-->
+<!--    >-->
+<!--      <div class="app-item">-->
+<!--        <div class="app-icon">-->
+<!--          <img :src="app.image ? app.image : $root.baseUrl + '/img/ycms/base_icon.png'"/>-->
+<!--        </div>-->
+<!--        <div class="title">-->
+<!--          {{ app.name }}-->
+<!--          <span>Administrator <p>{{ app.user.name }} {{ app.user.lastname }}</p></span>-->
+<!--        </div>-->
+<!--        <div class="app-item-action">-->
+<!--          <div class="action-btn y-btn-black" @click="showDeleteWarning(app)">-->
+<!--            Delete-->
+<!--          </div>-->
+<!--          <div class="action-btn y-btn-blue" @click.prevent="selectApplication(app)">-->
+<!--            Manage-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-    </div>
+<!--    </div>-->
 
-    <sweet-modal
-        class="modal"
-        ref="newAppModal"
-        width="850"
-        overlay-theme="dark"
-    >
+<!--    <div class="apps-list-item" v-if="!isEmployee">-->
+<!--      <div class="app-item new-app">-->
+<!--        <div class="title">-->
+<!--          New App-->
+<!--        </div>-->
+<!--        <div class="app-name">-->
+<!--          <input id="application-name" type="text" v-model.trim="appName">-->
+<!--          <Tooltip-->
+<!--              text="* Please don’t name the mobile app with more than 8 characters and without spaces. This name will be displayed under the icon on your smartphone’s home screen"/>-->
+<!--        </div>-->
+<!--        <div class="app-item-action">-->
+<!--          <div class="action-btn y-btn-blue" @click="showNewAppModal">-->
+<!--            Create-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div id="2-step" v-if="step === 1">
-        <h6>Create your first "Killer App"</h6>
-        <div class="icon-content">
-          <div class="left-image">
-            <p class="text-info">App icon <span class="required-text">*</span></p>
-            <p class="required-text pt-2">* Please download the main icon for your mobile app. This icon will only be
-              displayed on your smartphone and will not be displayed on the App Store or Google Play</p>
-          </div>
-          <div class="right-image">
-            <ycms-image-uploader
-                name="app-icon"
-                type="app-icon"
-                :crop-in-modal="false"
-                :ratio="1"
-                style="margin-right: 15px"
-                size="43px"
-                icon="app-image"
-                min-dimensions="1024"
-            ></ycms-image-uploader>
-          </div>
-        </div>
-        <div class="icon-content">
-          <div class="left-image">
-            <p class="text-info">Startup image
-              <span class="required-text">*</span>
-            </p>
-            <p class="required-text pt-2">* Please download the startup image for your mobile app. This image is loaded
-              when the app starts for the first time. You should consider special fields for cropping the image so that
-              your image looks good in portrait and landscape mode</p>
-          </div>
-          <div class="right-image">
-            <ycms-image-uploader
-                name="startup-image"
-                type="startup-image"
-                :ratio="1"
-                style="margin-right: 15px"
-                size="43px"
-                icon="image"
-                min-dimensions="1024"
-            ></ycms-image-uploader>
-          </div>
-        </div>
-        <a @click="goToStep(2)" class="small-rounded-btn green-bg text-white pr-2">
-          Next
-          <i class="fa fa-chevron-right"></i>
-        </a>
-      </div>
+<!--    </div>-->
 
-      <div id="4-step" v-if="step === 2">
-        <h6>Select your first some feature for Homepage </h6>
-        <div>
-          <ycms-page-template
-              v-for="module in modules" :key="module.id"
-              :data-id="module.id"
-              name="homePageModule"
-              :title="module.title"
-              :description="module.description"
-              :img="module.image"
-              :value="module.name">
-          </ycms-page-template>
-        </div>
-      </div>
-      <div id="5-step" v-if="step === 3">
-        <div class="loader">
-          <div class="leftHalf"></div>
-          <div class="spinner"></div>
-          <div class="rightHalf"></div>
-        </div>
-        <h1>The app is generating</h1>
-        <h6>Please do not close the browser window until the first mobile app is generated</h6>
-      </div>
+<!--    <sweet-modal-->
+<!--        class="modal"-->
+<!--        ref="newAppModal"-->
+<!--        width="850"-->
+<!--        overlay-theme="dark"-->
+<!--    >-->
 
-      <div class="pagination">
-        <span class="y-arrow-left" v-if="step !== 1" @click="step--"></span>
-        <h2>Step {{ step }} of 3</h2>
-        <span class="y-arrow-right" @click="step++"></span>
-      </div>
+<!--      <div id="2-step" v-if="step === 1">-->
+<!--        <h6>Create your first "Killer App"</h6>-->
+<!--        <div class="icon-content">-->
+<!--          <div class="left-image">-->
+<!--            <p class="text-info">App icon <span class="required-text">*</span></p>-->
+<!--            <p class="required-text pt-2">* Please download the main icon for your mobile app. This icon will only be-->
+<!--              displayed on your smartphone and will not be displayed on the App Store or Google Play</p>-->
+<!--          </div>-->
+<!--          <div class="right-image">-->
+<!--            <ycms-image-uploader-->
+<!--                name="app-icon"-->
+<!--                type="app-icon"-->
+<!--                :crop-in-modal="false"-->
+<!--                :ratio="1"-->
+<!--                style="margin-right: 15px"-->
+<!--                size="43px"-->
+<!--                icon="app-image"-->
+<!--                min-dimensions="1024"-->
+<!--            ></ycms-image-uploader>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="icon-content">-->
+<!--          <div class="left-image">-->
+<!--            <p class="text-info">Startup image-->
+<!--              <span class="required-text">*</span>-->
+<!--            </p>-->
+<!--            <p class="required-text pt-2">* Please download the startup image for your mobile app. This image is loaded-->
+<!--              when the app starts for the first time. You should consider special fields for cropping the image so that-->
+<!--              your image looks good in portrait and landscape mode</p>-->
+<!--          </div>-->
+<!--          <div class="right-image">-->
+<!--            <ycms-image-uploader-->
+<!--                name="startup-image"-->
+<!--                type="startup-image"-->
+<!--                :ratio="1"-->
+<!--                style="margin-right: 15px"-->
+<!--                size="43px"-->
+<!--                icon="image"-->
+<!--                min-dimensions="1024"-->
+<!--            ></ycms-image-uploader>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <a @click="goToStep(2)" class="small-rounded-btn green-bg text-white pr-2">-->
+<!--          Next-->
+<!--          <i class="fa fa-chevron-right"></i>-->
+<!--        </a>-->
+<!--      </div>-->
 
-    </sweet-modal>
+<!--      <div id="4-step" v-if="step === 2">-->
+<!--        <h6>Select your first some feature for Homepage </h6>-->
+<!--        <div>-->
+<!--          <ycms-page-template-->
+<!--              v-for="module in modules" :key="module.id"-->
+<!--              :data-id="module.id"-->
+<!--              name="homePageModule"-->
+<!--              :title="module.title"-->
+<!--              :description="module.description"-->
+<!--              :img="module.image"-->
+<!--              :value="module.name">-->
+<!--          </ycms-page-template>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div id="5-step" v-if="step === 3">-->
+<!--        <div class="loader">-->
+<!--          <div class="leftHalf"></div>-->
+<!--          <div class="spinner"></div>-->
+<!--          <div class="rightHalf"></div>-->
+<!--        </div>-->
+<!--        <h1>The app is generating</h1>-->
+<!--        <h6>Please do not close the browser window until the first mobile app is generated</h6>-->
+<!--      </div>-->
+
+<!--      <div class="pagination">-->
+<!--        <span class="y-arrow-left" v-if="step !== 1" @click="step&#45;&#45;"></span>-->
+<!--        <h2>Step {{ step }} of 3</h2>-->
+<!--        <span class="y-arrow-right" @click="step++"></span>-->
+<!--      </div>-->
+
+<!--    </sweet-modal>-->
   </div>
 
 </template>
 
 <script>
 import YcmsImageUploader from "../YcmsImageUploader"
-import YcmsPageTemplate from "../YcmsPageTemplate"
 import Tooltip from '../../components/base/ui/Tooltip'
 
 export default {
 
   components: {
     YcmsImageUploader,
-    YcmsPageTemplate,
     Tooltip
   },
 
@@ -175,8 +192,8 @@ export default {
   },
 
   beforeCreate() {
-    this.$store.commit('unsetApplication')
-    this.$parent.$emit('app::unset')
+    // this.$store.commit('unsetApplication')
+    // this.$parent.$emit('app::unset')
   },
 
   created() {
@@ -197,63 +214,17 @@ export default {
 
   methods: {
 
-    goToStep(st) {
-      this.step = st;
-      if (st === 3) {
-        this.createApp()
-      }
-    },
-
-    showDeleteWarning(app) {
-      this.appToDelete = app
-      this.notifier.confirm('Are you sure?', this.deleteApp)
-    },
-
-    deleteApp() {
-      axios.post('/app-delete', {
-        id: this.appToDelete.id,
-      })
-          .then((res) => {
-            this.apps.splice(this.apps.indexOf(this.appToDelete), 1)
-          })
-    },
-
-    duplicateApp(app) {
-      axios.post('/app/duplicate', {
-        app: app,
-      })
-          .then(res => this.apps.push(res.app))
-    },
-
-    showNewAppModal() {
-      if (!this.appName) {
-        this.notifier.warning('Add new application name')
+    createApp() {
+      if (this.appName === '' || this.appName === null) {
+        this.notifier.warning('Enter app name')
         return false
       }
-      this.$refs.newAppModal.open()
-    },
-
-    createApp() {
-      axios.post('/store-app', {
+      axios.put('/apps', {
         appName: this.appName,
-        homePageModule: this.homePageModule,
-        // menuTemplate: this.menuTemplate,
       })
-          .then((res) => {
-
-            this._getData()
-
-            setTimeout(() => {
-              this.$refs.newAppModal.close()
-              this.appName = null
-              this.step = 1
-            }, 3000)
-
-          })
     },
 
     _getData() {
-
       axios.get('/apps')
           .then((res) => {
             this.apps = this._.cloneDeep(res.data.apps);
@@ -279,94 +250,74 @@ export default {
 
 
 .apps-list {
-  width: 50%;
-  margin: auto;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
 
-  .apps-list-item {
-    width: 350px;
-    height: 136px;
-    border-radius: 4px;
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.16);
-    border: solid 3px rgba(34, 34, 34, 0.25);
-    background-color: var(--white);
-    position: relative;
-    margin-right: 60px;
-    margin-bottom: 30px;
+  .create {
+    width: 135px;
+    height: 38px;
+    margin: 20px 23px 20px 819px;
+    padding: 10.8px 45.5px 9.2px;
+    border-radius: 8px;
+    background-color: #8674f4;
+    font-size: 15px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-family: 'SFProText-Light', sans-serif;
+  }
 
-    .new-app {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-
-      .title {
-        margin-top: 20px
-      }
-
-      .app-name {
-        display: flex;
-        align-items: center;
-
-        input {
-          margin-right: 10px;
-          margin-left: 15px;
-          border: solid 3.5px rgba(9, 137, 204, 0.53);
-        }
-
-        input:focus {
-          outline: none;
-        }
+  .create-app-block {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background: #ffffff;
+    box-shadow: 0 10px 15px 0 rgb(202 215 227 / 11%);
+    border: solid 1px #edf2f6;
+    .title {
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid #edf2f6;
+      padding: 10px 20px;
+      h4 {
+        color: #222b45;
+        font-size: 20px;
+        margin-bottom: 0;
       }
     }
-
-    .app-item {
+    .main {
+      width: 100%;
       display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .app-icon {
-        width: 100px;
-
-        img {
+      padding: 10px 20px;
+      flex-direction: column;
+      span {
+        color: #687c97;
+        font-size: 15px;
+        padding: 15px 0;
+        margin-bottom: 15px;
+      }
+      .input-group {
+        width: 35%;
+        input {
           width: 100%;
+          border-radius: 8px;
+          border: solid 1px #edf2f6;
+          color: #687c97;
+        }
+        input::-moz-placeholder {
+          font-family: 'SFProText-Light', sans-serif;
+          color: #c5cee0;
+        }
+        input::-webkit-input-placeholder {
+          font-family: 'SFProText-Light', sans-serif;
+          color: #c5cee0;
         }
       }
-
-      .title {
-        font-weight: 500;
-        letter-spacing: normal;
-        text-align: left;
-        color: #0989cc;
-        font-size: 24px;
-        display: flex;
-        flex-direction: column;
-        width: 65%;
-        margin-left: 15px;
-
-        span {
-          color: #b5b5b5;
-          display: inline-flex;
-          font-size: 13px;
-
-          p {
-            color: #222222;
-            padding-left: 10px;
-            margin-bottom: 0;
-          }
-        }
-      }
-
-      .app-item-action {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        bottom: 10px;
-        justify-content: flex-end;
-        width: 100%;
-      }
-
     }
   }
 

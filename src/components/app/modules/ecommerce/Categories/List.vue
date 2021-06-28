@@ -70,11 +70,6 @@ export default {
     this._loadData()
   },
 
-  mounted() {
-    window.setTitle('Category list')
-  },
-
-
   methods: {
 
     rebuildTree(element, target) {

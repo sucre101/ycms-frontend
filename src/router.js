@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
+import access from "./middleware/access"
+import auth from "./middleware/auth"
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
 
   mode: 'history',
-
+  linkActiveClass: "active",
   routes: [
     {path: '*', component: () => import('./components/base/NotFound')},
     {
@@ -23,7 +25,7 @@ export default new VueRouter({
       name: 'dashboard',
       component: () => import('./components/dashboard/Index'),
       meta: {
-        requiresAuth: true,
+        middleware: [auth],
         title: 'Dashboard'
       }
     },
@@ -32,7 +34,7 @@ export default new VueRouter({
       name: 'apps',
       component: () => import('./components/app/List'),
       meta: {
-        requiresAuth: true,
+        middleware: [auth],
         title: 'Applications'
       }
     },
@@ -41,27 +43,19 @@ export default new VueRouter({
       name: 'profile',
       component: () => import('./components/profile/Index'),
       meta: {
-        requiresAuth: true,
+        middleware: [auth],
         title: 'Profile settings'
       }
     },
     {
-      path: '/app/:slug',
-      redirect: '/app/:slug/module',
+      path: '/app',
+      redirect: '/app/pages',
       name: 'app',
       component: () => import('./components/app/Index'),
       meta: {
-        requiresAuth: true,
+        middleware: [auth],
       },
       children: [
-        {
-          path: 'settings',
-          name: 'app-settings',
-          component: () => import('./components/app/settings/Index'),
-          meta: {
-            title: 'Settings'
-          }
-        },
         {
           path: 'module',
           name: 'module',
@@ -73,7 +67,7 @@ export default new VueRouter({
               name: 'module-list',
               component: () => import('./components/app/modules/List'),
               meta: {
-                title: 'List of page'
+                title: 'Your modules'
               }
             },
             {
@@ -88,7 +82,8 @@ export default new VueRouter({
           name: 'page-list',
           component: () => import('./components/app/page/List'),
           meta: {
-            title: 'List of page'
+            title: 'List of page',
+            middleware: [access]
           }
         },
         {
@@ -100,6 +95,24 @@ export default new VueRouter({
           }
         }
       ]
+    },
+    {
+      path: '/marketplace',
+      name: 'marketplace',
+      component: () => import('./components/marketplace/Index'),
+      meta: {
+        middleware: [auth],
+        title: 'Marketplace'
+      }
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('./components/settings/Index'),
+      meta: {
+        middleware: [auth],
+        title: 'Settings'
+      }
     },
   ]
 

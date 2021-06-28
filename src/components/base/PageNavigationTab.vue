@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="page-nav-main">
     <page-navigation
         :list="tabs"
         :selected="currentIndex"
         @change="changeScreen"
     />
 
-    <div v-for="(tab, index) in componentList">
+    <div v-for="(tab, index) in componentList" v-if="!returnComponent">
       <component :is="tab" v-if="index === currentIndex" :ref="'tab' + index"/>
     </div>
   </div>
@@ -29,6 +29,10 @@ export default {
       default: () => {
         return []
       }
+    },
+    returnComponent: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -61,6 +65,11 @@ export default {
   methods: {
     changeScreen(currentTabIndex) {
       this.currentIndex = currentTabIndex
+
+      if (this.returnComponent) {
+        this.$emit('component', this.componentList[currentTabIndex])
+      }
+
       this.$router.replace(
           { query: { tab: this.componentList[currentTabIndex].title.toLocaleLowerCase() }}
       )
@@ -71,6 +80,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.page-nav-main {
+  height: 100%;
+}
 </style>

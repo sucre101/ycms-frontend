@@ -10,9 +10,9 @@ export default {
   name: "index",
 
   created() {
-    if (this.$route.params.slug !== this.$root.$children[0].app.slug) {
-      this.$router.push('/apps')
-    }
+    // if (this.$route.params.slug !== this.$root.$children[0].app.slug) {
+    //   this.$router.push('/apps')
+    // }
   }
 }
 </script>

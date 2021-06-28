@@ -43,10 +43,6 @@ export default {
     this._loadData();
   },
 
-  mounted() {
-    window.setTitle('Order list')
-  },
-
   methods: {
 
     _loadData() {

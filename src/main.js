@@ -25,7 +25,11 @@ axios.defaults.baseURL = process.env.VUE_APP_URL
 
 import AWN from "awesome-notifications"
 
-Vue.prototype.notifier = new AWN
+let notifierOptions = {
+  position: 'top-right'
+}
+Vue.prototype.notifier = new AWN(notifierOptions)
+
 
 // window.io = require('socket.io-client')
 
@@ -98,14 +102,9 @@ new Vue({
   router,
   store,
   data: {
-    drawerOpen: Vue.prototype.locStor.fetch('drawerOpen'),
-    userId: false,
     pageTitle: null,
     openManager: false,
     baseUrl: process.env.VUE_APP_URI
-  },
-  computed: {
-    ...mapGetters(['reference'])
   },
   render: h => h(App),
 }).$mount('#app')

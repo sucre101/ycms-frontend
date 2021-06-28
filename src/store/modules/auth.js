@@ -1,6 +1,6 @@
 import {getLocalUser} from "@/helpers/auth";
 
-const user = getLocalUser();
+const user = getLocalUser()
 
 export default {
   state: {

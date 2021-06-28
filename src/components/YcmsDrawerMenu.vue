@@ -1,8 +1,6 @@
 <template>
   <div
     class="drawer-menu"
-    :class="{ active: isOpen }"
-    :style="{ height: height }"
   >
 <!--    <div class="app-name">-->
 <!--      <div class="app-icon"></div>-->
@@ -15,60 +13,79 @@
 
     <div class="yappix-logo"></div>
 
-    <router-link :to="{ name: 'module-list', params: { slug: app.slug } }" tag="a">
+    <router-link :to="{ name: 'dashboard' }" tag="a" >
+      <div class="menu-entry">
+        <div class="icon-container">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <span>Dashboard</span>
+      </div>
+    </router-link>
+
+    <router-link :to="{ name: 'apps' }" tag="a" >
+      <div class="menu-entry">
+        <div class="icon-container">
+          <i class="fas fa-mobile"></i>
+        </div>
+        <span>My Apps</span>
+      </div>
+    </router-link>
+
+    <div class="divider"></div>
+
+    <div v-if="$route.name === 'apps'" class="link-list">
+      <span class="title">My apps</span>
+      <template v-if="appsList.length && !loading">
+        <ul>
+          <li
+              v-for="app in appsList"
+              :class="{ 'active-app': current.slug === app.slug }"
+              ref="element"
+          >
+            {{ app.name }}
+            <span @click="selectApplication($event, app)">
+              <i class="far fa-edit"></i>
+            </span>
+          </li>
+        </ul>
+      </template>
+    </div>
+
+    <div v-if="app.slug && $route.name !== 'apps'" class="link-list">
+      <span class="title">App Manager</span>
+
+      <router-link :to="{ name: 'page-list', params: { slug: current.slug } }" tag="a" >
+        <div class="menu-entry">
+          <div class="icon-container">
+            <i class="far fa-newspaper"></i>
+          </div>
+          <span>All pages</span>
+        </div>
+      </router-link>
+
+      <router-link :to="{ name: 'module-list', params: { slug: current.slug } }" tag="a" >
+        <div class="menu-entry">
+          <div class="icon-container">
+            <img src="@/assets/img/document-icon.svg" alt="document">
+          </div>
+          <span>Modules</span>
+        </div>
+      </router-link>
+
+    </div>
+
+    <router-link :to="{ name: 'marketplace' }" tag="a" >
       <div class="menu-entry">
         <div class="icon-container">
           <img src="@/assets/img/document-icon.svg" alt="document">
         </div>
-        <span>Modules & Pages</span>
+        <span>Marketplace</span>
       </div>
     </router-link>
 
-    <a :href="'/app/' + app.slug + '/style'">
-      <div class="menu-entry">
-        <div class="icon-container">
-          <img src="@/assets/img/style-icon.svg" alt="document">
-        </div>
-        <span>Styles & Appearance</span>
-      </div>
-    </a>
+    <div class="divider"></div>
 
-    <router-link :to="{ name: 'publication', params: { slug: app.slug } }" tag="a">
-      <div class="menu-entry">
-        <div class="icon-container">
-          <img src="@/assets/img/cloud-icon.svg" alt="document">
-        </div>
-        <span>Publication & Sources</span>
-      </div>
-    </router-link>
-
-    <a :href="'/app/' + app.slug + '/orders'">
-      <div class="menu-entry">
-        <div class="icon-container">
-          <img src="@/assets/img/printer-icon.svg" alt="printer">
-        </div>
-        <span>Orders</span>
-      </div>
-    </a>
-    <a :href="'/app/' + app.slug + '/statistics'">
-      <div class="menu-entry">
-        <div class="icon-container">
-          <img src="@/assets/img/statistics-icon.svg" alt="stats">
-        </div>
-        <span>Statistics</span>
-      </div>
-    </a>
-
-    <a :href="'/app/' + app.slug + '/email'">
-      <div class="menu-entry">
-        <div class="icon-container">
-          <img src="@/assets/img/email-icon.svg" alt="email">
-        </div>
-        <span>Email Templates</span>
-      </div>
-    </a>
-
-    <router-link :to="{ name: 'app-settings', params: { slug: app.slug } }" tag="a">
+    <router-link :to="{ name: 'settings' }" tag="a">
       <div class="menu-entry">
         <div class="icon-container">
           <img src="@/assets/img/document-icon.svg" alt="document">
@@ -81,45 +98,65 @@
 </template>
 
 <script>
-import { switcher } from "@/helpers/general";
-
 export default {
   name: 'ycms-drawer-menu',
   props: ['appName', 'app'],
   data() {
     return {
       act: false,
-      hover: false,
-      isOpen: false
+      appsList: [],
+      loading: false,
     }
   },
+
   computed: {
 
-    height() {
-      return !this.getOpen ? '100vh' : 'auto';
-    },
+    current() {
+      return this.$store.getters.getApplication ? JSON.parse(this.$store.getters.getApplication) : {slug: ''}
+    }
 
+  },
+
+  watch: {
+    '$route' (to, from) {
+      if (to.name === 'apps') {
+        this._getApps()
+      } else {
+        this.appsList = []
+      }
+    }
   },
 
   created() {
-    this.isOpen = localStorage.getItem('drawerOpen') !== 'false';
+    // console.log(this.$parent)
   },
 
 
   methods: {
 
-    toggleLeftMenu() {
+    _getApps() {
 
-      if (this.isOpen === true) {
-        switcher(false)
-        this.isOpen = false
-      } else {
-        switcher(true)
-        this.isOpen = true
-      }
+      axios.get('apps')
+        .then((res) => {
+          this.appsList = [...res.data.apps]
+        })
 
+    },
+
+    selectApplication($event, app) {
+      this.$store.commit('setApplication', JSON.stringify(app))
+      this.$nextTick(() => {
+        let elements = $event.srcElement.parentElement.parentElement
+        this.$refs.element.forEach(val => {
+          val.classList.remove('active-app')
+        })
+        elements.classList.add('active-app')
+        // this.$router.push({name: 'dashboard'})
+      })
     }
-  },
+
+  }
+
 }
 </script>
 
@@ -130,18 +167,26 @@ export default {
   background-color: #0A1018;
   min-height: calc(100vh - 80px);
   transition: margin-left .5s ease-in-out;
-  margin-left: -240px;
   z-index: 99999;
   position: absolute;
-  height: auto;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  &.active{
-    margin-left: 0;
-    position: relative;
+  .active {
+    .menu-entry {
+      border-left: 2px solid #8674f4;
+      span {
+        color: #ed59a3;
+      }
+    }
+  }
+  .divider {
+    height: 1px;
+    width: 85%;
+    border: 1px solid #edf2f6;
+    margin: 10px auto;
   }
   .app-icon {
-
     width: 39px;
     height: 39px;
     border-radius: 30px;
@@ -157,6 +202,70 @@ export default {
     background-image: url('~@/assets/img/img-ex-logo.png');
     background-repeat: no-repeat;
     background-position: 10px 30px;
+  }
+  .link-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .title {
+      margin-bottom: 15px;
+      margin-left: 20px;
+      color: #999ea3;
+      text-transform: uppercase;
+      font-size: 12px;
+      cursor: default;
+    }
+    ul {
+      margin: 0;
+      padding: 0 20px;
+      list-style-type: none;
+      li {
+        color: #f9fbfd;
+        font-family: 'SFProText-Light', sans-serif;
+        letter-spacing: 1px;
+        font-size: 13px;
+        display: flex;
+        width: 100%;
+        position: relative;
+        margin-bottom: 10px;
+        span {
+          position: absolute;
+          right: 0;
+          font-size: 13px;
+          cursor: pointer;
+          color: white;
+          &:hover {
+            color: #ed59a3;
+          }
+        }
+        &::before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          display: flex;
+          background-color: #8674f4;
+          border-radius: 3px;
+          margin-right: 10px;
+        }
+        &.active-app {
+          span {
+            color: #ed59a3;
+          }
+          &::after {
+            position: absolute;
+            content: '';
+            width: 10px;
+            height: 10px;
+            display: flex;
+            border-radius: 50%;
+            border: 1px solid white;
+            z-index: 999;
+            left: 5px;
+            top: 5px;
+          }
+        }
+      }
+    }
   }
   .app-name {
     display: flex;
@@ -189,7 +298,8 @@ export default {
   .menu-entry {
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 20px;
+    margin-bottom: 20px;
     font-size: 14px;
     font-weight: 300;
     color: #ffffff;
@@ -197,13 +307,13 @@ export default {
     z-index: 0;
     cursor: pointer;
     padding: 0 20px;
+    font-family: 'SFProText-Light', sans-serif;
+    letter-spacing: 0.3px;
     .icon-container {
-      width: 15px;
-      margin-right: 15px;
-      img {
-        width: 100%;
-      }
-
+      width: 25px;
+      margin-right: 10px;
+      color: #8674f4;
+      font-size: 18px;
     }
     &.active::after {
       content: "";

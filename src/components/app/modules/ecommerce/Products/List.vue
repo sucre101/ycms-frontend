@@ -38,10 +38,6 @@
       </div>
     </div>
 
-    <div class="rounded-circle green-bg-gradient" @click="inputField = !inputField">
-      <i class="fas fa-plus"></i>
-    </div>
-
   </div>
 </template>
 
@@ -72,10 +68,9 @@ export default {
 
   created() {
     this._loadData()
-  },
-
-  mounted() {
-    window.setTitle('Product list')
+    this.$parent.$parent.$on('add::element', v => {
+      this.inputField = !this.inputField
+    })
   },
 
   methods: {

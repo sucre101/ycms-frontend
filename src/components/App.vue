@@ -1,8 +1,7 @@
 <template>
   <div>
 
-    <div class="all-but-phone" v-if="isLoggedIn">
-
+    <div class="all-but-phone" v-if="isLoggedIn" :class="{ 'hidden-sidebar': getSidebar }">
 
       <ycms-drawer-menu
           :app="app ? app : {}"
@@ -62,12 +61,16 @@ export default {
   data() {
     return {
       app: {},
-      currentApp: false
+      currentApp: false,
     }
   },
 
   computed: {
-    ...mapGetters(['currentUser', 'isLoggedIn', 'getApplication'])
+    ...mapGetters(['currentUser', 'isLoggedIn', 'getApplication']),
+
+    getSidebar() {
+      return this.$store.getters.getSidebar
+    }
   },
 
   created() {
@@ -75,22 +78,26 @@ export default {
     this.app = this._.cloneDeep(JSON.parse(this.getApplication))
 
     if (!this._.isEmpty(this.getApplication)) {
-      this.currentApp = true
+      axios.defaults.headers.post.app = this.app.slug
+      axios.defaults.headers.get.app = this.app.slug
+      axios.defaults.headers.patch.app = this.app.slug
+      axios.defaults.headers.put.app = this.app.slug
+      axios.defaults.headers.delete.app = this.app.slug
     }
 
     // if (!this.getApplication && this.currentUser) {
     //   this.$router.push('/dashboard')
     // }
 
-    this.$on('app::set', (data) => {
+    this.$root.$on('app::set', (data) => {
       this.app = this._.cloneDeep(data)
       this.$children[0].currentApp = this._.cloneDeep(this.app)
     })
 
-    this.$on('app::unset', () => {
+    this.$root.$on('app::unset', () => {
       this.app = {}
-      this.currentApp = false
-      this.$children[0].currentApp = this._.cloneDeep({})
+      // this.currentApp = false
+      // this.$children[0].currentApp = this._.cloneDeep({})
     })
 
     this.$root.$on('fmanager::open', (data) => {

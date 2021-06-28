@@ -174,12 +174,12 @@ export default {
 
   },
 
-  mounted() {
-    window.setTitle('Settings list')
-  },
-
   created() {
     this._loadData()
+  },
+
+  mounted() {
+    this.$parent.showAddButton = false
   },
 
   methods: {

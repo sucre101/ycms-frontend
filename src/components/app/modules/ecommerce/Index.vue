@@ -1,6 +1,18 @@
 <template>
-  <div>
-    <PageNavigation :component-list="tabScreens"/>
+  <div class="box-list">
+    <div class="top-header">
+      <PageNavigation
+          :component-list="tabScreens"
+          :return-component="true"
+          @component="setComponent"
+      />
+    </div>
+    <div class="main-block">
+      <component :is="component"/>
+    </div>
+    <div class="bottom-footer">
+      <div class="button new-element" @click.prevent="addElement" v-if="showAddButton">New element</div>
+    </div>
   </div>
 </template>
 
@@ -18,7 +30,7 @@ export default {
   name: "index",
 
   components: {
-    PageNavigation, StoreList, CategoriesList, ProductList, Settings, Labels
+    PageNavigation, StoreList, CategoriesList, ProductList, Settings, Labels, Orders, Unions
   },
 
   data() {
@@ -29,7 +41,17 @@ export default {
       currentScreen: 0,
       memory: {},
       moduleId: null,
+      component: StoreList,
+      showAddButton: true
     }
+  },
+
+  mounted() {
+    window.setTitle('Edit module E-Commerce')
+  },
+
+  updated() {
+    this.checkShowAddButton()
   },
 
   created() {
@@ -41,13 +63,16 @@ export default {
     if (this.$route.query.hasOwnProperty('tab')) {
       let currentTab = this.$route.query.tab;
 
-      let currentTabIndex = this._.findIndex(this.list, (v) => {
+      let currentTabIndex = this._.findIndex(this.tabScreens, (v) => {
         return v.title.toLocaleLowerCase() === currentTab;
       })
 
       if (currentTabIndex >= 0) {
         this.currentScreen = currentTabIndex
+        this.component = this.tabScreens[this.currentScreen]
       }
+
+      this.checkShowAddButton()
     }
 
     this.$on('go::product', (id) => {
@@ -64,11 +89,35 @@ export default {
 
   methods: {
 
+    checkShowAddButton() {
+      this.$nextTick(() => {
+        switch (this.component.title) {
+          case 'Orders':
+            this.showAddButton = false
+            break
+          case 'Settings':
+            this.showAddButton = false
+            break
+          default:
+            this.showAddButton = true
+            break
+        }
+      })
+    },
+
     changeScreen(currentTabIndex) {
       this.currentScreen = currentTabIndex
       this.$router.replace(
           { query: { tab: this.list[currentTabIndex].title.toLocaleLowerCase() }}
           )
+    },
+
+    addElement() {
+      this.$emit('add::element')
+    },
+
+    setComponent($component) {
+      this.component = $component
     },
 
     setBack(res) {
@@ -89,6 +138,25 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.top-header {
+  .page-nav {
+    display: flex;
+    height: 100%;
+  }
+}
+.bottom-footer {
+  .button {
+    background-color: #8674f4;
+    color: white;
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 10px 20px;
+    border-radius: 8px;
+  }
+}
 </style>
